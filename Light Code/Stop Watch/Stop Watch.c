@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <Windows.h>
+
+#pragma warning (disable:4996)
 
 int stopWatch();
 int timer();
@@ -13,29 +16,29 @@ int main() {
 	
 	while(1) {
 		system("cls");
-			do {
-				printf("스톱워치는 1, 타이머는 2, 종료는 0을 눌러주세요. ");
-				fflush(stdin);
-				retry = (scanf("%d", &func) != 1 ? 1 : 0);
-				system("cls");
-			} while(retry == 1);
+		do {
+			printf("스톱워치는 1, 타이머는 2, 종료는 0을 눌러주세요. ");
+			fflush(stdin);
+			retry = (scanf("%d", &func) != 1 ? 1 : 0);
+			system("cls");
+		} while(retry == 1);
 			
-			switch(func) {
-				case 1 : 
-				stopWatch();
-				break;
+		switch(func) {
+			case 1 : 
+			stopWatch();
+			break;
 				
-				case 2 :
-				timer();
-				break;
-				
-				case 0 :
-				close();
-				
-				default :
-				printf("잘 못된 입력 값입니다.");
-				Sleep(1500);
-			}
+			case 2 :
+			timer();
+			break;
+			
+			case 0 :
+			close();
+			
+			default :
+			printf("잘 못된 입력 값입니다.");
+			Sleep(1500);
+		}
 	}
 	return 0;
 }

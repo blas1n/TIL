@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <Windows.h>
+
+#pragma warning (disable:4996)
 
 int calc(int sNum, int dNum, unsigned char oper);
 

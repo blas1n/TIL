@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SAFE_FREE(x) x = NULL; free(x)
+#define SAFE_FREE(x) (x) = NULL; free(x)
 
 typedef struct STACK {
 	int* data;

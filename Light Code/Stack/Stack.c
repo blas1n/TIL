@@ -1,17 +1,25 @@
 #include "Stack.h"
+#include <memory.h>
 
 void Push(Stack* self, int value) {
-	if (++(self->top) >= self->data + self->capacity)
-		return;
+	if (*(self->data) == 0)
+		*(self->top) = value;
 
-	*(self->top) = value;
+	else if (self->top + 1 >= self->data + self->capacity)
+		perror("용량이 부족합니다");
+
+	else
+		*(++(self->top)) = value;
 }
 
 int Pop(Stack* self) {
-	if (--(self->top) < self->data)
-		return -1;
+	if (self->top < self->data)
+		perror("더 이상 뺄 수 있는 데이터가 없습니다");
 
-	return *((self->top) + 1);
+	else
+		return *((self->top)--);
+
+	return 0;
 }
 
 int Top(Stack* self) {
@@ -19,8 +27,8 @@ int Top(Stack* self) {
 }
 
 void Print(Stack* self) {
-	for (int* i = self->data; i < self->top; i++)
-		printf("%d", *i);
+	for (int* i = self->data; i <= self->top; i++)
+		printf("%d\n", *i);
 }
 
 void Clear(Stack* self) {
@@ -32,6 +40,8 @@ Stack* InitStack(int capacity) {
 	stack->data = (int*)malloc(sizeof(int) * capacity);
 	stack->top = stack->data;
 	stack->capacity = capacity;
+
+	memset(stack->data, 0, capacity);
 	
 	stack->Push = Push;
 	stack->Pop = Pop;

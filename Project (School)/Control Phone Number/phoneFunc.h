@@ -5,7 +5,7 @@ void InputPhoneData();
 void ShowAllData();
 void SearchPhoneData();
 void DeletePhoneData();
-int Search(char* name);
+int* Search(char* name);
 char* InputName();
 void Destructor();
 

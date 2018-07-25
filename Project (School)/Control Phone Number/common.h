@@ -5,4 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define SAFE_FREE(x) ((x) = (NULL)); (free(x));
+
 #endif

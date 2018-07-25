@@ -8,6 +8,23 @@
 int numOfData = 0;
 phoneData* phoneList[LIST_NUM];
 
+void Constructor() {
+	FILE* saveFile = fopen("PhoneData.txt", "r");
+	if (saveFile == NULL) return;
+
+	char str[NAME_LEN];
+
+	while (fscanf(saveFile, "%s", str) != EOF) {
+		phoneList[numOfData] = (phoneData*)malloc(sizeof(phoneData));
+
+		strcpy(phoneList[numOfData]->name, str);
+		fscanf(saveFile, "%s", phoneList[numOfData]->phoneNum);
+		numOfData++;
+	}
+
+	fclose(saveFile);
+}
+
 void InputPhoneData() {
 	phoneList[numOfData] = (phoneData*)malloc(sizeof(phoneData));
 
@@ -47,8 +64,7 @@ void SearchPhoneData() {
 			ShowPhoneInfo(phoneList[phoneDatas[i]]);
 	}
 		
-	else
-		printf("입력하신 이름이 없습니다\n");
+	else printf("입력하신 이름이 없습니다\n");
 
 	SAFE_FREE(wantName);
 }
@@ -68,7 +84,7 @@ void DeletePhoneData() {
 		printf("선택: ");
 		scanf("%d", &choice);
 
- 		for (int delPhone = (phoneDatas[choice] - 1); delPhone < numOfData - 1; delPhone++)
+ 		for (int delPhone = phoneDatas[choice - 1]; delPhone < numOfData - 1; delPhone++)
 			phoneList[delPhone] = phoneList[delPhone + 1];
 
 		numOfData--;
@@ -79,6 +95,12 @@ void DeletePhoneData() {
 		printf("입력하신 이름이 없습니다\n");
 
 	SAFE_FREE(deleteName);
+}
+
+void InitFile() {
+	remove("PhoneData.txt");
+	numOfData = 0;
+	printf("초기화 되었습니다\n");
 }
 
 int* Search(char* name) {
@@ -98,10 +120,18 @@ char* InputName() {
 	char* name = (char*)malloc(NAME_LEN * sizeof(char));
 	printf("찾는 이름은? ");
 	scanf("%s", name);
-
 	return name;
 }
 
 void Destructor() {
+	FILE* saveFile = fopen("PhoneData.txt", "w");
+
+	for (int i = 0; i < numOfData; i++) {
+		fprintf(saveFile, "%s\n", phoneList[i]->name);
+		fprintf(saveFile, "%s\n", phoneList[i]->phoneNum);
+	}
+
+	fclose(saveFile);
+
 	for (int i = 0; phoneList[i] != NULL; i++) { SAFE_FREE(phoneList[i]); }
 }

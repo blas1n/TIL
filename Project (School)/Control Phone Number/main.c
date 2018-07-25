@@ -2,10 +2,11 @@
 #include "screenOut.h"
 #include "phoneFunc.h"
 
-enum {Input = 1, SHOWALL, SEARCH, DELETE, QUIT};
+enum {Input = 1, SHOWALL, SEARCH, DELETE, INIT, QUIT};
 
 int main() {
 	int inputMenu = 0;
+	Constructor();
 
 	while (1) {
 		ShowMenu();
@@ -30,10 +31,14 @@ int main() {
 			DeletePhoneData();
 			break;
 
-		case QUIT: {
-			puts("이용해 주셔서 감사합니다.");
-			return 0;
+		case INIT:
+			InitFile();
+			break;
 		}
+
+		if (inputMenu == QUIT) {
+			puts("이용해 주셔서 감사합니다.");
+			break;
 		}
 
 		system("pause");

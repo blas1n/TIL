@@ -10,7 +10,8 @@ void ShowMenu() {
 	printf(" 2. 전체 정보 출력\n");
 	printf(" 3. 전화번호 검색\n");
 	printf(" 4. 전화번호 삭제\n");
-	printf(" 5. 종료\n");
+	printf(" 5. 저장 목록 초기화\n");
+	printf(" 6. 종료\n");
 	printf("------------------------\n");
 	printf("선택> ");
 }

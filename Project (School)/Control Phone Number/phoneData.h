@@ -1,12 +1,16 @@
 #ifndef __PHONEDATA_H__
 #define __PHONEDATA_H__
 
-#define NAME_LEN 30
-#define PHONE_LEN 30
+#include "common.h"
 
 typedef struct _phoneData {
-	char name[NAME_LEN];
-	char phoneNum[PHONE_LEN];
+	char name[30];
+	char phoneNum[30];
 } phoneData;
+
+phoneData* PhoneCtor(char*, char*);
+void PhoneDtor(phoneData*);
+int CheckName(phoneData*, char*);
+int CheckPhoneNum(phoneData*, char*);
 
 #endif

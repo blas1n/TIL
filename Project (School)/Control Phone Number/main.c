@@ -1,49 +1,34 @@
 #include "common.h"
 #include "screenOut.h"
-#include "phoneFunc.h"
-
-enum {Input = 1, SHOWALL, SEARCH, DELETE, INIT, QUIT};
+#include "phoneManager.h"
 
 int main() {
+	const void(* const funcs[6])() = { InputPhoneData, ShowAllData,
+		SearchPhoneData, DeletePhoneData, ChangePhoneNum, InitAll };
+
+	const int quit = 7;
 	int inputMenu = 0;
-	Constructor();
+
+	manager = ManagerCtor();
+	Load();
 
 	while (1) {
 		ShowMenu();
-		fputs("선택하세요 : ", stdout);
+		printf("선택하세요 : ");
 		scanf("%d", &inputMenu);
-		fflush(stdin);
+		InputFlush();
 
-		switch (inputMenu) {
-		case Input:
-			InputPhoneData();
-			break;
-
-		case SHOWALL:
-			ShowAllData();
-			break;
-
-		case SEARCH:
-			SearchPhoneData();
-			break;
-
-		case DELETE:
-			DeletePhoneData();
-			break;
-
-		case INIT:
-			InitFile();
-			break;
-		}
-
-		if (inputMenu == QUIT) {
+		if (inputMenu == quit) {
 			puts("이용해 주셔서 감사합니다.");
 			break;
 		}
+		
+		if (inputMenu < quit)
+			funcs[inputMenu - 1]();
 
-		system("pause");
+		getchar();
 	}
 
-	Destructor();
+	ManagerDtor();
 	return 0;
 }

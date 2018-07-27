@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="phoneFunc.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="screenOut.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -27,15 +24,30 @@
     <ClInclude Include="phoneData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="SaveManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="phoneManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="phoneFunc.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="screenOut.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveManager.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="phoneData.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="phoneManager.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="common.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

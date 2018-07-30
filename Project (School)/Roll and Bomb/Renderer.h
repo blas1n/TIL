@@ -6,7 +6,7 @@
 
 int nowStage;
 SIZE mapSize;
-char* cellMap;
+char** cellMap;
 
 void Init();
 void Render(HDC, RECT);

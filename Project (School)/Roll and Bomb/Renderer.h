@@ -5,11 +5,13 @@
 #include <Windows.h>
 
 int nowStage;
-int mapSize;
+SIZE mapSize;
 char* cellMap;
 
 void Init();
 void Render(HDC, RECT);
 void Release();
+
+void MapRead();
 
 #endif

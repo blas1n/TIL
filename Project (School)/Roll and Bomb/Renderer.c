@@ -14,9 +14,15 @@ void Init() {
 	fclose(mapFile);
 }
 
-void Render(HDC hDC) {
+void Render(HDC hDC, RECT winRect) {
 	const int sizeOfCell = 30;
 	int x = 0, y = 0;
+
+	HBRUSH hMyBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	HBRUSH hOldBrush = SelectObject(hDC, hMyBrush);
+	Rectangle(hDC, winRect.left - 1, winRect.top - 1, winRect.right, winRect.bottom);
+	SelectObject(hDC, hOldBrush);
+	DeleteObject(hMyBrush);
 
 	for (int i = 0; i < mapSize; i++) {
 		switch (cellMap[i]) {

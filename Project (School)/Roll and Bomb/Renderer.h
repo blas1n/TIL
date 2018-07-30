@@ -9,7 +9,7 @@ int mapSize;
 char* cellMap;
 
 void Init();
-void Render(HDC hDC);
+void Render(HDC, RECT);
 void Release();
 
 #endif

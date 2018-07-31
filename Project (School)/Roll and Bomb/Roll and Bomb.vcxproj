@@ -141,11 +141,18 @@
   <ItemGroup>
     <ClCompile Include="KeyControl.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="MapManager.c" />
     <ClCompile Include="Renderer.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common.h" />
     <ClInclude Include="KeyControl.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="Renderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Stage1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

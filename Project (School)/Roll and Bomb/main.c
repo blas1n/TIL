@@ -1,11 +1,8 @@
-#include <Windows.h>
-#include <tchar.h>
-#include "Renderer.h"
-#include "KeyControl.h"
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
+#include "main.h"
 
 int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
+	m_hInstance = hIn;
+
 	HWND hWnd;
 	MSG msg;
 	WNDCLASSEX wndClass;
@@ -84,7 +81,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		PostQuitMessage(0);
 		break;
 
-	case WM_CHAR:
+	case WM_KEYDOWN:
 		GetKey(wParam);
 		break;
 
@@ -100,4 +97,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 	}
 
 	return DefWindowProc(hWnd, iMsg, wParam, lParam);
+}
+
+void Init() {
+	MapRead();
+}
+
+void Release() {
+	MapDataFree();
 }

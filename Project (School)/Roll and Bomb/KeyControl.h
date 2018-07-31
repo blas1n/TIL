@@ -1,8 +1,8 @@
 #ifndef __KEYCONTROL_H__
 #define __KEYCONTROL_H__
 
-#include <Windows.h>
-#include <tchar.h>
+#include "common.h"
+#include "MapManager.h"
 
 void GetKey(WPARAM);
 

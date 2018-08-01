@@ -6,7 +6,7 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 	HWND hWnd;
 	MSG msg;
 	WNDCLASSEX wndClass;
-	int bDone = FALSE;
+	BOOL bDone = FALSE;
 
 	memset(&wndClass, 0, sizeof(wndClass));
 	wndClass.cbSize = sizeof(wndClass);
@@ -40,6 +40,10 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 			}
 		}
 		else InvalidateRgn(hWnd, NULL, FALSE);
+
+		if (!Update()) {
+			cellMap[playerPos.y][playerPos.x] = '0';
+		}
 	}
 
 	Release();
@@ -49,9 +53,8 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 	PAINTSTRUCT ps;
 	HDC hDC;
-	
+
 	static HDC hBackDC;
-	static RECT winRect;
 	static HBITMAP hMyBitmap, hOldBitmap;
 	static HBRUSH hMyBrush, hOldBrush;
 	
@@ -65,7 +68,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		hMyBitmap = CreateCompatibleBitmap(hDC, winRect.right, winRect.bottom);
 		hOldBitmap = (HBITMAP)SelectObject(hBackDC, hMyBitmap);
 
-		hMyBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+		hMyBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
 		hOldBrush = (HBRUSH)SelectObject(hBackDC, hMyBrush);
 
 		ReleaseDC(hWnd, hDC);
@@ -82,15 +85,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		break;
 
 	case WM_KEYDOWN:
-		GetKey(wParam);
+		Move(wParam);
+		break;
+
+	case WM_LBUTTONDOWN:
+		Attack();
 		break;
 
 	case WM_PAINT: {
+		GetClientRect(hWnd, &winRect);
 		hDC = BeginPaint(hWnd, &ps);
-
-		Render(hBackDC, winRect);
-		BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
 		
+		Render(hBackDC);
+		BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
+
 		EndPaint(hWnd, &ps);
 		break;
 	}
@@ -101,8 +109,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 
 void Init() {
 	MapRead();
+	isAlive = TRUE;
 }
 
 void Release() {
 	MapDataFree();
+}
+
+BOOL Update() {
+	return CheckAlive();
 }

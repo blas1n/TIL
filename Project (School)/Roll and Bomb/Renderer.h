@@ -4,7 +4,10 @@
 #include "common.h"
 #include "MapManager.h"
 
-void Render(HDC, RECT);
-void PlayerRender(HDC, const SIZE);
+RECT winRect;
+
+void Render(HDC);
+void RenderCell(HDC);
+void RenderBomb(HDC);
 
 #endif

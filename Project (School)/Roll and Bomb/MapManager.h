@@ -4,8 +4,11 @@
 #include "common.h"
 
 char** cellMap;
+char** bombMap;
+
 SIZE mapSize;
 int nowStage;
+
 POINT playerPos;
 POINT beforePos;
 

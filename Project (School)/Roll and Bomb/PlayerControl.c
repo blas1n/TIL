@@ -1,6 +1,8 @@
-#include "KeyControl.h"
+#include "PlayerControl.h"
 
-void GetKey(WPARAM key) {
+void Move(WPARAM key) {
+	if (!isAlive) return;
+
 	POINT newPos = playerPos;
 
 	switch (key) {
@@ -36,4 +38,17 @@ void GetKey(WPARAM key) {
 		PlayerMoveInCell(newPos);
 		break;
 	}
+}
+
+void Attack() {
+	if (!isAlive) return;
+
+	InstallBomb(playerPos);
+}
+
+BOOL CheckAlive() {
+	if (bombMap[playerPos.y][playerPos.x] == '2')
+		isAlive = FALSE;
+	
+	return isAlive;
 }

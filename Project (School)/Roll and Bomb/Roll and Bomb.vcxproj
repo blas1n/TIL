@@ -139,14 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="KeyControl.c" />
+    <ClCompile Include="BombManager.c" />
+    <ClCompile Include="PlayerControl.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="MapManager.c" />
     <ClCompile Include="Renderer.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BombManager.h" />
     <ClInclude Include="common.h" />
-    <ClInclude Include="KeyControl.h" />
+    <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Renderer.h" />

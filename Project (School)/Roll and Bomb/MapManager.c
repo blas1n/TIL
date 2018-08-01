@@ -5,23 +5,33 @@ void MapRead() {
 	sprintf(mapName, "Stage%d.txt", nowStage + 1);
 
 	FILE* mapFile = fopen(mapName, "r");
-
 	mapSize = GetSize(mapFile);
 
 	cellMap = (char**)malloc(mapSize.cy * sizeof(char*));
+	bombMap = (char**)malloc(mapSize.cy * sizeof(char*));
 
 #pragma omp parallel for
-	for (int i = 0; i < mapSize.cy; i++) {
-		cellMap[i] = (char*)malloc(mapSize.cx + 1);
-		memset(cellMap[i], 0, mapSize.cx + 1);
-		fscanf(mapFile, "%s", cellMap[i]);
+	for (int y = 0; y < mapSize.cy; y++) {
+		// cellMap 1줄 초기화
+		cellMap[y] = (char*)malloc(mapSize.cx + 1);
+		memset(cellMap[y], 0, mapSize.cx + 1);
+		fscanf(mapFile, "%s", cellMap[y]);
+
+		// bombMap 1줄 초기화
+		bombMap[y] = (char*)malloc(mapSize.cx + 1);
+		memset(bombMap[y], 0, mapSize.cx + 1);
+		
+		for (int x = 0; x < mapSize.cx + 1; x++)
+			bombMap[y][x] = '0';
 
 		// 플레이어가 해당 위치에 있는지 확인
 #pragma omp parallel for
-		for (int j = 0; j < mapSize.cx; j++) {
-			if (cellMap[i][j] == '2') {
-				playerPos.x = j;
-				playerPos.y = i;
+		for (int x = 0; x < mapSize.cx; x++) {
+			if (cellMap[y][x] == '2') {
+				playerPos.x = x;
+				playerPos.y = y;
+				beforePos.x = x;
+				beforePos.y = y;
 			}
 		}
 	}

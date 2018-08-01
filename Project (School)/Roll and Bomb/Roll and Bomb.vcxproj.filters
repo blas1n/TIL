@@ -21,17 +21,17 @@
     <ClCompile Include="Renderer.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="KeyControl.c">
+    <ClCompile Include="MapManager.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MapManager.c">
+    <ClCompile Include="BombManager.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerControl.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="KeyControl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -42,6 +42,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BombManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerControl.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

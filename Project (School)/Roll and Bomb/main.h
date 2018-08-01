@@ -3,11 +3,11 @@
 
 #include "common.h"
 #include "Renderer.h"
-#include "KeyControl.h"
-#include "MapManager.h"
+#include "PlayerControl.h"
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void Init();
 void Release();
+BOOL Update();
 
 #endif

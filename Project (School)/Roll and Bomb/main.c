@@ -58,8 +58,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 	static HBITMAP hMyBitmap, hOldBitmap;
 	static HBRUSH hMyBrush, hOldBrush;
 	
+	static DWORD attackCool;
+
 	switch (iMsg) {
 	case WM_CREATE:
+		attackCool = timeGetTime();
 		GetClientRect(hWnd, &winRect);
 
 		hDC = GetDC(hWnd);
@@ -89,7 +92,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		break;
 
 	case WM_LBUTTONDOWN:
-		Attack();
+		if (1000 < timeGetTime() - attackCool) {
+			attackCool = timeGetTime();
+			Attack();
+		}
 		break;
 
 	case WM_PAINT: {

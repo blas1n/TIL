@@ -21,17 +21,26 @@ void MapRead() {
 		bombMap[y] = (char*)malloc(mapSize.cx + 1);
 		memset(bombMap[y], 0, mapSize.cx + 1);
 		
+#pragma omp parallel for
 		for (int x = 0; x < mapSize.cx + 1; x++)
 			bombMap[y][x] = '0';
 
-		// 플레이어가 해당 위치에 있는지 확인
 #pragma omp parallel for
 		for (int x = 0; x < mapSize.cx; x++) {
+			// 플레이어가 해당 위치에 있는지 확인
 			if (cellMap[y][x] == '2') {
 				playerPos.x = x;
 				playerPos.y = y;
-				beforePos.x = x;
-				beforePos.y = y;
+			}
+
+			// 적이 해당 위치에 있는지 확인
+			if (cellMap[y][x] == '3') {
+				POINT* enemyPos = (POINT*)malloc(sizeof(POINT));
+				enemyPos->x = x;
+				enemyPos->y = y;
+
+				HANDLE enemyThread = (HANDLE)_beginthreadex(NULL, 0, (_beginthreadex_proc_type)AI, (LPVOID)enemyPos, 0, NULL);
+				CloseHandle(enemyThread);
 			}
 		}
 	}
@@ -73,8 +82,5 @@ void PlayerMoveInCell(POINT newPos) {
 	cellMap[playerPos.y][playerPos.x] = '0';
 	cellMap[newPos.y][newPos.x] = '2';
 
-	// 이전 위치를 beforePos에 저장하고
-	// 새로운 위치를 playerPos에 저장한다.
-	beforePos = playerPos;
 	playerPos = newPos;
 }

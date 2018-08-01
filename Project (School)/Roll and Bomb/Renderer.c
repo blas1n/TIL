@@ -12,32 +12,49 @@ void Render(HDC hDC) {
 void RenderCell(HDC hDC) {
 	const SIZE sizeOfCell = { winRect.right / (mapSize.cx - 1), winRect.bottom / mapSize.cy };
 
-	HBRUSH hBMyBrush = CreateSolidBrush(RGB(100, 100, 100));
-	HBRUSH hBOldBrush = (HBRUSH)SelectObject(hDC, hBMyBrush);
-
-	HBRUSH hSMyBrush = CreateSolidBrush(RGB(0, 200, 250));
-	HBRUSH hSOldBrush = (HBRUSH)SelectObject(hDC, hSMyBrush);
-	SelectObject(hDC, hSOldBrush);
+	FillRect(hDC, &winRect, (HBRUSH)GetStockObject(WHITE_BRUSH));
 
 	for (int y = 0; y < mapSize.cy; y++) {
 		for (int x = 0; x < mapSize.cx; x++) {
 			int xPos = x * sizeOfCell.cx;
 			int yPos = y * sizeOfCell.cy;
 
-			if (cellMap[y][x] == '1')
+			switch (cellMap[y][x]) {
+			case '1': {
+				HBRUSH hMyBrush = CreateSolidBrush(RGB(100, 100, 100));
+				HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hMyBrush);
+
 				Rectangle(hDC, xPos, yPos, xPos + sizeOfCell.cx, yPos + sizeOfCell.cy);
 
-			else if (cellMap[y][x] == '2') {
-				hSOldBrush = (HBRUSH)SelectObject(hDC, hSMyBrush);
+				SelectObject(hDC, hOldBrush);
+				DeleteObject(hMyBrush);
+				break;
+			}
+
+			case '2': {
+				HBRUSH hMyBrush = CreateSolidBrush(RGB(0, 200, 250));
+				HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hMyBrush);
+
 				Ellipse(hDC, xPos, yPos, xPos + sizeOfCell.cx, yPos + sizeOfCell.cy);
-				SelectObject(hDC, hSOldBrush);
+
+				SelectObject(hDC, hOldBrush);
+				DeleteObject(hMyBrush);
+				break;
+			}
+
+			case '3': {
+				HBRUSH hMyBrush = CreateSolidBrush(RGB(255, 255, 0));
+				HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hMyBrush);
+
+				Ellipse(hDC, xPos, yPos, xPos + sizeOfCell.cx, yPos + sizeOfCell.cy);
+
+				SelectObject(hDC, hOldBrush);
+				DeleteObject(hMyBrush);
+				break;
+			}	
 			}
 		}
 	}
-
-	SelectObject(hDC, hBOldBrush);
-	DeleteObject(hBMyBrush);
-	DeleteObject(hSMyBrush);
 }
 
 void RenderBomb(HDC hDC) {

@@ -2,15 +2,14 @@
 #define __MAPMANAGER_H__
 
 #include "common.h"
+#include "EnemyManager.h"
 
 char** cellMap;
 char** bombMap;
 
 SIZE mapSize;
 int nowStage;
-
 POINT playerPos;
-POINT beforePos;
 
 void MapRead();
 SIZE GetSize(FILE*);

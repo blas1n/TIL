@@ -109,10 +109,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 
 void Init() {
 	MapRead();
+	srand((UINT)time(NULL));
 	isAlive = TRUE;
 }
 
 void Release() {
+	Sleep(1800);
 	MapDataFree();
 }
 

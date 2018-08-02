@@ -15,10 +15,11 @@ void WINAPI BurstBomb(LPVOID installPos) {
 	POINT bombPos = *((POINT*)installPos);
 
 	SAFE_FREE(installPos);
-
+	
 	Sleep(1500);
+
 	// 300초 동안 폭발을 유지했다가 폭발이 사라진다.
-	for (DWORD startTime = timeGetTime(); 300 > timeGetTime() - startTime; ) {
+	for (DWORD startTime = timeGetTime(); 500 > timeGetTime() - startTime; ) {
 		for (int y = bombPos.y - 1; y <= bombPos.y + 1; y++) {
 			for (int x = bombPos.x - 1; x <= bombPos.x + 1; x++) {
 				if (cellMap[y][x] != '1')

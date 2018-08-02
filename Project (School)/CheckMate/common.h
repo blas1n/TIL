@@ -10,5 +10,6 @@
 #define SAFE_FREE(x) x = NULL; free(x)
 
 HINSTANCE m_hInstance;
+HWND m_hWnd;
 
 #endif

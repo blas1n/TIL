@@ -3,10 +3,8 @@
 
 #include "common.h"
 #include "MapManager.h"
-#include "BombManager.h"
 
 void Move(WPARAM);
-void Attack();
 BOOL CheckAlive();
 
 BOOL isAlive;

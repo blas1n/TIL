@@ -15,50 +15,68 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MapManager.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="BombManager.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerControl.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="EnemyManager.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerControl.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Renderer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MapManager.h">
+    <ClInclude Include="BombManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="common.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="BombManager.h">
+    <ClInclude Include="MapManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControl.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
+    <ClInclude Include="Renderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Stage1.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="Stage2.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="Stage3.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="Stage4.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="Stage5.txt">
       <Filter>리소스 파일</Filter>
     </Text>
   </ItemGroup>

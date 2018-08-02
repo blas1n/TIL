@@ -10,8 +10,8 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 
 	memset(&wndClass, 0, sizeof(wndClass));
 	wndClass.cbSize = sizeof(wndClass);
-	wndClass.lpszClassName = TEXT("Roll and Bomb");
-	wndClass.lpszMenuName = TEXT("Roll and Bomb");
+	wndClass.lpszClassName = TEXT("CheckMate!");
+	wndClass.lpszMenuName = TEXT("CheckMate!");
 	wndClass.lpfnWndProc = WndProc;
 	wndClass.hInstance = hIn;
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
@@ -41,9 +41,10 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 		}
 		else InvalidateRgn(hWnd, NULL, FALSE);
 
-		if (!Update()) {
+		if (cellMap == NULL) continue;
+
+		if (!Update())
 			cellMap[playerPos.y][playerPos.x] = '0';
-		}
 	}
 
 	Release();
@@ -60,6 +61,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 	
 	static DWORD attackCool;
 
+	m_hWnd = hWnd;
+
 	switch (iMsg) {
 	case WM_CREATE:
 		attackCool = timeGetTime();
@@ -75,9 +78,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		hOldBrush = (HBRUSH)SelectObject(hBackDC, hMyBrush);
 
 		ReleaseDC(hWnd, hDC);
+
+		SetTimer(hWnd, 0, 1000, (TIMERPROC)IncreaseTime);
 		break;
 
 	case WM_DESTROY:
+		KillTimer(hWnd, 0);
+
 		SelectObject(hBackDC, hOldBitmap);
 		DeleteObject(hMyBitmap);
 
@@ -88,22 +95,47 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		break;
 
 	case WM_KEYDOWN:
-		Move(wParam);
+		if (cellMap == NULL)
+			NextMap();
+
+		else if (!isAlive || bClear)
+			SendMessage(hWnd, WM_CLOSE, 0, 0);
+
+		else
+			Move(wParam);
 		break;
 
-	case WM_LBUTTONDOWN:
-		if (1000 < timeGetTime() - attackCool) {
-			attackCool = timeGetTime();
-			Attack();
-		}
+	case WM_SIZE:
+		GetClientRect(hWnd, &winRect);
+
+		hDC = GetDC(hWnd);
+		hBackDC = CreateCompatibleDC(hDC);
+
+		hMyBitmap = CreateCompatibleBitmap(hDC, winRect.right, winRect.bottom);
+		hOldBitmap = (HBITMAP)SelectObject(hBackDC, hMyBitmap);
+
+		ReleaseDC(hWnd, hDC);
+
 		break;
 
 	case WM_PAINT: {
 		GetClientRect(hWnd, &winRect);
 		hDC = BeginPaint(hWnd, &ps);
 		
-		Render(hBackDC);
-		BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
+		if (cellMap == NULL) {
+			RenderStart(hBackDC);
+			BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
+		}
+
+		else if (!isAlive) {
+			RenderDeath(hBackDC);
+			BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
+		}
+
+		else {
+			Render(hBackDC);
+			BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
+		}
 
 		EndPaint(hWnd, &ps);
 		break;
@@ -114,16 +146,54 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 }
 
 void Init() {
-	MapRead();
 	srand((UINT)time(NULL));
+	bEnd = FALSE;
+	bClear = FALSE;
 	isAlive = TRUE;
+	nowStage = 0;
 }
 
 void Release() {
-	Sleep(1800);
+	bEnd = TRUE;
+
+	Sleep(2000);
 	MapDataFree();
 }
 
 BOOL Update() {
+	switch (nowStage) {
+	case 0:
+		if (5 <= nowKill) {
+			nowKill = 0;
+			NextMap();
+		}
+			
+		break;
+	case 1:
+		if (12 <= nowKill) {
+			nowKill = 0;
+			NextMap();
+		}
+		break;
+	case 2:
+		if (15 <= nowKill) {
+			nowKill = 0;
+			NextMap();
+		}
+		break;
+	case 3:
+		if (15 <= nowKill) {
+			nowKill = 0;
+			NextMap();
+		}
+		break;
+	case 4:
+		if (20 <= nowKill) {
+			nowKill = 0;
+			NextMap();
+		}
+		break;
+	}
+
 	return CheckAlive();
 }

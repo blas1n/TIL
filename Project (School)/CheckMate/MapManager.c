@@ -2,10 +2,16 @@
 
 void MapRead() {
 	char mapName[11];
-	sprintf(mapName, "Stage%d.txt", nowStage + 1);
+	sprintf(mapName, "Stage%d.txt", nowStage);
 
 	FILE* mapFile = fopen(mapName, "r");
+	if (mapFile == NULL) return;
 	mapSize = GetSize(mapFile);
+
+	if (cellMap != NULL) {
+		SAFE_FREE(cellMap);
+		SAFE_FREE(bombMap);
+	}
 
 	cellMap = (char**)malloc(mapSize.cy * sizeof(char*));
 	bombMap = (char**)malloc(mapSize.cy * sizeof(char*));
@@ -22,7 +28,7 @@ void MapRead() {
 		memset(bombMap[y], 0, mapSize.cx + 1);
 		
 #pragma omp parallel for
-		for (int x = 0; x < mapSize.cx + 1; x++)
+		for (int x = 0; x < mapSize.cx; x++)
 			bombMap[y][x] = '0';
 
 #pragma omp parallel for
@@ -83,4 +89,27 @@ void PlayerMoveInCell(POINT newPos) {
 	cellMap[newPos.y][newPos.x] = '2';
 
 	playerPos = newPos;
+}
+
+void NextMap() {
+	mapLoad = TRUE;
+
+	if (++nowStage > 0) {
+		HDC hDC = GetDC(m_hWnd);
+		RenderLoad(hDC);
+		ReleaseDC(m_hWnd, hDC);
+		Sleep(2000);
+	}
+
+	if (nowStage >= 5) {
+		bClear = TRUE;
+
+		HDC hDC = GetDC(m_hWnd);
+		RenderClear(hDC);
+		ReleaseDC(m_hWnd, hDC);
+	}
+	
+	MapRead();
+
+	mapLoad = FALSE;
 }

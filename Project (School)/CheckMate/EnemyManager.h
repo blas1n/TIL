@@ -3,10 +3,15 @@
 
 #include "common.h"
 #include "MapManager.h"
+#include "BombManager.h"
+#include "TimeManager.h"
 
 enum { FRONT, BACK, LEFT, RIGHT };
 
 void WINAPI AI(LPVOID);
-BOOL EnemyCheckAlive(POINT pos);
+BOOL EnemyCheckAlive(POINT);
+void EnemyAttack(POINT);
+
+BOOL bEnd;
 
 #endif

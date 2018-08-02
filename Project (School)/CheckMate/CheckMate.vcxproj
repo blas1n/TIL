@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{8F89D272-3632-4EDD-9E85-4694BF2C9797}</ProjectGuid>
+    <ProjectGuid>{F4D55248-9D59-42BE-9778-BDDBF444F9B2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>RollandBomb</RootNamespace>
+    <RootNamespace>CheckMate</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -141,22 +141,28 @@
   <ItemGroup>
     <ClCompile Include="BombManager.c" />
     <ClCompile Include="EnemyManager.c" />
-    <ClCompile Include="PlayerControl.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="MapManager.c" />
+    <ClCompile Include="PlayerControl.c" />
     <ClCompile Include="Renderer.c" />
+    <ClCompile Include="TimeManager.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BombManager.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="EnemyManager.h" />
-    <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Stage1.txt" />
+    <Text Include="Stage2.txt" />
+    <Text Include="Stage3.txt" />
+    <Text Include="Stage4.txt" />
+    <Text Include="Stage5.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

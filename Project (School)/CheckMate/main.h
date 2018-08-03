@@ -6,6 +6,7 @@
 #include "PlayerControl.h"
 #include "TimeManager.h"
 #include "EnemyManager.h"
+#include "resource.h"
 
 #define STARTSTAGE (0)
 

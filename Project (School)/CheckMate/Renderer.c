@@ -97,7 +97,7 @@ void RenderDeath(HDC hDC) {
 	captionRect.bottom = winRect.bottom / 4 * 3;
 	captionRect.top = winRect.bottom / 3;
 
-	DrawText(hDC, TEXT("적이 자폭해야지\n왜 너가 자폭해"), _tcslen(TEXT("적이 자폭해야지\n왜 너가 자폭해")), &captionRect, DT_CENTER);
+	DrawText(hDC, TEXT("적이 자폭해야지\n왜 너가 자폭해"), (int)_tcslen(TEXT("적이 자폭해야지\n왜 너가 자폭해")), &captionRect, DT_CENTER);
 
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hMyFont);
@@ -115,7 +115,7 @@ void RenderLoad(HDC hDC) {
 	SetTextColor(hDC, RGB(0, 0, 0));
 	SetBkColor(hDC, RGB(80, 130, 50));
 
-	DrawText(hDC, TEXT("맵 로딩 중..."), _tcslen(TEXT("맵 로딩 중...")), &winRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(hDC, TEXT("맵 로딩 중..."), (int)_tcslen(TEXT("맵 로딩 중...")), &winRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hMyFont);
@@ -133,7 +133,7 @@ void RenderStart(HDC hDC) {
 	SetTextColor(hDC, RGB(50, 0, 50));
 	SetBkColor(hDC, RGB(200, 255, 200));
 
-	DrawText(hDC, TEXT("CheckMate!"), _tcslen(TEXT("CheckMate!")), &winRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(hDC, TEXT("CheckMate!"), (int)_tcslen(TEXT("CheckMate!")), &winRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hMyFont);
@@ -164,7 +164,7 @@ void RenderTimer(HDC hDC) {
 	SetTextColor(hDC, RGB(50, 0, 50));
 	SetBkColor(hDC, RGB(200, 255, 200));
 
-	DrawText(hDC, timeToString, _tcslen(timeToString), &timerRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(hDC, timeToString, (int)_tcslen(timeToString), &timerRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hMyFont);
@@ -194,7 +194,7 @@ void RenderClear(HDC hDC) {
 	SetBkColor(hDC, RGB(180, 40, 40));
 
 	FillRect(hDC, &winRect, CreateSolidBrush(RGB(180, 40, 40)));
-	DrawText(hDC, TEXT("클리어!!"), _tcslen(TEXT("클리어!!")), &winRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(hDC, TEXT("클리어!!"), (int)_tcslen(TEXT("클리어!!")), &winRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
 
 	SelectObject(hDC, hOldFont);

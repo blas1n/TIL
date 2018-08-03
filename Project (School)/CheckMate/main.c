@@ -17,7 +17,7 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
 	wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wndClass.hIcon = LoadIcon(hIn, IDI_CHESE);
 	wndClass.hIconSm = wndClass.hIcon;
 	
 	RegisterClassEx(&wndClass);

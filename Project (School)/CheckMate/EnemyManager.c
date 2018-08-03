@@ -18,7 +18,7 @@ void WINAPI AI(LPVOID addressOfPos) {
 
 		isAlive = EnemyCheckAlive(myPos);
 		EnemyAttack(myPos);
-		Sleep(250);
+		Sleep(300);
 
 		numOfGoodPos = 0;
 		numOfSubGoodPos = 0;

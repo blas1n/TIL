@@ -94,7 +94,7 @@ void PlayerMoveInCell(POINT newPos) {
 void NextMap() {
 	mapLoad = TRUE;
 
-	if (++nowStage > 0) {
+	if (nowStage++ > 0) {
 		HDC hDC = GetDC(m_hWnd);
 		RenderLoad(hDC);
 		ReleaseDC(m_hWnd, hDC);

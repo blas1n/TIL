@@ -150,7 +150,7 @@ void Init() {
 	bEnd = FALSE;
 	bClear = FALSE;
 	isAlive = TRUE;
-	nowStage = 0;
+	nowStage = 1;
 }
 
 void Release() {
@@ -162,21 +162,15 @@ void Release() {
 
 BOOL Update() {
 	switch (nowStage) {
-	case 0:
+	case 1:
 		if (5 <= nowKill) {
 			nowKill = 0;
 			NextMap();
 		}
 			
 		break;
-	case 1:
-		if (12 <= nowKill) {
-			nowKill = 0;
-			NextMap();
-		}
-		break;
 	case 2:
-		if (15 <= nowKill) {
+		if (12 <= nowKill) {
 			nowKill = 0;
 			NextMap();
 		}
@@ -188,6 +182,12 @@ BOOL Update() {
 		}
 		break;
 	case 4:
+		if (15 <= nowKill) {
+			nowKill = 0;
+			NextMap();
+		}
+		break;
+	case 5:
 		if (20 <= nowKill) {
 			nowKill = 0;
 			NextMap();

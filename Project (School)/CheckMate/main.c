@@ -99,7 +99,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		if (cellMap == NULL)
 			NextMap();
 
-		else if (!isAlive || bClear)
+		else if ((!isAlive || bClear) && (wParam == VK_RETURN || wParam == VK_ESCAPE))
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
 
 		else

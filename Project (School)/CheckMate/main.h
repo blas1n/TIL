@@ -7,6 +7,8 @@
 #include "TimeManager.h"
 #include "EnemyManager.h"
 
+#define STARTSTAGE (0)
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void Init();
 void Release();

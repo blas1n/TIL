@@ -150,7 +150,7 @@ void Init() {
 	bEnd = FALSE;
 	bClear = FALSE;
 	isAlive = TRUE;
-	nowStage = 1;
+	nowStage = STARTSTAGE;
 }
 
 void Release() {

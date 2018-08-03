@@ -28,7 +28,7 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 	Init();
 
 	ShowCursor(FALSE);
-	ShowWindow(hWnd, cShow);
+	ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 	UpdateWindow(hWnd);
 
 	while (!bDone) {

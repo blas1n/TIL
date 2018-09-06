@@ -14,10 +14,10 @@ int main() {
 	char buf[1024];
 	int readBytes, len;
 
-	while (TRUE) {
-		if (WSAStartup(MAKEWORD(2, 2), &WSAData) != 0)
-			return 1;
+	if (WSAStartup(MAKEWORD(2, 2), &WSAData) != 0)
+		return 1;
 
+	while (TRUE) {
 		sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if (sock == INVALID_SOCKET)
@@ -55,8 +55,9 @@ int main() {
 		printf("recv messages = %s\n\n", buf);
 
 		closesocket(sock);
-		WSACleanup();
 	}
+
+	WSACleanup();
 
 	return 0;
 }

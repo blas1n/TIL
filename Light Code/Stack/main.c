@@ -6,6 +6,7 @@ int main() {
 	stack->Push(stack, 5);
 	stack->Push(stack, 6);
 	stack->Print(stack);
+
 	for (int i = 3; i > 0; i--) {
 		int result = stack->Pop(stack);
 

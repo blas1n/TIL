@@ -20,8 +20,6 @@ typedef struct _Calc_Data {
 	short error;
 } CalcData;
 
-char getch();
-
 int main(int argc, char** argv) {
 	struct sockaddr_in client_addr, sock_addr;
 	int listen_sock, client_sock;

@@ -66,10 +66,10 @@ int main(int argc, char** argv) {
 			return 1;
 
 		if (ntohs(data.error) != 0)
-			printf("Calc Error : %d\n", ntohs(data.error));
+			printf("Calc Error : %d\n\n", ntohs(data.error));
 
 		else
-			printf("%d %c %d = %d\n", ntohl(data.lhs), data.op, ntohl(data.rhs), ntohl(data.result));
+			printf("%d %c %d = %d\n\n", ntohl(data.lhs), data.op, ntohl(data.rhs), ntohl(data.result));
 
 		closesocket(sock);
 	}

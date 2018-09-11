@@ -18,7 +18,7 @@ int main() {
 		return 1;
 
 	while (TRUE) {
-		sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		sock = socket(AF_INET, SOCK_STREAM, 0);
 
 		if (sock == INVALID_SOCKET)
 			return 1;

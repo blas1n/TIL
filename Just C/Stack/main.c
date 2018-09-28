@@ -2,16 +2,36 @@
 
 int main() {
 	Stack* stack = InitStack(20);
+	char* command = (char*)malloc(20);
+	int buf;
 
-	stack->Push(stack, 5);
-	stack->Push(stack, 6);
-	stack->Print(stack);
+	while (1) {
+		scanf("%s", command);
 
-	for (int i = 3; i > 0; i--) {
-		int result = stack->Pop(stack);
+		if (!strcmp(command, "push")) {
+			scanf("%d", &buf);
+			stack->Push(stack, buf);
+		}
 
-		if (!result) { continue; }
-		printf("%d\n", result);
+		else if (!strcmp(command, "pop")) {
+			buf = stack->Pop(stack);
+
+			if (buf != -1) printf("%d\n", buf);
+		}
+
+		else if (!strcmp(command, "peek")) {
+			buf = stack->Peek(stack);
+
+			if (buf != -1) printf("%d\n", buf);
+		}
+
+		else if (!strcmp(command, "print")) {
+			stack->Print(stack);
+		}
+
+		else if (!strcmp(command, "clear")) {
+			stack->Clear(stack);
+		}
 	}
 
 	DeleteStack(stack);

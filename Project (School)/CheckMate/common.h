@@ -7,7 +7,9 @@
 #include <tchar.h>
 #include <process.h>
 
-#define SAFE_FREE(x) x = NULL; free(x)
+#pragma warning (disable:4996)
+
+#define SAFE_FREE(x) free(x); x = NULL 
 
 HINSTANCE m_hInstance;
 HWND m_hWnd;

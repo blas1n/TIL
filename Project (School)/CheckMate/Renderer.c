@@ -171,21 +171,25 @@ void RenderTimer(HDC hDC) {
 }
 
 void RenderClear(HDC hDC) {
-	Time clearTime = GetTakeTime();
-	TCHAR timeToString[30];
+	static BOOL bRender = FALSE;
 
+	Time clearTime = GetTakeTime();
+	static TCHAR timeToString[30];
+
+	if (!bRender) {
 #ifdef UNICODE
-	swprintf(timeToString, 30, L"클리어에 걸린 시간 : %02d : %02d", clearTime.minute, clearTime.second);
+		swprintf(timeToString, 30, L"클리어에 걸린 시간 : %02d : %02d", clearTime.minute, clearTime.second);
 #elif
-	sprintf(timeToString, 30, "클리어에 걸린 시간 : %02d : %02d", clearTime.minute, clearTime.second);
+		sprintf(timeToString, 30, "클리어에 걸린 시간 : %02d : %02d", clearTime.minute, clearTime.second);
 #endif
+	}
 	
 	RECT subCaptionRect = winRect;
 	subCaptionRect.bottom = subCaptionRect.bottom / 4 * 3;
-	subCaptionRect.top = subCaptionRect.bottom / 2;
+	subCaptionRect.top = subCaptionRect.bottom * 0.8;
 
 	int sizeOfCaption = winRect.bottom / 5;
-	int sizeOfSubCaption = (subCaptionRect.bottom - subCaptionRect.top) / 9;
+	int sizeOfSubCaption = (subCaptionRect.bottom - subCaptionRect.top) / 5;
 
 	HFONT hMyFont = CreateFont(sizeOfCaption, 0, 0, 0, FW_BOLD, 0, 0, 0, ANSI_CHARSET,
 		0, 0, 0, 0, TEXT("Consolas"));
@@ -196,7 +200,6 @@ void RenderClear(HDC hDC) {
 	FillRect(hDC, &winRect, CreateSolidBrush(RGB(180, 40, 40)));
 	DrawText(hDC, TEXT("클리어!!"), (int)_tcslen(TEXT("클리어!!")), &winRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hMyFont);
 
@@ -206,8 +209,10 @@ void RenderClear(HDC hDC) {
 
 	SetBkColor(hDC, RGB(180, 40, 40));
 
-	DrawText(hDC, timeToString, 30, &subCaptionRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(hDC, timeToString, lstrlen(timeToString), &subCaptionRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	
 	SelectObject(hDC, hOldFont);
 	DeleteObject(hMyFont);
+
+	bRender = TRUE;
 }

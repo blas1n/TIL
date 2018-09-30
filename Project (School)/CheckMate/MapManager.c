@@ -1,11 +1,19 @@
 #include "MapManager.h"
 
 void MapRead() {
-	char mapName[11];
+	char mapName[20];
+
 	sprintf(mapName, "Stage%d.txt", nowStage);
 
 	FILE* mapFile = fopen(mapName, "r");
-	if (mapFile == NULL) return;
+
+	if (mapFile == NULL) {
+		sprintf(mapName, "Stage%d.txt", nowStage);
+		mapFile = fopen(mapName, "r");
+
+		if (mapFile == NULL) return;
+	}
+
 	mapSize = GetSize(mapFile);
 
 	if (cellMap != NULL) {
@@ -94,19 +102,19 @@ void PlayerMoveInCell(POINT newPos) {
 void NextMap() {
 	mapLoad = TRUE;
 
-	if (nowStage++ > 0) {
-		HDC hDC = GetDC(m_hWnd);
-		RenderLoad(hDC);
-		ReleaseDC(m_hWnd, hDC);
-		Sleep(2000);
-	}
-
 	if (nowStage >= 5) {
 		bClear = TRUE;
 
 		HDC hDC = GetDC(m_hWnd);
 		RenderClear(hDC);
 		ReleaseDC(m_hWnd, hDC);
+	}
+
+	else if (nowStage++ > 0) {
+		HDC hDC = GetDC(m_hWnd);
+		RenderLoad(hDC);
+		ReleaseDC(m_hWnd, hDC);
+		Sleep(2000);
 	}
 	
 	MapRead();

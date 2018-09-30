@@ -19,7 +19,7 @@ int APIENTRY _tWinMain(HINSTANCE hIn, HINSTANCE prev, PTSTR cmd, int cShow) {
 	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndClass.hIcon = LoadIcon(hIn, IDI_CHESE);
 	wndClass.hIconSm = wndClass.hIcon;
-	
+
 	RegisterClassEx(&wndClass);
 
 	hWnd = CreateWindow(wndClass.lpszClassName, wndClass.lpszMenuName, WS_OVERLAPPEDWINDOW,
@@ -123,20 +123,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 		GetClientRect(hWnd, &winRect);
 		hDC = BeginPaint(hWnd, &ps);
 		
-		if (cellMap == NULL) {
+		if (bClear)
+			RenderClear(hBackDC);
+
+		else if (cellMap == NULL)
 			RenderStart(hBackDC);
-			BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
-		}
 
-		else if (!isAlive) {
+		else if (!isAlive)
 			RenderDeath(hBackDC);
-			BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
-		}
 
-		else {
-			Render(hBackDC);
-			BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
-		}
+		else Render(hBackDC);
+
+		BitBlt(hDC, 0, 0, winRect.right, winRect.bottom, hBackDC, 0, 0, SRCCOPY);
 
 		EndPaint(hWnd, &ps);
 		break;

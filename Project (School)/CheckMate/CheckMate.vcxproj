@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{F4D55248-9D59-42BE-9778-BDDBF444F9B2}</ProjectGuid>
+    <ProjectGuid>{A39C3B15-822C-4B41-8484-350214469473}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CheckMate</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>

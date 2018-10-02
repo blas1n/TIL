@@ -23,7 +23,7 @@ void Insert(Node* const head, const int data) {
 void ForEach(Node* iter, void(*behavior)(Node*)) {
 	iter = iter->next;
 
-	while (iter->next != NULL) {
+	while (iter->next) {
 		Node* save = iter->next;
 		behavior(iter);
 		iter = save;
@@ -38,7 +38,7 @@ void SortEach(Node *const lhsIter) {
 	Node *rhsIter, *minNode;
 	rhsIter = minNode = lhsIter;
 
-	while (rhsIter->next != NULL) {
+	while (rhsIter->next) {
 		rhsIter = rhsIter->next;
 
 		if (minNode->data > rhsIter->data)

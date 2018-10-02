@@ -6,13 +6,7 @@ void MapRead() {
 	sprintf(mapName, "Stage%d.txt", nowStage);
 
 	FILE* mapFile = fopen(mapName, "r");
-
-	if (mapFile == NULL) {
-		sprintf(mapName, "Stage%d.txt", nowStage);
-		mapFile = fopen(mapName, "r");
-
-		if (mapFile == NULL) return;
-	}
+	if (mapFile == NULL) return;
 
 	mapSize = GetSize(mapFile);
 

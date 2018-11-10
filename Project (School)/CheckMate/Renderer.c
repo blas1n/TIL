@@ -192,7 +192,7 @@ void RenderClear(HDC hDC) {
 	int sizeOfSubCaption = (subCaptionRect.bottom - subCaptionRect.top) / 5;
 
 	HFONT hMyFont = CreateFont(sizeOfCaption, 0, 0, 0, FW_BOLD, 0, 0, 0, ANSI_CHARSET,
-		0, 0, 0, 0, TEXT("Consolas"));
+							   0, 0, 0, 0, TEXT("Consolas"));
 	HFONT hOldFont = (HFONT)SelectObject(hDC, hMyFont);
 
 	SetBkColor(hDC, RGB(180, 40, 40));
@@ -204,7 +204,7 @@ void RenderClear(HDC hDC) {
 	DeleteObject(hMyFont);
 
 	hMyFont = CreateFont(sizeOfSubCaption, 0, 0, 0, FW_NORMAL, 0, 0, 0, ANSI_CHARSET,
-		0, 0, 0, 0, TEXT("Consolas"));
+						 0, 0, 0, 0, TEXT("Consolas"));
 	hOldFont = (HFONT)SelectObject(hDC, hMyFont);
 
 	SetBkColor(hDC, RGB(180, 40, 40));

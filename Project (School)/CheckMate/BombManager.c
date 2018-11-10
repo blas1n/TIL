@@ -13,10 +13,22 @@ void InstallBomb(POINT bombPos) {
 
 void WINAPI BurstBomb(LPVOID installPos) {
 	POINT bombPos = *((POINT*)installPos);
+	char oldObject[3][3];
+	memset(oldObject, '0', sizeof(oldObject));
 
 	SAFE_FREE(installPos);
 	
 	Sleep(1500);
+
+	// 폭탄을 제외하고 폭탄이 터질 위치에 있던 물체를 기억한다.
+	for (int y = bombPos.y - 1; y <= bombPos.y + 1; y++) {
+		for (int x = bombPos.x - 1; x <= bombPos.x + 1; x++) {
+			if (x == bombPos.x && y == bombPos.y) continue;
+
+			if (bombMap[y][x] != '2')
+				oldObject[y - bombPos.y + 1][x - bombPos.x + 1] = bombMap[y][x];
+		}
+	}
 
 	// 300초 동안 폭발을 유지했다가 폭발이 사라진다.
 	for (DWORD startTime = timeGetTime(); 350 > timeGetTime() - startTime; ) {
@@ -28,8 +40,9 @@ void WINAPI BurstBomb(LPVOID installPos) {
 		}
 	}
 
+	// 물체를 되돌린다.
 	for (int y = bombPos.y - 1; y <= bombPos.y + 1; y++) {
 		for (int x = bombPos.x - 1; x <= bombPos.x + 1; x++)
-			bombMap[y][x] = '0';
+			bombMap[y][x] = oldObject[y - bombPos.y + 1][x - bombPos.x + 1];
 	}
 }

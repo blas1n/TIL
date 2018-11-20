@@ -10,7 +10,7 @@ typedef struct _Queue {
 }Queue;
 
 Queue* InitQueue();
-void Release(Queue* self);
+void Release(Queue** self);
 
 void Enqueue(Queue* self, int data);
 int Dequeue(Queue* self);

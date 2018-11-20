@@ -5,13 +5,15 @@
 Queue* InitQueue() {
 	Queue* queue = (Queue*)malloc(sizeof(Queue));
 	memset(queue, 0, sizeof(Queue));
+
+	return queue;
 }
 
-void Release(Queue* self) {
-	while (Dequeue(self));
+void Release(Queue** self) {
+	while (Dequeue(*self));
 
-	free(self);
-	self = NULL;
+	free(*self);
+	*self = NULL;
 }
 
 void Enqueue(Queue* self, int data) {
@@ -42,8 +44,8 @@ int Dequeue(Queue* self) {
 
 	self->front = node->next;
 
-	free(self);
-	self = NULL;
+	free(node);
+	node = NULL;
 
 	self->count--;
 

@@ -1,11 +1,5 @@
 #include <stdio.h>
 
-void PrintReverse(int n) {
-	for (; n > 0; n /= 10)
-		printf("%d", n % 10);
-	printf("\n");
-}
-
 int max(int lhs, int rhs) {
 	return lhs > rhs ? lhs : rhs;
 }

@@ -2,17 +2,25 @@
 #include <stdlib.h>
 
 int main() {
-	int count = 0, i = 0;
+	int count = 0;
+	int isSplit = 1;
 
-	char* input = (char*)calloc(100, sizeof(char));
-	fgets(input, 100, stdin);
+	char* input = malloc(1000000 * sizeof(char));
+	scanf("%[^\n]s", input);
 
-	do {
+	for (int i = 0; input[i]; i++) {
 		if (input[i] == ' ')
-			count++; 7
-	} while (input[i]++ != '\n');
+			isSplit = 1;
+
+		else if (isSplit) {
+			count++;
+			isSplit = 0;
+		}
+	}
 
 	free(input);
-	printf("%d", count + 1);
+	input = NULL;
+
+	printf("%d\n", count);
 	return 0;
 }

@@ -412,6 +412,10 @@ ASALocalRun/
 *.pyproj
 *.sln
 
+# vcxproj
+*.vcxproj
+*.vcxproj.filters
+
 # Distribution / packaging
 .Python
 build/

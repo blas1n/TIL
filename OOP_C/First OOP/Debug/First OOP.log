@@ -1,5 +1,0 @@
-﻿  calc.c
-  main.c
-  코드를 생성하고 있습니다...
-d:\programming\git\c_programming\oop_c\first oop\calc.c(17): warning C4716: 'DeleteCalc': 값을 반환해야 합니다.
-  First OOP.vcxproj -> D:\Programming\Git\C_Programming\OOP_C\First OOP\Debug\First OOP.exe

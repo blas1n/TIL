@@ -1,6 +1,7 @@
 #include "D3dClass.h"
 #include <vector>
 #include <cstring>
+#include <fstream>
 
 bool D3dClass::Init(int screenWidth, int screenHeight, bool vsync, HWND hWnd,
 	bool fullScreen, float screenDepth, float screenNear) {
@@ -30,7 +31,7 @@ bool D3dClass::Init(int screenWidth, int screenHeight, bool vsync, HWND hWnd,
 	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
 	if (FAILED(result)) return false;
 
-	UINT numerator, denominator;
+	UINT numerator = 0, denominator = 0;
 
 	for (UINT i = 0; i < numModes; i++) {
 		if (displayModeList[i].Width == static_cast<UINT>(screenWidth)) {
@@ -205,6 +206,17 @@ bool D3dClass::Init(int screenWidth, int screenHeight, bool vsync, HWND hWnd,
 	m_worldMatrix = DirectX::XMMatrixIdentity();
 	m_orthoMatrix = DirectX::XMMatrixOrthographicLH(static_cast<float>(screenWidth),
 		static_cast<float>(screenHeight), screenNear, screenDepth);
+	
+#if UNICODE
+	std::wofstream outFile("GPU Info.txt");
+#else
+	std::ofstream outFile("GPU Info.txt");
+#endif
+
+	outFile << "Name : " << m_videoCardDescription << std::endl;
+	outFile << "Memeory Capacity : " << m_videoCardMemory << std::endl;
+
+	outFile.close();
 
 	return true;
 }

@@ -39,6 +39,6 @@ private:
 	HINSTANCE m_hInstance;
 	HWND m_hWnd;
 
-	InputClass m_input;
-	GraphicsClass m_graphics;
+	std::unique_ptr<InputClass> m_input;
+	std::unique_ptr<GraphicsClass> m_graphics;
 };

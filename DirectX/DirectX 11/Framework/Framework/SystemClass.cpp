@@ -24,26 +24,37 @@ int SystemClass::Run() {
 }
 
 bool SystemClass::Frame() {
-	return !m_input.IsKeyDown(VK_ESCAPE) && m_graphics.Frame();
+	return !m_input->IsKeyDown(VK_ESCAPE) && m_graphics->Frame();
 }
 
 bool SystemClass::Init() {
-	return m_graphics.Init(InitWindows(), m_hWnd);
+	auto screenSize = InitWindows();
+
+	m_input = std::make_unique<InputClass>();
+	
+	if (!m_input.get())
+		return false;
+	
+	m_graphics = std::make_unique<GraphicsClass>();
+
+	if (!m_graphics.get())
+		return false;
+
+	return m_graphics->Init(screenSize, m_hWnd);
 }
 
 void SystemClass::Release() {
-	m_graphics.Release();
+	if (m_graphics.get())
+		m_graphics->Release();
+
 	ReleaseWindows();
 }
 
 std::tuple<int, int> SystemClass::InitWindows() {
-	WNDCLASSEX wc;
-	
-	int posX, posY;
-
 	m_hInstance = GetModuleHandle(nullptr);
-
 	m_appName = TEXT("Engine");
+
+	WNDCLASSEX wc;
 
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -62,6 +73,8 @@ std::tuple<int, int> SystemClass::InitWindows() {
 
 	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+	int posX, posY;
 
 	if (FULL_SCREEN) {
 		DEVMODE dmScreenSettings = { 0, };
@@ -111,11 +124,11 @@ void SystemClass::ReleaseWindows() {
 LRESULT CALLBACK SystemClass::MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 	case WM_KEYDOWN:
-		m_input.KeyDown((UINT)wParam);
+		m_input->KeyDown((UINT)wParam);
 		return 0;
 
 	case WM_KEYUP:
-		m_input.KeyUp((UINT)lParam);
+		m_input->KeyUp((UINT)wParam);
 		return 0;
 	}
 

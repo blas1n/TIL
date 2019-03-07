@@ -1,14 +1,10 @@
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN
-
-#include <Windows.h>
-#include <tchar.h>
-#include <memory>
-#include <tuple>
-#include "NonMovable.h"
-#include "InputClass.h"
+#include "../Utility//NonMovable.h"
+#include "../Common.h"
 #include "GraphicsClass.h"
+#include "InputClass.h"
+#include <tuple>
 
 class SystemClass : public NonMovable {
 public:

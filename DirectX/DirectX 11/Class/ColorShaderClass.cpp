@@ -1,7 +1,8 @@
 #include "ColorShaderClass.h"
+#include <fstream>
 
 bool ColorShaderClass::Init(ID3D11Device* device, HWND hWnd) {
-	return InitShader(device, hWnd, TEXT("VertexShader.hlsl"), TEXT("PixelShader.hlsl"));
+	return InitShader(device, hWnd, TEXT("Shader/VertexShader.hlsl"), TEXT("Shader/PixelShader.hlsl"));
 }
 
 void ColorShaderClass::Release() {
@@ -25,7 +26,7 @@ bool ColorShaderClass::InitShader(ID3D11Device* device, HWND hWnd,
 	ID3D10Blob* vertexShaderBuffer = nullptr;
 	ID3D10Blob* pixelShaderBuffer = nullptr;
 
-	auto result = D3DCompileFromFile(vsFileName, nullptr, nullptr, "ColorVertexShader", "vs_5_0",
+	auto result = D3DCompileFromFile(vsFileName, nullptr, nullptr, "main", "vs_5_0",
 		D3D10_SHADER_ENABLE_STRICTNESS, 0, &vertexShaderBuffer, &errorMsg);
 
 	if (FAILED(result)) {
@@ -37,7 +38,7 @@ bool ColorShaderClass::InitShader(ID3D11Device* device, HWND hWnd,
 		return false;
 	}
 
-	result = D3DCompileFromFile(psFileName, nullptr, nullptr, "ColorPixelShader", "ps_5_0",
+	result = D3DCompileFromFile(psFileName, nullptr, nullptr, "main", "ps_5_0",
 		D3D10_SHADER_ENABLE_STRICTNESS, 0, &pixelShaderBuffer, &errorMsg);
 
 	if (FAILED(result)) {

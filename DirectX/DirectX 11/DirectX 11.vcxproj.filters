@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shader File">
+      <UniqueIdentifier>{74ffe06c-37a6-4c8e-b139-c31e826d472b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header File">
+      <UniqueIdentifier>{ec3e441f-2dd5-4a6b-92d2-f517d0a6560d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File">
+      <UniqueIdentifier>{08b6c0d4-39ca-45b0-83f8-dc8feda454eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header File\Uitlity">
+      <UniqueIdentifier>{8c9ccfbd-3dec-4653-850a-a0e57886b903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header File\Class">
+      <UniqueIdentifier>{dd920e54-bdd9-48eb-b628-acb6afaf162d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Class">
+      <UniqueIdentifier>{e41e06bd-1f23-49d1-a1e0-f7d53929bbcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\EntryPoint">
+      <UniqueIdentifier>{1fc94759-1adf-4b52-a7aa-1d19caed401e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Class\ModelClass.cpp">
+      <Filter>Source File\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\CameraClass.cpp">
+      <Filter>Source File\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\ColorShaderClass.cpp">
+      <Filter>Source File\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\D3dClass.cpp">
+      <Filter>Source File\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\GraphicsClass.cpp">
+      <Filter>Source File\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\InputClass.cpp">
+      <Filter>Source File\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SystemClass.cpp">
+      <Filter>Source File\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source File\EntryPoint</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utility\AlignedAllocator.h">
+      <Filter>Header File\Uitlity</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\NonMovable.h">
+      <Filter>Header File\Uitlity</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\CameraClass.h">
+      <Filter>Header File\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\ColorShaderClass.h">
+      <Filter>Header File\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\D3dClass.h">
+      <Filter>Header File\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\GraphicsClass.h">
+      <Filter>Header File\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\InputClass.h">
+      <Filter>Header File\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\ModelClass.h">
+      <Filter>Header File\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SystemClass.h">
+      <Filter>Header File\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header File\Uitlity</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\PixelShader.hlsl">
+      <Filter>Shader File</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\VertexShader.hlsl">
+      <Filter>Shader File</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

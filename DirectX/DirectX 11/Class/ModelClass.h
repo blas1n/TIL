@@ -1,13 +1,11 @@
 #pragma once
 
-#ifndef __MODELCLASS_H__
-#define __MODELCLASS_H__
-
+#include "../Utility//NonMovable.h"
+#include <memory>
 #include <d3d11.h>
 #include <DirectXMath.h>
-#include <memory>
 
-class ModelClass {
+class ModelClass : public NonMovable {
 private:
 	struct VertexType {
 		DirectX::XMFLOAT3 position;
@@ -33,5 +31,3 @@ private:
 	int m_vertexCount;
 	int m_indexCount;
 };
-
-#endif

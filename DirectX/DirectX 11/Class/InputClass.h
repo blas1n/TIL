@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NonMovable.h"
+#include "../Utility//NonMovable.h"
 
 class InputClass : public NonMovable {
 private:
@@ -15,4 +15,3 @@ public:
 private:
 	bool m_keys[256];
 };
-

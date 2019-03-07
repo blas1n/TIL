@@ -1,16 +1,13 @@
 #pragma once
 
-#ifndef __COLORSHADERCLASS_H__
-#define __COLORSHADERCLASS_H__
-
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include "../Utility//NonMovable.h"
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
-#include <fstream>
 
-class ColorShaderClass {
+class ColorShaderClass : public NonMovable {
 private:
 	struct MatrixBufferType {
 		DirectX::XMMATRIX world;
@@ -37,5 +34,3 @@ private:
 	ID3D11InputLayout* m_layout;
 	ID3D11Buffer* m_matrixBuffer;
 };
-
-#endif

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "NonMovable.h"
+#include "../Utility//NonMovable.h"
 #include "D3dClass.h"
+#include "ColorShaderClass.h"
 #include "CameraClass.h"
 #include "ModelClass.h"
-#include "ColorShaderClass.h"
 #include <memory>
 #include <tuple>
 

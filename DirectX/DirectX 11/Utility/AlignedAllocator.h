@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef __ALIGNEDALLOCATOR_H__
-#define __ALIGNEDALLOCATOR_H__
-
 #include <memory>
 
 template <size_t AlignSize>
@@ -16,5 +13,3 @@ public:
 		_aligned_free(memory);
 	}
 };
-
-#endif

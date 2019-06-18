@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+ 
+{% block content %}
+<div>
+  <div>
+    <article>
+      <h1>첫 번째 포스트 제목</h1>
+      <p>첫 번째 포스트 내용입니다.</p>
+      <div>
+        <p>작성자</p>
+        <p>2018-08-01</p>
+      </div>
+    </article>
+    <article>
+      <h1>두 번째 포스트 제목</h1>
+      <p>두 번째 포스트 내용입니다.</p>
+      <div>
+        <p>작성자</p>
+        <p>2018-08-01</p>
+      </div>
+    </article>
+    <!--
+    {% for post in posts %}
+      <article>
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content}}</p>
+        <div>
+          <p>{{ post.author.username }}</p>
+          <p>{{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+        </div>
+      </article>
+    {% endfor %}
+    -->  
+
+  </div>
+</div>
+{% endblock %}

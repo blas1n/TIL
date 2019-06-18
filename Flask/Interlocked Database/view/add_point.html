@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add_point</title>
+</head>
+<body>
+    <form action="add_point_pro" method="post">
+        학년 : <input type="text" name="point_stu_grade"/><br/>
+        점수 : <input type="text" name="point_stu_kor"/><br/>
+        <input type="hidden" name="point_stu_idx" value="{{data_dic.stu_idx}}"/><br/>
+        <button type="submit">저장</button>
+        <a href="student_info?stu_idx={{data_dic.stu_idx}}">취소</a>
+    </form>
+</body>
+</html>

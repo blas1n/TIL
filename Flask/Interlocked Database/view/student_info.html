@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>student_info.html</title>
+</head>
+<body>
+    <h3>학생 정보 보기</h3>
+
+
+    <hr/>
+    <h3>이름 : {{data_dic.stu_name}}</h3>
+    <h3>나이 : {{data_dic.stu_age}}살</h3>
+    <h3>주소 : {{data_dic.stu_addr}}</h3>
+    {% for dic in data_list %}
+    <h3>{{dic.point_stu_grade}}학년 : {{dic.point_stu_kor}}점</h3>
+    {% endfor %}
+    <h3><a href="add_point?stu_idx={{data_dic.stu_idx}}">점수 추가</a></h3>
+    <h3><a href="student_list">목록보기</a></h3>
+</body>
+</html>

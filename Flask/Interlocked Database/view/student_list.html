@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>student_list.html</title>
+</head>
+<body>
+    <h1>학생 리스트</h1>
+    <p>
+        <a href="add_student">학생 정보 추가</a>
+    </p>
+    <p>
+        <form action="student_list" method="get">
+            <input type="text" name="stu_name"/>
+            <button type="submit">검색</button>
+            <a href="student_list">초기화</a>
+        </form>
+    </p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+                <th>나이</th>
+                <th>주소</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for temp_dic in data_list %}
+            <tr>
+                <td>{{temp_dic.stu_idx}}</td>
+                <td>
+                    <a href="student_info?stu_idx={{temp_dic.stu_idx}}">
+                        {{temp_dic.stu_name}}
+                    </a>
+                </td>
+                <td>{{temp_dic.stu_age}}</td>
+                <td>{{temp_dic.stu_addr}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        <a href="/">메인화면</a>
+    </p>
+</body>
+</html>

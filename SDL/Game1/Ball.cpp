@@ -1,14 +1,20 @@
 #include "Ball.h"
 #include "Constant.h"
 #include <cmath>
-#include <cstdlib>
+#include <random>
 
 Ball::Ball()
 	: pos({ SCREEN_W * 0.5f, SCREEN_H * 0.5f }),
 	vel({ 0.0f, 0.0f }) {
 
-	vel.x = rand() % 100 + 200 * (rand() % 2 * 2 - 1);
-	vel.y = rand() % 100 + 200 * (rand() % 2 * 2 - 1);
+	std::random_device rd;
+	std::mt19937_64 rnd(rd());
+
+	std::uniform_real_distribution<float> range(180, 230);
+	std::uniform_int_distribution<int> signRange(0, 1);
+
+	vel.x = range(rnd) * (signRange(rnd) * 2 - 1);
+	vel.y = range(rnd) * (signRange(rnd) * 2 - 1);
 }
 
 void Ball::Update(float deltaTime, Vector2 p1Pos, Vector2 p2Pos) {

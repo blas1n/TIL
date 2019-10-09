@@ -1,14 +1,13 @@
 #pragma once
 
-#include <SDL/SDL.h>
-
-struct Vector2 {
-	float x;
-	float y;
-};
+#include <vector>
+#include "Paddle.h"
+#include "Ball.h"
 
 class Game {
 public:
+	Game();
+
 	bool Initialize();
 	void RunLoop();
 	void Shutdown();
@@ -22,12 +21,12 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
-	Vector2 ballPos;
-	Vector2 ballVel;
-	Vector2 paddlePos;
+	std::vector<Ball> balls;
+
+	Paddle p1;
+	Paddle p2;
 
 	Uint32 ticksCount;
-	Sint32 paddleDir;
 	bool isRunning;
 };
 

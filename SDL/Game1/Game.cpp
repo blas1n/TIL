@@ -29,7 +29,19 @@ void Game::Shutdown() {
 }
 
 void Game::ProcessInput() {
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_QUIT: {
+			isRunning = false;
+			break;
+		}
+		}
+	}
 
+	const auto state = SDL_GetKeyboardState(nullptr);
+	if (state[SDL_SCANCODE_ESCAPE])
+		isRunning = false;
 }
 
 void Game::UpdateGame() {

@@ -13,7 +13,7 @@ bool Game::Initialize() {
 		return false;
 	}
 
-	window = SDL_CreateWindow("Game 2", 100, 100, 1024, 768, 0);
+	window = SDL_CreateWindow("Game 3", 100, 100, 1024, 768, 0);
 	if (!window) {
 		SDL_Log("Failed to create window: %s", SDL_GetError());
 		return false;
@@ -167,7 +167,7 @@ void Game::UpdateGame() {
 }
 
 void Game::GenerateOutput() {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 220, 220, 220, 255);
 	SDL_RenderClear(renderer);
 
 	for (auto sprite : sprites)

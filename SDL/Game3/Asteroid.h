@@ -2,12 +2,15 @@
 
 #include "Actor.h"
 
-class Asteroid : public Actor {
+class Asteroid final : public Actor {
 public:
 	Asteroid(class Game* game);
 	~Asteroid();
 	
-	class CircleComponent* GetCircle() { return circle; }
+	inline class CircleComponent* GetCircle() { return circle; }
+
+private:
+	void UpdateActor(float deltaTime) override;
 
 private:
 	class CircleComponent* circle;

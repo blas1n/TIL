@@ -21,17 +21,17 @@ public:
 	
 #pragma region GetterAndSetter
 	const Vector2& GetPosition() const { return position; }
-	void SetPosition(const Vector2& pos) { position = pos; }
+	void SetPosition(const Vector2& inPosition) { position = inPosition; }
 	float GetScale() const { return scale; }
-	void SetScale(float scale) { scale = scale; }
+	void SetScale(float inScale) { scale = inScale; }
 	float GetRotation() const { return rotation; }
-	void SetRotation(float rotation) { rotation = rotation; }
+	void SetRotation(float inRotation) { rotation = inRotation; }
 #pragma endregion
 		
 	Vector2 GetForward() const { return Vector2(Math::Cos(rotation), -Math::Sin(rotation)); }
 
 	State GetState() const { return state; }
-	void SetState(State state) { state = state; }
+	void SetState(State inState) { state = inState; }
 
 	class Game* GetGame() { return game; }
 

@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------
-// From Game Programming in C++ by Sanjay Madhav
-// Copyright (C) 2017 Sanjay Madhav. All rights reserved.
-// 
-// Released under the BSD License
-// See LICENSE in root directory for full details.
-// ----------------------------------------------------------------
-
 #include "Asteroid.h"
 #include "SpriteComponent.h"
 #include "MoveComponent.h"
@@ -16,14 +8,14 @@
 Asteroid::Asteroid(Game* game)
 	:Actor(game), circle(nullptr) {
 
-	Vector2 randPos = Random::GetVector(Vector2::Zero, Vector2(1024.0f, 768.0f));
+	const auto randPos = Random::GetVector(Vector2::Zero, Vector2(1024.0f, 768.0f));
 	SetPosition(randPos);
 	SetRotation(Random::GetFloatRange(0.0f, Math::Pi * 2));
 
-	SpriteComponent* sc = new SpriteComponent(this);
+	const auto sc = new SpriteComponent(this);
 	sc->SetTexture(game->GetTexture("Assets/Asteroid.png"));
 
-	MoveComponent* mc = new MoveComponent(this);
+	const auto mc = new MoveComponent(this);
 	mc->SetForwardSpeed(150.0f);
 
 	circle = new CircleComponent(this);
@@ -34,4 +26,16 @@ Asteroid::Asteroid(Game* game)
 
 Asteroid::~Asteroid() {
 	GetGame()->RemoveAsteroid(this);
+}
+
+void Asteroid::UpdateActor(float deltaTime) {
+	auto pos = GetPosition();
+
+	if (pos.x < 0.0f) { pos.x = 1022.0f; }
+	else if (pos.x > 1024.0f) { pos.x = 2.0f; }
+
+	if (pos.y < 0.0f) { pos.y = 766.0f; }
+	else if (pos.y > 768.0f) { pos.y = 2.0f; }
+
+	SetPosition(pos);
 }

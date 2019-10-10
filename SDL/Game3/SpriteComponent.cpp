@@ -1,6 +1,7 @@
 #include "SpriteComponent.h"
 #include "Actor.h"
 #include "Game.h"
+#include <iostream>
 
 SpriteComponent::SpriteComponent(Actor* inOwner, const int inDrawOrder)
 	: Component(inOwner),

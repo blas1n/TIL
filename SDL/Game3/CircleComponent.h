@@ -7,10 +7,10 @@ class CircleComponent : public Component {
 public:
 	CircleComponent(class Actor* owner);
 	
-	inline float GetRadius() const { return owner->GetScale() * radius; }
+	float GetRadius() const;
 	inline void SetRadius(float inRadius) { radius = inRadius; }
 	
-	inline const Vector2& GetCenter() const { return owner->GetPosition(); }
+	const Vector2& GetCenter() const;
 
 private:
 	float radius;

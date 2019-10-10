@@ -38,8 +38,6 @@ void Actor::Update(float deltaTime) {
 	}
 }
 
-void Actor::UpdateActor(float deltaTime) {}
-
 void Actor::AddComponent(Component* component) {
 	int myOrder = component->GetUpdateOrder();
 

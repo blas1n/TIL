@@ -13,11 +13,10 @@ const Vector2& CircleComponent::GetCenter() const {
 }
 
 bool Intersect(const CircleComponent& a, const CircleComponent& b) {
-	Vector2 diff = a.GetCenter() - b.GetCenter();
-	float distSq = diff.LengthSquared();
+	const auto diff = a.GetCenter() - b.GetCenter();
+	const auto distSq = diff.LengthSquared();
 
-	float radiiSq = a.GetRadius() + b.GetRadius();
-	radiiSq *= radiiSq;
+	const auto radiiSq = a.GetRadius() + b.GetRadius();
 
-	return distSq <= radiiSq;
+	return distSq <= radiiSq * radiiSq;
 }

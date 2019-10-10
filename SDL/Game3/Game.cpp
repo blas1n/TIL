@@ -124,6 +124,13 @@ void Game::RemoveAsteroid(Asteroid* ast) {
 		asteroids.erase(iter);
 }
 
+void Game::DeadShip() {
+	delete ship;
+	ship = nullptr;
+
+	deadTimer = 2.0f;
+}
+
 void Game::ProcessInput() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
@@ -151,6 +158,14 @@ void Game::UpdateGame() {
 
 	float deltaTime = Math::Min((SDL_GetTicks() - ticksCount) / 1000.0f, 0.05f);
 	ticksCount = SDL_GetTicks();
+
+	if (!ship) {
+		if ((deadTimer -= deltaTime) <= 0.0f) {
+			ship = new Ship(this);
+			ship->SetPosition(Vector2(512.0f, 384.0f));
+			ship->SetRotation(Math::Pi / 2);
+		}
+	}
 
 	updatingActors = true;
 	for (auto actor : actors)

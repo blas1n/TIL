@@ -11,5 +11,7 @@ private:
 	void UpdateActor(float deltaTime) override;
 	
 private:
+	class CircleComponent* circle;
+
 	float laserCooldown;
 };

@@ -1,16 +1,21 @@
 #include "Ship.h"
 #include "SpriteComponent.h"
+#include "CircleComponent.h"
 #include "InputComponent.h"
+#include "Asteroid.h"
 #include "Game.h"
 #include "Laser.h"
 
 Ship::Ship(Game* game)
-	:Actor(game), laserCooldown(0.0f) {
+	:Actor(game), circle(nullptr), laserCooldown(0.0f) {
 
-	SpriteComponent* sc = new SpriteComponent(this, 150);
+	auto sc = new SpriteComponent(this, 150);
 	sc->SetTexture(game->GetTexture("Assets/Ship.png"));
 
-	InputComponent* ic = new InputComponent(this);
+	circle = new CircleComponent(this);
+	circle->SetRadius(30.0f);
+
+	auto ic = new InputComponent(this);
 	ic->SetMaxForwardSpeed(300.0f);
 	ic->SetMaxAngularSpeed(Math::Pi * 2);
 	ic->SetForwardKey(SDL_SCANCODE_W);
@@ -41,4 +46,11 @@ void Ship::UpdateActor(float deltaTime) {
 	else if (pos.y > 748.0f) { pos.y = 748.0f; }
 
 	SetPosition(pos);
+
+	for (auto ast : GetGame()->GetAsteroids()) {
+		if (Intersect(*circle, *(ast->GetCircle()))) {
+			GetGame()->DeadShip();
+			break;
+		}
+	}
 }

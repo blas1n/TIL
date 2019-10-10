@@ -24,6 +24,8 @@ public:
 
 	std::vector<class Asteroid*>& GetAsteroids() { return asteroids; }
 
+	void DeadShip();
+
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -47,4 +49,6 @@ private:
 
 	class Ship* ship;
 	std::vector<class Asteroid*> asteroids;
+
+	float deadTimer;
 };

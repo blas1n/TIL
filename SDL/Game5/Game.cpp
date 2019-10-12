@@ -178,6 +178,11 @@ void Game::UpdateGame() {
 	float deltaTime = Math::Min((SDL_GetTicks() - ticksCount) / 1000.0f, 0.05f);
 	ticksCount = SDL_GetTicks();
 
+	curBgColor = Vector3::Lerp(curBgColor, goalBgColor, deltaTime);
+
+	if ((curBgColor - goalBgColor).LengthSquared() <= 0.01f)
+		goalBgColor = Random::GetVector(Vector3::Zero, Vector3::One);
+
 	if (!ship) {
 		if ((deadTimer -= deltaTime) <= 0.0f) {
 			ship = new Ship(this);
@@ -200,7 +205,7 @@ void Game::UpdateGame() {
 }
 
 void Game::GenerateOutput() {
-	glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
+	glClearColor(curBgColor.x, curBgColor.y, curBgColor.z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glEnable(GL_BLEND);

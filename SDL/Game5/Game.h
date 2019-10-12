@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include "Math.h"
 
 class Game {
 public:
@@ -56,6 +57,9 @@ private:
 
 	class Ship* ship;
 	std::vector<class Asteroid*> asteroids;
+
+	Vector3 curBgColor;
+	Vector3 goalBgColor;
 
 	float deadTimer;
 };

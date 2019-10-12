@@ -191,6 +191,7 @@ public:
 	static Vector2 Transform(const Vector2& vec, const class Matrix3& mat, float w = 1.0f);
 
 	static const Vector2 Zero;
+	static const Vector2 One;
 	static const Vector2 UnitX;
 	static const Vector2 UnitY;
 };
@@ -313,6 +314,7 @@ public:
 	static Vector3 Transform(const Vector3& v, const class Quaternion& q);
 
 	static const Vector3 Zero;
+	static const Vector3 One;
 	static const Vector3 UnitX;
 	static const Vector3 UnitY;
 	static const Vector3 UnitZ;

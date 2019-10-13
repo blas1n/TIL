@@ -12,7 +12,7 @@ Ship::Ship(Game* game)
 	circle(nullptr),
 	velocityDir(),
 	rotationDir(),
-	speed(0.0f),
+	speed(400.0f),
 	laserCooldown(0.0f) {
 
 	auto sc = new SpriteComponent(this, 150);
@@ -62,8 +62,10 @@ void Ship::UpdateActor(const float deltaTime) {
 
 	SetPosition(pos);
 
-	auto angle = Math::Atan2(rotationDir.y, rotationDir.x);
-	SetRotation(angle);
+	if (!Math::NearZero(rotationDir.LengthSquared())) {
+		auto angle = Math::Atan2(rotationDir.y, rotationDir.x);
+		SetRotation(angle);
+	}
 
 	for (auto ast : GetGame()->GetAsteroids()) {
 		if (Intersect(*circle, *(ast->GetCircle()))) {

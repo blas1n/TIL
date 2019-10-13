@@ -3,6 +3,7 @@
 #include <SDL/SDL_scancode.h>
 #include <SDL/SDL_gamecontroller.h>
 #include <SDL/SDL_mouse.h>
+#include <vector>
 #include "Math.h"
 
 enum class ButtonState {
@@ -57,8 +58,6 @@ public:
 	inline float GetLeftTrigger() const { return leftTrigger; }
 	inline float GetRightTrigger() const { return rightTrigger; }
 
-	inline bool IsConnected() const { return isConnected; }
-
 private:
 	friend class InputSystem;
 
@@ -70,14 +69,12 @@ private:
 
 	float leftTrigger;
 	float rightTrigger;
-
-	bool isConnected;
 };
 
 struct InputState {
 	KeyboardState keyboard;
 	MouseState mouse;
-	ControllerState controller;
+	std::vector<ControllerState> controllers;
 };
 
 class InputSystem {
@@ -99,5 +96,5 @@ private:
 	Vector2 Filter2D(int inputX, int inputY);
 
 	InputState state;
-	SDL_GameController* controller;
+	std::vector<SDL_GameController*> controllers;
 };

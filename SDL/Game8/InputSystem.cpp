@@ -67,11 +67,6 @@ bool InputSystem::Initialize() {
 
 	state.mouse.currButtons = state.mouse.prevButtons = 0;
 
-	controller = SDL_GameControllerOpen(0);
-	state.controller.isConnected = controller != nullptr;
-	memset(state.controller.currButtons, 0, SDL_CONTROLLER_BUTTON_MAX);
-	memset(state.controller.prevButtons, 0, SDL_CONTROLLER_BUTTON_MAX);
-
 	return true;
 }
 
@@ -85,9 +80,8 @@ void InputSystem::PrepareForUpdate() {
 	state.mouse.prevButtons = state.mouse.currButtons;
 	state.mouse.scrollWheel = Vector2::Zero;
 
-	memcpy(state.controller.prevButtons,
-		state.controller.currButtons,
-		SDL_CONTROLLER_BUTTON_MAX);
+	for (auto& controller : state.controllers)
+		memcpy(controller.prevButtons, controller.currButtons, SDL_CONTROLLER_BUTTON_MAX);
 }
 
 void InputSystem::Update() {
@@ -101,32 +95,34 @@ void InputSystem::Update() {
 	state.mouse.mousePos.x = static_cast<float>(x);
 	state.mouse.mousePos.y = static_cast<float>(y);
 
-	for (auto i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i)
-		state.controller.currButtons[i]
-			= SDL_GameControllerGetButton(controller,
-				SDL_GameControllerButton(i));
+	for (size_t i = 0; i < state.controllers.size(); ++i) {
+		for (auto j = 0; j < SDL_CONTROLLER_BUTTON_MAX; ++j)
+			state.controllers[i].currButtons[j]
+			= SDL_GameControllerGetButton(controllers[i],
+				SDL_GameControllerButton(j));
 
-	x = SDL_GameControllerGetAxis(controller,
-		SDL_CONTROLLER_AXIS_LEFTX);
-	y = -SDL_GameControllerGetAxis(controller,
-		SDL_CONTROLLER_AXIS_LEFTY);
+			x = SDL_GameControllerGetAxis(controllers[i],
+				SDL_CONTROLLER_AXIS_LEFTX);
+			y = -SDL_GameControllerGetAxis(controllers[i],
+				SDL_CONTROLLER_AXIS_LEFTY);
 
-	state.controller.leftStick = Filter2D(x, y);
+			state.controllers[i].leftStick = Filter2D(x, y);
 
-	x = SDL_GameControllerGetAxis(controller,
-		SDL_CONTROLLER_AXIS_RIGHTX);
-	y = -SDL_GameControllerGetAxis(controller,
-		SDL_CONTROLLER_AXIS_RIGHTY);
+			x = SDL_GameControllerGetAxis(controllers[i],
+				SDL_CONTROLLER_AXIS_RIGHTX);
+			y = -SDL_GameControllerGetAxis(controllers[i],
+				SDL_CONTROLLER_AXIS_RIGHTY);
 
-	state.controller.rightStick = Filter2D(x, y);
+			state.controllers[i].rightStick = Filter2D(x, y);
 
-	state.controller.leftTrigger =
-		Filter1D(SDL_GameControllerGetAxis(controller,
-			SDL_CONTROLLER_AXIS_TRIGGERLEFT));
+			state.controllers[i].leftTrigger =
+				Filter1D(SDL_GameControllerGetAxis(controllers[i],
+					SDL_CONTROLLER_AXIS_TRIGGERLEFT));
 
-	state.controller.rightTrigger =
-		Filter1D(SDL_GameControllerGetAxis(controller,
-			SDL_CONTROLLER_AXIS_TRIGGERRIGHT));
+			state.controllers[i].rightTrigger =
+				Filter1D(SDL_GameControllerGetAxis(controllers[i],
+					SDL_CONTROLLER_AXIS_TRIGGERRIGHT));
+	}
 }
 
 void InputSystem::ProcessEvent(SDL_Event& event) {
@@ -137,6 +133,16 @@ void InputSystem::ProcessEvent(SDL_Event& event) {
 			static_cast<float>(event.wheel.y)
 		};
 		break;
+	case SDL_CONTROLLERDEVICEADDED:
+		controllers.emplace_back(SDL_GameControllerOpen(event.cdevice.which));
+		state.controllers.emplace_back();
+		break;
+	case SDL_CONTROLLERDEVICEREMOVED: {
+		auto iter = controllers.cbegin() + event.cdevice.which;
+		SDL_GameControllerClose(*iter);
+		controllers.erase(iter);
+		state.controllers.erase(state.controllers.cbegin() + event.cdevice.which);
+	}
 	default:
 		break;
 	}

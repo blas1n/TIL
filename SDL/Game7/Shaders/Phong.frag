@@ -13,8 +13,8 @@ uniform float uSpecularPower;
 uniform DirectionalLight uDirLight;
 
 in vec2 fragTexCoord;
-in vec3 fragNormal;
 in vec3 fragWorldPos;
+in vec3 fragNormal;
 
 out vec4 outColor;
 

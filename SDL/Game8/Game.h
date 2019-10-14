@@ -64,4 +64,5 @@ private:
 	Vector3 goalBgColor;
 
 	float deadTimer;
+	float spawnTimer;
 };

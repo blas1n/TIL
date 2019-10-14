@@ -206,6 +206,13 @@ void Game::UpdateGame() {
 		}
 	}
 
+	const auto size = static_cast<float>(asteroids.size());
+	const auto spawnTime = size * size / 80.0f + 0.1f;
+	if ((spawnTimer += deltaTime) >= spawnTime) {
+		new Asteroid(this);
+		spawnTimer = 0.0f;
+	}
+
 	updatingActors = true;
 	for (auto actor : actors)
 		actor->Update(deltaTime);

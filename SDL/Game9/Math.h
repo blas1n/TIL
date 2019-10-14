@@ -136,6 +136,10 @@ public:
 		return Vector2(vec.x * scalar, vec.y * scalar);
 	}
 
+	friend Vector2 operator/(const Vector2& lhs, const Vector2& rhs) {
+		return Vector2(lhs.x / rhs.x, lhs.y / rhs.y);
+	}
+
 	friend Vector2 operator/(const Vector2& vec, const float scalar) {
 		return Vector2(vec.x / scalar, vec.y / scalar);
 	}
@@ -161,6 +165,12 @@ public:
 	Vector2& operator*=(const float scalar) {
 		x *= scalar;
 		y *= scalar;
+		return *this;
+	}
+
+	Vector2 operator/=(const Vector2& other) {
+		x /= other.x;
+		y /= other.y;
 		return *this;
 	}
 
@@ -252,6 +262,10 @@ public:
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 	}
 
+	friend Vector3 operator/(const Vector3& lhs, const Vector3& rhs) {
+		return Vector3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
+	}
+
 	friend Vector3 operator/(const Vector3& vec, const float scalar) {
 		return Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
 	}
@@ -281,6 +295,13 @@ public:
 		x *= scalar;
 		y *= scalar;
 		z *= scalar;
+		return *this;
+	}
+
+	Vector3& operator/=(const Vector3& other) {
+		x /= other.x;
+		y /= other.y;
+		z /= other.z;
 		return *this;
 	}
 

@@ -23,6 +23,8 @@ private:
 
 	Vector2 speed;
 	Actor* fpsModel;
+	Actor* startSphere;
+	Actor* endSphere;
 
 	SoundEvent footstep;
 	float lastFootstep;

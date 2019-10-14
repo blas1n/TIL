@@ -133,6 +133,27 @@ void Renderer::Draw() {
 	SDL_GL_SwapWindow(window);
 }
 
+Vector3 Renderer::Unproject(const Vector3& screenPoint) const {
+	const auto deviceCoord =
+		screenPoint / Vector3{ screenWidth, screenHeight, 1.0f } * 0.5f;
+	
+	auto unprojection = view * projection;
+	unprojection.Invert();
+	return Vector3::TransformWithPerspDiv(deviceCoord, unprojection);
+}
+
+void Renderer::GetScreenDirection(Vector2 screenPos, Vector3& outStart, Vector3& outDir) const {
+	if (Math::Abs(screenPos.x) > screenWidth * 0.5f || Math::Abs(screenPos.y) > screenHeight * 0.5f)
+		return;
+
+	Vector3 screenPoint{ screenPos.x, screenPos.y, 0.0f };
+	outStart = Unproject(screenPoint);
+
+	screenPoint.z = 0.9f;
+	outDir = Unproject(screenPoint) - outStart;
+	outDir.Normalized();
+}
+
 void Renderer::AddSpriteComponent(SpriteComponent* sprite) {
 	const auto myDrawOrder = sprite->GetDrawOrder();
 	auto iter = spriteComps.begin();

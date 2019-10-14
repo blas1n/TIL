@@ -22,6 +22,9 @@ public:
 
 	void Draw();
 
+	Vector3 Unproject(const Vector3& screenPoint) const;
+	void GetScreenDirection(Vector2 screenPos, Vector3& outStart, Vector3& outDir) const;
+
 	void AddSpriteComponent(class SpriteComponent* sprite);
 	void RemoveSpriteComponent(class SpriteComponent* sprite);
 

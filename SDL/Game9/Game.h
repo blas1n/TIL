@@ -44,6 +44,8 @@ private:
 	class FPSActor* fpsActor;
 	class FollowActor* followActor;
 	class OrbitActor* orbitActor;
+	class SplineActor* splineActor;
+
 	class SpriteComponent* crosshair;
 
 	SoundEvent musicEvent;

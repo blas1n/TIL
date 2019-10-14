@@ -16,12 +16,28 @@ FPSActor::FPSActor(Game* inGame)
 	audio(new AudioComponent(this)),
 	speed(),
 	fpsModel(new Actor(inGame)),
+	startSphere(new Actor(inGame)),
+	endSphere(new Actor(inGame)),
 	footstep(),
 	lastFootstep(0.0f) {
 
 	fpsModel->SetScale(0.75f);
 	mesh = new MeshComponent(fpsModel);
 	mesh->SetMesh(inGame->GetRenderer()->GetMesh("Assets/Rifle.gpmesh"));
+
+	const Vector3 SpherePos{ 10000.0f, 0.0f, 0.0f };
+
+	startSphere->SetPosition(SpherePos);
+	startSphere->SetScale(0.25f);
+
+	auto mc = new MeshComponent(startSphere);
+	mc->SetMesh(inGame->GetRenderer()->GetMesh("Assets/Sphere.gpmesh"));
+
+	endSphere->SetPosition(SpherePos);
+	endSphere->SetScale(0.25f);
+
+	mc = new MeshComponent(endSphere);
+	mc->SetMesh(inGame->GetRenderer()->GetMesh("Assets/Sphere.gpmesh"));
 
 	footstep = audio->PlayEvent("event:/Footstep");
 	footstep.SetPaused(true);
@@ -68,6 +84,20 @@ void FPSActor::ActorInput(const InputState& inputState) {
 
 	move->SetAngularSpeed(angularSpeed.x);
 	camera->SetPitchSpeed(angularSpeed.y);
+
+	const auto SetSphere = [this, renderer = GetGame()->GetRenderer()]{
+		startSphere->SetPosition(renderer->Unproject(Vector3::Zero));
+		endSphere->SetPosition(renderer->Unproject(Vector3{ 0.0f, 0.0f, 0.9f }));
+	};
+
+	if (inputState.controllers.size() > 0) {
+		if (inputState.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == ButtonState::EPressed)
+			SetSphere();
+	}
+	else {
+		if (inputState.mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::EPressed)
+			SetSphere();
+	}
 }
 
 void FPSActor::UpdateActor(const float deltaTime) {

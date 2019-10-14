@@ -10,6 +10,7 @@
 #include "FPSActor.h"
 #include "FollowActor.h"
 #include "OrbitActor.h"
+#include "SplineActor.h"
 #include "PlaneActor.h"
 
 bool Game::Initialize() {
@@ -123,6 +124,8 @@ void Game::ProcessInput() {
 			ChangeCamera(2);
 		else if (state.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_A) == ButtonState::EPressed)
 			ChangeCamera(3);
+		else if (state.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_B) == ButtonState::EPressed)
+			ChangeCamera(4);
 	}
 	else {
 		if (state.keyboard.GetKeyState(SDL_SCANCODE_1) == ButtonState::EPressed)
@@ -131,6 +134,8 @@ void Game::ProcessInput() {
 			ChangeCamera(2);
 		else if (state.keyboard.GetKeyState(SDL_SCANCODE_3) == ButtonState::EPressed)
 			ChangeCamera(3);
+		else if (state.keyboard.GetKeyState(SDL_SCANCODE_4) == ButtonState::EPressed)
+			ChangeCamera(4);
 	}
 
 	updatingActors = true;
@@ -231,10 +236,11 @@ void Game::LoadData() {
 	fpsActor = new FPSActor{ this };
 	followActor = new FollowActor{ this };
 	orbitActor = new OrbitActor{ this };
+	splineActor = new SplineActor{ this };
 
 	a = new Actor(this);
 	a->SetScale(2.0f);
-	crosshair = new SpriteComponent(a);
+	crosshair = new SpriteComponent{ a };
 	crosshair->SetTexture(renderer->GetTexture("Assets/Crosshair.png"));
 
 	a = new Actor{ this };
@@ -243,7 +249,7 @@ void Game::LoadData() {
 	sc->SetTexture(renderer->GetTexture("Assets/HealthBar.png"));
 
 	a = new Actor{ this };
-	a->SetPosition(Vector3{ 375.0f, -275.0f, 0.0f });
+	a->SetPosition(Vector3{ -390.0f, 275.0f, 0.0f });
 	a->SetScale(0.75f);
 	sc = new SpriteComponent{ a };
 	sc->SetTexture(renderer->GetTexture("Assets/Radar.png"));
@@ -277,6 +283,7 @@ void Game::ChangeCamera(const int mode) {
 	followActor->SetVisible(false);
 	orbitActor->SetState(Actor::State::EPaused);
 	orbitActor->SetVisible(false);
+	splineActor->SetState(Actor::State::EPaused);
 
 	switch (mode) {
 	case 1:
@@ -292,6 +299,10 @@ void Game::ChangeCamera(const int mode) {
 	case 3:
 		orbitActor->SetState(Actor::State::EActive);
 		orbitActor->SetVisible(true);
+		break;
+	case 4:
+		splineActor->SetState(Actor::State::EActive);
+		splineActor->RestartSpline();
 		break;
 	}
 }

@@ -38,7 +38,10 @@ void SplineCamera::Update(const float deltaTime) {
 			t -= 1.0f;
 		}
 		else {
-			paused = true;
+			const auto num = spline.GetNumPoints();
+			for (auto i = 0; i * 2 < num; ++i)
+				std::swap(spline.controlPoints[i], spline.controlPoints[num - 1 - i]);
+			Restart();
 		}
 	}
 

@@ -43,13 +43,13 @@ void FPSActor::ActorInput(const InputState& inputState) {
 	}
 	else {
 		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_W))
-			speed.y += 400.0f;
+			speed.x += 400.0f;
 		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_S))
+			speed.x -= 400.0f;
+		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_A))
 			speed.y -= 400.0f;
 		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_D))
-			speed.x += 400.0f;
-		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_A))
-			speed.x -= 400.0f;
+			speed.y += 400.0f;
 	}
 
 	move->SetForwardSpeed(speed.x);

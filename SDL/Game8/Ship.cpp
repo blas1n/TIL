@@ -31,21 +31,32 @@ Ship::Ship(Game* game)
 }
 
 void Ship::ActorInput(const InputState& state) {
-	const auto isClick =
-		state.mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::EPressed;
-
-	if (isClick && laserCooldown <= 0.0f) {
-		Laser* laser = new Laser(GetGame());
-		laser->SetPosition(GetPosition());
-		laser->SetRotation(GetRotation());
-
-		laserCooldown = 0.5f;
-	}
-
 	if (state.controllers.size() > 0) {
-		velocityDir = state.controllers[0].GetLeftStick();
-		if (!Math::NearZero(state.controllers[0].GetRightStick().LengthSquared()))
-			rotationDir = state.controllers[0].GetRightStick();
+		const auto& controller = state.controllers[0];
+
+		const auto isClick = controller.GetButtonValue(SDL_CONTROLLER_BUTTON_B);
+
+		if (isClick && laserCooldown <= 0.0f) {
+			Laser* laser = new Laser(GetGame());
+			laser->SetPosition(GetPosition());
+			laser->SetRotation(GetRotation());
+
+			laserCooldown = 0.5f;
+		}
+
+		velocityDir = controller.GetLeftStick();
+	}
+	else {
+		const auto isClick =
+			state.mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::EPressed;
+
+		if (isClick && laserCooldown <= 0.0f) {
+			Laser* laser = new Laser(GetGame());
+			laser->SetPosition(GetPosition());
+			laser->SetRotation(GetRotation());
+
+			laserCooldown = 0.5f;
+		}
 	}
 }
 
@@ -62,8 +73,8 @@ void Ship::UpdateActor(const float deltaTime) {
 
 	SetPosition(pos);
 
-	if (!Math::NearZero(rotationDir.LengthSquared())) {
-		auto angle = Math::Atan2(rotationDir.y, rotationDir.x);
+	if (!Math::NearZero(velocityDir.LengthSquared())) {
+		auto angle = Math::Atan2(velocityDir.y, velocityDir.x);
 		SetRotation(angle);
 	}
 

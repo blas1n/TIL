@@ -45,8 +45,8 @@ bool Renderer::Initialize(const float inScreenWidth, const float inScreenHeight)
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 	window = SDL_CreateWindow("Game 9",
-		100,
-		100,
+		50,
+		50,
 		static_cast<int>(screenWidth),
 		static_cast<int>(screenHeight),
 		SDL_WINDOW_OPENGL);

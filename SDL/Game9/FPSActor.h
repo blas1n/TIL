@@ -14,11 +14,13 @@ public:
 	void SetFootstepSurface(float value);
 
 private:
+	class FPSCamera* camera;
 	class MeshComponent* mesh;
 	class MoveComponent* move;
 	class AudioComponent* audio;
-	
+
 	Vector2 speed;
+	Actor* fpsModel;
 
 	SoundEvent footstep;
 	float lastFootstep;

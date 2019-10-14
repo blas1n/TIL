@@ -35,6 +35,10 @@ namespace Math {
 		return Min(upper, Max(lower, value));
 	}
 
+	inline int Abs(const int value) {
+		return value > 0 ? value : -value;
+	}
+
 	inline float Abs(const float value) {
 		return fabs(value);
 	}
@@ -132,6 +136,10 @@ public:
 		return Vector2(vec.x * scalar, vec.y * scalar);
 	}
 
+	friend Vector2 operator/(const Vector2& vec, const float scalar) {
+		return Vector2(vec.x / scalar, vec.y / scalar);
+	}
+
 	Vector2& operator+=(const Vector2& other) {
 		x += other.x;
 		y += other.y;
@@ -153,6 +161,12 @@ public:
 	Vector2& operator*=(const float scalar) {
 		x *= scalar;
 		y *= scalar;
+		return *this;
+	}
+
+	Vector2& operator/=(const float scalar) {
+		x /= scalar;
+		y /= scalar;
 		return *this;
 	}
 
@@ -238,6 +252,10 @@ public:
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 	}
 
+	friend Vector3 operator/(const Vector3& vec, const float scalar) {
+		return Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
+	}
+
 	Vector3& operator+=(const Vector3& other) {
 		x += other.x;
 		y += other.y;
@@ -263,6 +281,13 @@ public:
 		x *= scalar;
 		y *= scalar;
 		z *= scalar;
+		return *this;
+	}
+
+	Vector3& operator/=(const float scalar) {
+		x /= scalar;
+		y /= scalar;
+		z /= scalar;
 		return *this;
 	}
 

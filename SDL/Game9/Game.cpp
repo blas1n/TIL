@@ -11,7 +11,7 @@
 #include "PlaneActor.h"
 
 bool Game::Initialize() {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) != 0) {
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
@@ -101,6 +101,9 @@ void Game::ProcessInput() {
 		switch (event.type) {
 		case SDL_QUIT:
 			isRunning = false;
+			break;
+		default:
+			inputSystem->ProcessEvent(event);
 			break;
 		}
 	}
@@ -237,6 +240,11 @@ void Game::LoadData() {
 
 	fpsActor = new FPSActor{ this };
 
+	a = new Actor(this);
+	a->SetScale(2.0f);
+	crosshair = new SpriteComponent(a);
+	crosshair->SetTexture(renderer->GetTexture("Assets/Crosshair.png"));
+
 	a = new Actor{ this };
 	a->SetPosition(Vector3{ -350.0f, -350.0f, 0.0f });
 	auto sc = new SpriteComponent{ a };
@@ -257,6 +265,7 @@ void Game::LoadData() {
 	ac->PlayEvent("event:/FireLoop");
 
 	musicEvent = audioSystem->PlayEvent("event:/Music");
+	inputSystem->SetRelativeMouseMode(true);
 }
 
 void Game::UnloadData() {

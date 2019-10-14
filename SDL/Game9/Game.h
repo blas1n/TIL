@@ -40,6 +40,8 @@ private:
 	bool updatingActors;
 
 	class FPSActor* fpsActor;
+	class SpriteComponent* crosshair;
+
 	SoundEvent musicEvent;
 	SoundEvent reverbSnap;
 };

@@ -3,18 +3,25 @@
 #include "Renderer.h"
 #include "AudioSystem.h"
 #include "InputSystem.h"
+#include "FPSCamera.h"
 #include "MeshComponent.h"
 #include "MoveComponent.h"
 #include "AudioComponent.h"
 
 FPSActor::FPSActor(Game* inGame)
 	: Actor(inGame),
-	mesh(new MeshComponent(this)),
+	camera(new FPSCamera(this)),
+	mesh(nullptr),
 	move(new MoveComponent(this)),
 	audio(new AudioComponent(this)),
 	speed(),
+	fpsModel(new Actor(inGame)),
 	footstep(),
 	lastFootstep(0.0f) {
+
+	fpsModel->SetScale(0.75f);
+	mesh = new MeshComponent(fpsModel);
+	mesh->SetMesh(inGame->GetRenderer()->GetMesh("Assets/Rifle.gpmesh"));
 
 	footstep = audio->PlayEvent("event:/Footstep");
 	footstep.SetPaused(true);
@@ -23,19 +30,44 @@ FPSActor::FPSActor(Game* inGame)
 void FPSActor::ActorInput(const InputState& inputState) {
 	Actor::ActorInput(inputState);
 
+	const auto useController = inputState.controllers.size() > 0;
 	speed = Vector2::Zero;
 
-	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_W))
-		speed.x += 400.0f;
-	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_S))
-		speed.x -= 400.0f;
-	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_D))
-		speed.y += 400.0f;
-	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_A))
-		speed.y -= 400.0f;
+	if (useController) {
+		speed = inputState.controllers[0].GetLeftStick();
+		speed *= 400.0f;
+
+		const auto tmp = speed.x;
+		speed.x = speed.y;
+		speed.y = tmp;
+	}
+	else {
+		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_W))
+			speed.y += 400.0f;
+		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_S))
+			speed.y -= 400.0f;
+		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_D))
+			speed.x += 400.0f;
+		if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_A))
+			speed.x -= 400.0f;
+	}
 
 	move->SetForwardSpeed(speed.x);
 	move->SetStrafeSpeed(speed.y);
+
+	const Vector2 MaxAngularSpeed{ Math::Pi * 8, Math::Pi * 8 };
+
+	auto angularSpeed = MaxAngularSpeed;
+
+	if (useController) {
+		angularSpeed *= inputState.controllers[0].GetRightStick() * 0.25f;
+		angularSpeed.y *= -1.0f;
+	}
+	else
+		angularSpeed *= inputState.mouse.GetPosition() / 500.0f;
+
+	move->SetAngularSpeed(angularSpeed.x);
+	camera->SetPitchSpeed(angularSpeed.y);
 }
 
 void FPSActor::UpdateActor(const float deltaTime) {
@@ -48,13 +80,16 @@ void FPSActor::UpdateActor(const float deltaTime) {
 		lastFootstep = 0.5f;
 	}
 
-	const auto cameraPos = GetPosition();
-	const auto target = cameraPos + GetForward() * 100.0f;
-	const auto up = Vector3::UnitZ;
+	const Vector3 ModelOffset{ 10.0f, 10.0f, -10.0f };
+	auto modelPos = GetPosition();
+	modelPos += GetForward() * ModelOffset.x;
+	modelPos += GetRight() * ModelOffset.y;
+	modelPos.z += ModelOffset.z;
+	fpsModel->SetPosition(modelPos);
 
-	const auto view = Matrix4::CreateLookAt(cameraPos, target, up);
-	GetGame()->GetRenderer()->SetViewMatrix(view);
-	GetGame()->GetAudioSystem()->SetListener(view);
+	const auto rot = Quaternion::Concatenate(GetRotation(),
+		Quaternion{ GetRight(), camera->GetPitch() });
+	fpsModel->SetRotation(rot);
 }
 
 void FPSActor::SetFootstepSurface(const float value) {

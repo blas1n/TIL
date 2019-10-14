@@ -43,6 +43,7 @@ private:
 
 	class FPSActor* fpsActor;
 	class FollowActor* followActor;
+	class OrbitActor* orbitActor;
 	class SpriteComponent* crosshair;
 
 	SoundEvent musicEvent;

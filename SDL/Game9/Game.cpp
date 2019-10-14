@@ -9,6 +9,7 @@
 #include "AudioComponent.h"
 #include "FPSActor.h"
 #include "FollowActor.h"
+#include "OrbitActor.h"
 #include "PlaneActor.h"
 
 bool Game::Initialize() {
@@ -120,12 +121,16 @@ void Game::ProcessInput() {
 			ChangeCamera(1);
 		else if (state.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_X) == ButtonState::EPressed)
 			ChangeCamera(2);
+		else if (state.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_A) == ButtonState::EPressed)
+			ChangeCamera(3);
 	}
 	else {
 		if (state.keyboard.GetKeyState(SDL_SCANCODE_1) == ButtonState::EPressed)
 			ChangeCamera(1);
-		else if (state.keyboard.GetKeyState(SDL_SCANCODE_1) == ButtonState::EPressed)
+		else if (state.keyboard.GetKeyState(SDL_SCANCODE_2) == ButtonState::EPressed)
 			ChangeCamera(2);
+		else if (state.keyboard.GetKeyState(SDL_SCANCODE_3) == ButtonState::EPressed)
+			ChangeCamera(3);
 	}
 
 	updatingActors = true;
@@ -225,6 +230,7 @@ void Game::LoadData() {
 
 	fpsActor = new FPSActor{ this };
 	followActor = new FollowActor{ this };
+	orbitActor = new OrbitActor{ this };
 
 	a = new Actor(this);
 	a->SetScale(2.0f);
@@ -269,6 +275,8 @@ void Game::ChangeCamera(const int mode) {
 	crosshair->SetVisible(false);
 	followActor->SetState(Actor::State::EPaused);
 	followActor->SetVisible(false);
+	orbitActor->SetState(Actor::State::EPaused);
+	orbitActor->SetVisible(false);
 
 	switch (mode) {
 	case 1:
@@ -280,6 +288,10 @@ void Game::ChangeCamera(const int mode) {
 	case 2:
 		followActor->SetState(Actor::State::EActive);
 		followActor->SetVisible(true);
+		break;
+	case 3:
+		orbitActor->SetState(Actor::State::EActive);
+		orbitActor->SetVisible(true);
 		break;
 	}
 }

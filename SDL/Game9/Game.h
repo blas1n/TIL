@@ -39,7 +39,7 @@ private:
 	bool isRunning;
 	bool updatingActors;
 
-	class CameraActor* cameraActor;
+	class FPSActor* fpsActor;
 	SoundEvent musicEvent;
 	SoundEvent reverbSnap;
 };

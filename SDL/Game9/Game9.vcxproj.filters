@@ -27,9 +27,6 @@
     <ClCompile Include="SoundEvent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CameraActor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="AudioSystem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -75,15 +72,15 @@
     <ClCompile Include="Main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="FPSActor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputSystem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraActor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SoundEvent.h">
@@ -132,6 +129,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MoveComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSActor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

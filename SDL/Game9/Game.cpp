@@ -7,7 +7,7 @@
 #include "SpriteComponent.h"
 #include "MeshComponent.h"
 #include "AudioComponent.h"
-#include "CameraActor.h"
+#include "FPSActor.h"
 #include "PlaneActor.h"
 
 bool Game::Initialize() {
@@ -134,10 +134,10 @@ void Game::ProcessInput() {
 			reverbSnap.Stop();
 	}
 	if (state.keyboard.GetKeyState(SDL_SCANCODE_KP_1) == ButtonState::EReleased) {
-		cameraActor->SetFootstepSurface(0.0f);
+		fpsActor->SetFootstepSurface(0.0f);
 	}
 	if (state.keyboard.GetKeyState(SDL_SCANCODE_KP_2) == ButtonState::EReleased) {
-		cameraActor->SetFootstepSurface(0.5f);
+		fpsActor->SetFootstepSurface(0.5f);
 	}
 
 	updatingActors = true;
@@ -235,7 +235,7 @@ void Game::LoadData() {
 	dir.diffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.specularColor = Vector3(0.8f, 0.8f, 0.8f);
 
-	cameraActor = new CameraActor{ this };
+	fpsActor = new FPSActor{ this };
 
 	a = new Actor{ this };
 	a->SetPosition(Vector3{ -350.0f, -350.0f, 0.0f });

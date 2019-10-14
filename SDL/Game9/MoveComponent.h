@@ -11,10 +11,14 @@ public:
 	inline float GetForwardSpeed() const { return forwardSpeed; }
 	inline void SetForwardSpeed(const float inForwardSpeed) { forwardSpeed = inForwardSpeed; }
 
+	inline float GetStrafeSpeed() const { return strafeSpeed; }
+	inline void SetStrafeSpeed(const float inStrafeSpeed) { strafeSpeed = inStrafeSpeed; }
+
 	inline float GetAngularSpeed() const { return angularSpeed; }
 	inline void SetAngularSpeed(const float inAngularSpeed) { angularSpeed = inAngularSpeed; }
 	
 private:
 	float forwardSpeed;
+	float strafeSpeed;
 	float angularSpeed;
 };

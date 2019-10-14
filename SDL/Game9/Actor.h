@@ -46,6 +46,8 @@ public:
 	inline const Matrix4& GetWorldTransform() const { return worldTransform; }
 
 	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitX, rotation); }
+	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, rotation); }
+	Vector3 GetUp() const { return Vector3::Transform(Vector3::UnitZ, rotation); }
 
 	State GetState() const { return state; }
 	void SetState(State inState) { state = inState; }
@@ -63,7 +65,7 @@ private:
 	State state;
 
 	std::vector<Component*> components;
-	class Game* game;
+	Game* game;
 
 	Vector3 position;
 	Quaternion rotation;

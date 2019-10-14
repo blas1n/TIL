@@ -1,16 +1,18 @@
-#include "CameraActor.h"
-#include <SDL/SDL_scancode.h>
-#include "MoveComponent.h"
-#include "AudioComponent.h"
+#include "FPSActor.h"
+#include "Game.h"
+#include "Renderer.h"
 #include "AudioSystem.h"
 #include "InputSystem.h"
-#include "Renderer.h"
-#include "Game.h"
+#include "MeshComponent.h"
+#include "MoveComponent.h"
+#include "AudioComponent.h"
 
-CameraActor::CameraActor(Game* game)
-	: Actor(game),
-	move(new MoveComponent{ this }),
-	audio(new AudioComponent{ this }),
+FPSActor::FPSActor(Game* inGame)
+	: Actor(inGame),
+	mesh(new MeshComponent(this)),
+	move(new MoveComponent(this)),
+	audio(new AudioComponent(this)),
+	speed(),
 	footstep(),
 	lastFootstep(0.0f) {
 
@@ -18,28 +20,29 @@ CameraActor::CameraActor(Game* game)
 	footstep.SetPaused(true);
 }
 
-void CameraActor::ActorInput(const InputState& inputState) {
-	auto forwardSpeed = 0.0f;
-	auto angularSpeed = 0.0f;
+void FPSActor::ActorInput(const InputState& inputState) {
+	Actor::ActorInput(inputState);
+
+	speed = Vector2::Zero;
 
 	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_W))
-		forwardSpeed += 300.0f;
+		speed.x += 400.0f;
 	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_S))
-		forwardSpeed -= 300.0f;
-	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_A))
-		angularSpeed -= Math::Pi * 2;
+		speed.x -= 400.0f;
 	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_D))
-		angularSpeed += Math::Pi * 2;
+		speed.y += 400.0f;
+	if (inputState.keyboard.GetKeyValue(SDL_SCANCODE_A))
+		speed.y -= 400.0f;
 
-	move->SetForwardSpeed(forwardSpeed);
-	move->SetAngularSpeed(angularSpeed);
+	move->SetForwardSpeed(speed.x);
+	move->SetStrafeSpeed(speed.y);
 }
 
-void CameraActor::UpdateActor(const float deltaTime) {
+void FPSActor::UpdateActor(const float deltaTime) {
 	Actor::UpdateActor(deltaTime);
 
 	lastFootstep -= deltaTime;
-	if (!Math::NearZero(move->GetForwardSpeed()) && lastFootstep <= 0.0f) {
+	if (speed.LengthSquared() > 0.0f && lastFootstep <= 0.0f) {
 		footstep.SetPaused(false);
 		footstep.Restart();
 		lastFootstep = 0.5f;
@@ -54,7 +57,7 @@ void CameraActor::UpdateActor(const float deltaTime) {
 	GetGame()->GetAudioSystem()->SetListener(view);
 }
 
-void CameraActor::SetFootstepSurface(float value) {
+void FPSActor::SetFootstepSurface(const float value) {
 	footstep.SetPaused(true);
 	footstep.SetParameter("Surface", value);
 }

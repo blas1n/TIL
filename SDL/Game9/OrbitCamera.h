@@ -8,11 +8,11 @@ public:
 
 	void Update(float deltaTime) override;
 
-	float GetPitchSpeed() const { return pitchSpeed; }
-	void SetPitchSpeed(float inPitchSpeed) { pitchSpeed = inPitchSpeed; }
+	inline float GetPitchSpeed() const { return pitchSpeed; }
+	inline void SetPitchSpeed(float inPitchSpeed) { pitchSpeed = inPitchSpeed; }
 
-	float GetYawSpeed() const { return yawSpeed; }
-	void SetYawSpeed(float inYawSpeed) { yawSpeed = inYawSpeed; }
+	inline float GetYawSpeed() const { return yawSpeed; }
+	inline void SetYawSpeed(float inYawSpeed) { yawSpeed = inYawSpeed; }
 
 private:
 	Vector3 offset;

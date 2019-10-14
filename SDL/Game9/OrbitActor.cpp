@@ -16,16 +16,17 @@ OrbitActor::OrbitActor(Game* inGame)
 
 void OrbitActor::ActorInput(const InputState& inputState) {
 	Actor::ActorInput(inputState);
-	const auto MaxOrbitSpeed = Math::Pi * 8.0f;
 	auto speed = Vector2::Zero;
 
 	if (inputState.controllers.size() > 0) {
-		if (inputState.controllers[0].GetButtonValue(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER))
-			speed = inputState.controllers[0].GetLeftStick() * MaxOrbitSpeed;
+		if (inputState.controllers[0].GetButtonValue(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)) {
+			speed = inputState.controllers[0].GetLeftStick() * Math::Pi * 2.0f;
+			speed.x *= -1.0f;
+		}
 	}
 	else {
 		if (inputState.mouse.GetButtonValue(SDL_BUTTON_RIGHT))
-			speed = inputState.mouse.GetPosition() / 500.0f * MaxOrbitSpeed;
+			speed = inputState.mouse.GetPosition() / 500.0f * Math::Pi * 8.0f;
 	}
 
 	camera->SetYawSpeed(speed.x);

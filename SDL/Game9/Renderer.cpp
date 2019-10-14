@@ -114,7 +114,8 @@ void Renderer::Draw() {
 	SetLightUniforms(meshShader);
 
 	for (auto mc : meshComps)
-		mc->Draw(meshShader);
+		if (mc->GetVisible())
+			mc->Draw(meshShader);
 
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -125,8 +126,9 @@ void Renderer::Draw() {
 	spriteShader->SetActive();
 	spriteVerts->SetActive();
 
-	for (auto sprite : spriteComps)
-		sprite->Draw(spriteShader);
+	for (auto sc : spriteComps)
+		if (sc->GetVisible())
+			sc->Draw(spriteShader);
 
 	SDL_GL_SwapWindow(window);
 }

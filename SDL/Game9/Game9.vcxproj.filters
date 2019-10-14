@@ -81,6 +81,12 @@
     <ClCompile Include="FPSCamera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="FollowCamera.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowActor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputSystem.h">
@@ -144,6 +150,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="FPSCamera.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowCamera.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowActor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

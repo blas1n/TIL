@@ -12,8 +12,12 @@ public:
 	virtual void SetMesh(Mesh* inMesh) { mesh = inMesh; }
 
 	inline void SetTexutreIndex(size_t inTextureIndex) { textureIndex = inTextureIndex; }
+	
+	inline bool GetVisible() const { return visible; }
+	inline void SetVisible(const bool inVisible) { visible = inVisible; }
 
 protected:
 	Mesh* mesh;
 	size_t textureIndex;
+	bool visible;
 };

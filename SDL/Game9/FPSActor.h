@@ -13,6 +13,8 @@ public:
 
 	void SetFootstepSurface(float value);
 
+	void SetVisible(bool visible);
+
 private:
 	class FPSCamera* camera;
 	class MeshComponent* mesh;

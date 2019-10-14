@@ -28,6 +28,8 @@ private:
 	void LoadData();
 	void UnloadData();
 
+	void ChangeCamera(int mode);
+
 	std::vector<class Actor*> actors;
 	std::vector<class Actor*> pendingActors;
 
@@ -40,6 +42,7 @@ private:
 	bool updatingActors;
 
 	class FPSActor* fpsActor;
+	class FollowActor* followActor;
 	class SpriteComponent* crosshair;
 
 	SoundEvent musicEvent;

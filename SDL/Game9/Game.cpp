@@ -8,6 +8,7 @@
 #include "MeshComponent.h"
 #include "AudioComponent.h"
 #include "FPSActor.h"
+#include "FollowActor.h"
 #include "PlaneActor.h"
 
 bool Game::Initialize() {
@@ -114,33 +115,17 @@ void Game::ProcessInput() {
 	if (state.keyboard.GetKeyState(SDL_SCANCODE_ESCAPE) == ButtonState::EReleased)
 		isRunning = false;
 
-	if (state.keyboard.GetKeyState(SDL_SCANCODE_MINUS) == ButtonState::EReleased) {
-		auto volume = audioSystem->GetBusVolume("bus:/");
-		volume = Math::Max(0.0f, volume - 0.1f);
-		audioSystem->SetBusVolume("bus:/", volume);
+	if (state.controllers.size() > 0) {
+		if (state.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_Y) == ButtonState::EPressed)
+			ChangeCamera(1);
+		else if (state.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_X) == ButtonState::EPressed)
+			ChangeCamera(2);
 	}
-	if (state.keyboard.GetKeyState(SDL_SCANCODE_EQUALS) == ButtonState::EReleased) {
-		auto volume = audioSystem->GetBusVolume("bus:/");
-		volume = Math::Min(1.0f, volume + 0.1f);
-		audioSystem->SetBusVolume("bus:/", volume);
-	}
-	if (state.keyboard.GetKeyState(SDL_SCANCODE_E) == ButtonState::EReleased) {
-		audioSystem->PlayEvent("event:/Explosion2D");
-	}
-	if (state.keyboard.GetKeyState(SDL_SCANCODE_M) == ButtonState::EReleased) {
-		musicEvent.SetPaused(!musicEvent.GetPaused());
-	}
-	if (state.keyboard.GetKeyState(SDL_SCANCODE_R) == ButtonState::EReleased) {
-		if (!reverbSnap.IsValid())
-			reverbSnap = audioSystem->PlayEvent("snapshot:/WithReverb");
-		else
-			reverbSnap.Stop();
-	}
-	if (state.keyboard.GetKeyState(SDL_SCANCODE_KP_1) == ButtonState::EReleased) {
-		fpsActor->SetFootstepSurface(0.0f);
-	}
-	if (state.keyboard.GetKeyState(SDL_SCANCODE_KP_2) == ButtonState::EReleased) {
-		fpsActor->SetFootstepSurface(0.5f);
+	else {
+		if (state.keyboard.GetKeyState(SDL_SCANCODE_1) == ButtonState::EPressed)
+			ChangeCamera(1);
+		else if (state.keyboard.GetKeyState(SDL_SCANCODE_1) == ButtonState::EPressed)
+			ChangeCamera(2);
 	}
 
 	updatingActors = true;
@@ -239,6 +224,7 @@ void Game::LoadData() {
 	dir.specularColor = Vector3(0.8f, 0.8f, 0.8f);
 
 	fpsActor = new FPSActor{ this };
+	followActor = new FollowActor{ this };
 
 	a = new Actor(this);
 	a->SetScale(2.0f);
@@ -266,6 +252,7 @@ void Game::LoadData() {
 
 	musicEvent = audioSystem->PlayEvent("event:/Music");
 	inputSystem->SetRelativeMouseMode(true);
+	ChangeCamera(1);
 }
 
 void Game::UnloadData() {
@@ -274,4 +261,25 @@ void Game::UnloadData() {
 
 	if (renderer)
 		renderer->UnloadData();
+}
+
+void Game::ChangeCamera(const int mode) {
+	fpsActor->SetState(Actor::State::EPaused);
+	fpsActor->SetVisible(false);
+	crosshair->SetVisible(false);
+	followActor->SetState(Actor::State::EPaused);
+	followActor->SetVisible(false);
+
+	switch (mode) {
+	case 1:
+	default:
+		fpsActor->SetState(Actor::State::EActive);
+		fpsActor->SetVisible(true);
+		crosshair->SetVisible(true);
+		break;
+	case 2:
+		followActor->SetState(Actor::State::EActive);
+		followActor->SetVisible(true);
+		break;
+	}
 }

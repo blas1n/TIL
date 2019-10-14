@@ -96,3 +96,7 @@ void FPSActor::SetFootstepSurface(const float value) {
 	footstep.SetPaused(true);
 	footstep.SetParameter("Surface", value);
 }
+
+void FPSActor::SetVisible(const bool visible) {
+	mesh->SetVisible(visible);
+}

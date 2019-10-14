@@ -16,10 +16,15 @@ public:
 	inline int GetTextureWidth() const { return width; }
 	inline int GetTextureHeight() const { return height; }
 
+	inline bool GetVisible() const { return visible; }
+	inline void SetVisible(const bool inVisible) { visible = inVisible; }
+
 protected:
 	Texture* texture;
 
 	int drawOrder;
 	int width;
 	int height;
+
+	bool visible;
 };

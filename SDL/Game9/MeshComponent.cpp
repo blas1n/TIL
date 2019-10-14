@@ -7,7 +7,7 @@
 #include "VertexArray.h"
 
 MeshComponent::MeshComponent(Actor* owner)
-	: Component(owner), mesh(nullptr), textureIndex(0) {
+	: Component(owner), mesh(nullptr), textureIndex(0), visible(true) {
 
 	owner->GetGame()->GetRenderer()->AddMeshComponent(this);
 }

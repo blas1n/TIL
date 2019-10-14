@@ -13,6 +13,7 @@ Ship::Ship(Game* game)
 	velocityDir(),
 	rotationDir(),
 	speed(400.0f),
+	spawnTime(3.0f),
 	laserCooldown(0.0f) {
 
 	auto sc = new SpriteComponent(this, 150);
@@ -78,10 +79,13 @@ void Ship::UpdateActor(const float deltaTime) {
 		SetRotation(angle);
 	}
 
-	for (auto ast : GetGame()->GetAsteroids()) {
-		if (Intersect(*circle, *(ast->GetCircle()))) {
-			GetGame()->DeadShip();
-			break;
+	if (spawnTime <= 0.0f) {
+		for (auto ast : GetGame()->GetAsteroids()) {
+			if (Intersect(*circle, *(ast->GetCircle()))) {
+				GetGame()->DeadShip();
+				break;
+			}
 		}
 	}
+	else spawnTime -= deltaTime;
 }

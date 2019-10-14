@@ -14,6 +14,8 @@ private:
 	class CircleComponent* circle;
 	Vector2 velocityDir;
 	Vector2 rotationDir;
+
+	float spawnTime;
 	float speed;
 	float laserCooldown;
 };

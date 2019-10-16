@@ -53,7 +53,12 @@ void UiScreen::Draw(Shader* shader) {
 void UiScreen::ProcessInput(const InputState& inputState) {
 	if (buttons.empty()) return;
 	
-	const auto isClick = inputState.mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::EReleased;
+	bool isClick = false;
+
+	if (inputState.controllers.size() > 0)
+		isClick = inputState.controllers[0].GetButtonState(SDL_CONTROLLER_BUTTON_A) == ButtonState::EReleased;
+	else
+		isClick = inputState.mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::EReleased;
 
 	auto mousePos = inputState.mouse.GetPosition();
 	mousePos.x -= game->GetRenderer()->GetScreenWidth() * 0.5f;

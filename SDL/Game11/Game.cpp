@@ -349,24 +349,48 @@ void Game::UnloadData() {
 }
 
 void Game::HandleInput(const InputState& inputState) {
-	const auto OnRelease = [inputState](auto code) {
-		return inputState.keyboard.GetKeyState(code) == ButtonState::EReleased;
-	};
+	if (inputState.controllers.size() > 0) {
+		const auto OnRelease = [inputState](auto code) {
+			return inputState.controllers[0].GetButtonState(code) == ButtonState::EReleased;
+		};
 
-	if (OnRelease(SDL_SCANCODE_ESCAPE))
-		new PauseMenu(this);
-	if (OnRelease(SDL_SCANCODE_MINUS)) {
-		float volume = audioSystem->GetBusVolume("bus:/");
-		volume = Math::Max(0.0f, volume - 0.1f);
-		audioSystem->SetBusVolume("bus:/", volume);
+		if (OnRelease(SDL_CONTROLLER_BUTTON_BACK))
+			new PauseMenu(this);
+		if (OnRelease(SDL_CONTROLLER_BUTTON_DPAD_DOWN)) {
+			float volume = audioSystem->GetBusVolume("bus:/");
+			volume = Math::Max(0.0f, volume - 0.1f);
+			audioSystem->SetBusVolume("bus:/", volume);
+		}
+		if (OnRelease(SDL_CONTROLLER_BUTTON_DPAD_UP)) {
+			float volume = audioSystem->GetBusVolume("bus:/");
+			volume = Math::Max(1.0f, volume + 0.1f);
+			audioSystem->SetBusVolume("bus:/", volume);
+		}
+		if (OnRelease(SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+			LoadText("Assets/English.gptext");
+		if (OnRelease(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+			LoadText("Assets/Russian.gptext");
 	}
-	if (OnRelease(SDL_SCANCODE_EQUALS)) {
-		float volume = audioSystem->GetBusVolume("bus:/");
-		volume = Math::Max(1.0f, volume + 0.1f);
-		audioSystem->SetBusVolume("bus:/", volume);
+	else {
+		const auto OnRelease = [inputState](auto code) {
+			return inputState.keyboard.GetKeyState(code) == ButtonState::EReleased;
+		};
+
+		if (OnRelease(SDL_SCANCODE_ESCAPE))
+			new PauseMenu(this);
+		if (OnRelease(SDL_SCANCODE_MINUS)) {
+			float volume = audioSystem->GetBusVolume("bus:/");
+			volume = Math::Max(0.0f, volume - 0.1f);
+			audioSystem->SetBusVolume("bus:/", volume);
+		}
+		if (OnRelease(SDL_SCANCODE_EQUALS)) {
+			float volume = audioSystem->GetBusVolume("bus:/");
+			volume = Math::Max(1.0f, volume + 0.1f);
+			audioSystem->SetBusVolume("bus:/", volume);
+		}
+		if (OnRelease(SDL_SCANCODE_1))
+			LoadText("Assets/English.gptext");
+		if (OnRelease(SDL_SCANCODE_2))
+			LoadText("Assets/Russian.gptext");
 	}
-	if (OnRelease(SDL_SCANCODE_1))
-		LoadText("Assets/English.gptext");
-	if (OnRelease(SDL_SCANCODE_2))
-		LoadText("Assets/Russian.gptext");
 }

@@ -138,7 +138,7 @@ void InputSystem::ProcessEvent(SDL_Event& event) {
 		state.controllers.emplace_back();
 		break;
 	case SDL_CONTROLLERDEVICEREMOVED: {
-		auto iter = controllers.cbegin() + event.cdevice.which;
+		auto iter = controllers.cbegin() + event.cdevice.which - 1;
 		SDL_GameControllerClose(*iter);
 		controllers.erase(iter);
 		state.controllers.erase(state.controllers.cbegin() + event.cdevice.which);

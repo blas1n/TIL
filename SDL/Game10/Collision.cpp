@@ -227,14 +227,13 @@ bool Intersect(const Sphere& a, const Sphere& b) {
 }
 
 bool Intersect(const AABB& a, const AABB& b) {
-	bool no = a.max.x < b.min.x ||
-		a.max.y < b.min.y ||
-		a.max.z < b.min.z ||
-		b.max.x < a.min.x ||
-		b.max.y < a.min.y ||
-		b.max.z < a.min.z;
-	// If none of these are true, they must intersect
-	return !no;
+	return
+		a.max.x >= b.min.x &&
+		a.max.y >= b.min.y &&
+		a.max.z >= b.min.z &&
+		a.min.x <= b.max.x &&
+		a.min.y <= b.max.y &&
+		a.min.z <= b.max.z;
 }
 
 bool Intersect(const Capsule& a, const Capsule& b) {

@@ -232,13 +232,13 @@ void Game::UpdateGame() {
 
 		pendingActors.clear();
 
-		std::vector<Actor*> deadActors;
-		for (auto actor : actors)
-			if (actor->GetState() == Actor::State::EDead)
-				deadActors.emplace_back(actor);
-
-		for (auto actor : deadActors)
-			delete actor;
+		for (auto iter = actors.begin(); iter != actors.end();) {
+			if ((*iter)->GetState() == Actor::State::EDead) {
+				delete* iter;
+				iter = actors.erase(iter);
+			}
+			else ++iter;
+		}
 	}
 	
 	audioSystem->Update(deltaTime);
@@ -247,7 +247,6 @@ void Game::UpdateGame() {
 		if (ui->GetState() == UiScreen::UiState::EActive)
 			ui->Update(deltaTime);
 
-	
 	for (auto iter = uiStack.begin(); iter != uiStack.end();) {
 		if ((*iter)->GetState() == UiScreen::UiState::EClosing) {
 			delete *iter;
@@ -300,16 +299,12 @@ void Game::LoadData() {
 		a->SetRotation(q);
 	}
 
-	renderer->SetAmbientLight(Vector3{ 0.2f, 0.2f, 0.2f });
+	renderer->SetAmbientLight(Vector3::One * 0.2f);
 	auto& dir = renderer->GetDirectionalLight();
 	dir.direction = Vector3{ 0.0f, -0.707f, -0.707f };
 	dir.diffuseColor = Vector3{ 0.78f, 0.88f, 1.0f };
-	dir.specularColor = Vector3{ 0.8f, 0.8f, 0.8f };
+	dir.specularColor = Vector3::One * 0.8f;
 	
-	hud = new HUD{ this };
-
-	musicEvent = audioSystem->PlayEvent("event:/Music");
-
 	fpsActor = new FPSActor{ this };
 
 	a = new TargetActor{ this };
@@ -332,6 +327,9 @@ void Game::LoadData() {
 	a->SetPosition(Vector3{ 0.0f, 1450.0f, 200.0f });
 	a->SetRotation(Quaternion{ Vector3::UnitZ, Math::Pi * -0.5f });
 
+	hud = new HUD{ this };
+
+	musicEvent = audioSystem->PlayEvent("event:/Music");
 	inputSystem->SetRelativeMouseMode(true);
 }
 

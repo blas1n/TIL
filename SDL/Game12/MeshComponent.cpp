@@ -6,8 +6,12 @@
 #include "Texture.h"
 #include "VertexArray.h"
 
-MeshComponent::MeshComponent(Actor* owner)
-	: Component(owner), mesh(nullptr), textureIndex(0), visible(true) {
+MeshComponent::MeshComponent(Actor* owner, bool inIsSkeletal /*= false*/)
+	: Component(owner),
+	mesh(nullptr),
+	textureIndex(0),
+	visible(true),
+	isSkeletal(inIsSkeletal) {
 
 	owner->GetGame()->GetRenderer()->AddMeshComponent(this);
 }

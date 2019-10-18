@@ -1,7 +1,7 @@
 #version 330
 
 uniform mat4 uWorldTransform;
-uniform mat4 uViewProj;
+uniform mat4 uViewProjection;
 uniform mat4 uMatrixPalette[96];
 
 layout(location = 0) in vec3 inPosition;
@@ -28,7 +28,7 @@ void main() {
 
 	skinnedPos *= uWorldTransform;
 	fragWorldPos = skinnedPos.xyz;
-	gl_Position = skinnedPos * uViewProj;
+	gl_Position = skinnedPos * uViewProjection;
 
 	vec4 skinnedNormal = vec4(inNormal, 0.0);
 	skinnedNormal = (skinnedNormal * skinnedMatrix0)

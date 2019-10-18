@@ -22,7 +22,6 @@ FollowActor::FollowActor(Game* inGame)
 }
 
 void FollowActor::ActorInput(const InputState& inputState) {
-	Actor::ActorInput(inputState);
 	const auto useController = inputState.controllers.size() > 0;
 	auto speed = 0.0f, angularSpeed = 0.0f;
 

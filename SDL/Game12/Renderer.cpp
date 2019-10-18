@@ -91,6 +91,9 @@ void Renderer::Shutdown() {
 	meshShader->Unload();
 	delete meshShader;
 
+	skinnedShader->Unload();
+	delete skinnedShader;
+
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 }
@@ -197,15 +200,22 @@ void Renderer::RemoveSpriteComponent(SpriteComponent* sprite) {
 }
 
 void Renderer::AddMeshComponent(MeshComponent* mesh) {
-	if (const auto sk = dynamic_cast<SkeletalMeshComponent*>(mesh))
-		skMeshComps.emplace_back(sk);
+	if (mesh->IsSkeletal())
+		skMeshComps.emplace_back(static_cast<SkeletalMeshComponent*>(mesh));
 	else
 		meshComps.emplace_back(mesh);
 }
 
 void Renderer::RemoveMeshComponent(MeshComponent* mesh) {
-	const auto iter = std::find(meshComps.begin(), meshComps.end(), mesh);
-	meshComps.erase(iter);
+	if (mesh->IsSkeletal()) {
+		auto iter = std::find(skMeshComps.begin(), skMeshComps.end(),
+			static_cast<SkeletalMeshComponent*>(mesh));
+		skMeshComps.erase(iter);
+	}
+	else {
+		const auto iter = std::find(meshComps.begin(), meshComps.end(), mesh);
+		meshComps.erase(iter);
+	}
 }
 
 Texture* Renderer::GetTexture(const std::string& fileName) {

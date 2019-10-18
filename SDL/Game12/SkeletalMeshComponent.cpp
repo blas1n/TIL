@@ -10,16 +10,12 @@
 #include "Skeleton.h"
 
 SkeletalMeshComponent::SkeletalMeshComponent(Actor* inOwner)
-	: MeshComponent(inOwner),
+	: MeshComponent(inOwner, true),
 	palette(),
 	skeleton(nullptr),
 	animation(nullptr),
 	animPlayRate(0.0f),
-	animTime(0.0f) {
-
-	inOwner->GetGame()->GetRenderer()->RemoveMeshComponent(this);
-	inOwner->GetGame()->GetRenderer()->AddMeshComponent(this);
-}
+	animTime(0.0f) {}
 
 void SkeletalMeshComponent::Update(const float deltaTime) {
 	if (animation && skeleton) {

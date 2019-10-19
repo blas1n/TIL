@@ -253,7 +253,7 @@
     <None Include="Shaders\Sprite.vert">
       <Filter>셰이더 파일</Filter>
     </None>
-    <None Include="Skinned.vert">
+    <None Include="Shaders\Skinned.vert">
       <Filter>셰이더 파일</Filter>
     </None>
   </ItemGroup>

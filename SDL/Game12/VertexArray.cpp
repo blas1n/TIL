@@ -39,19 +39,19 @@ VertexArray::VertexArray(const void* verts, uint inNumVerts, Layout layout, cons
 
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 3));
+			reinterpret_cast<void*>(3 * sizeof(float)));
 
 		glEnableVertexAttribArray(2);
 		glVertexAttribIPointer(2, 4, GL_UNSIGNED_BYTE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 6));
+			reinterpret_cast<void*>(6 * sizeof(float)));
 
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 6 + sizeof(char) * 4));
+			reinterpret_cast<void*>(6 * sizeof(float) + 4 * sizeof(char)));
 
 		glEnableVertexAttribArray(4);
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 6 + sizeof(char) * 8));
+			reinterpret_cast<void*>(6 * sizeof(float) + 8 * sizeof(char)));
 		break;
 	}
 	default: break;

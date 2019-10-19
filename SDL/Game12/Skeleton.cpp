@@ -98,6 +98,6 @@ void Skeleton::ComputeGlobalInvBindPose() {
 		globalInvBindPoses[i] = localMat * globalInvBindPoses[bones[i].parent];
 	}
 
-	for (size_t i = 0; i < globalInvBindPoses.size(); i++)
-		globalInvBindPoses[i].Invert();
+	for (auto& globalInvBindPose : globalInvBindPoses)
+		globalInvBindPose.Invert();
 }

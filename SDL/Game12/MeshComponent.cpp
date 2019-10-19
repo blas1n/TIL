@@ -21,16 +21,16 @@ MeshComponent::~MeshComponent() {
 }
 
 void MeshComponent::Draw(Shader* shader) {
-	if (mesh) {
-		shader->SetUniformValue("uWorldTransform", owner->GetWorldTransform());
-		shader->SetUniformValue("uSpecularPower", mesh->GetSpecularPower());
+	if (!mesh) return;
+	
+	shader->SetUniformValue("uWorldTransform", owner->GetWorldTransform());
+	shader->SetUniformValue("uSpecularPower", mesh->GetSpecularPower());
 
-		auto t = mesh->GetTexture(textureIndex);
-		if (t) t->SetActive();
+	auto t = mesh->GetTexture(textureIndex);
+	if (t) t->SetActive();
 
-		auto vertexArray = mesh->GetVertexArray();
-		vertexArray->SetActive();
+	auto vertexArray = mesh->GetVertexArray();
+	vertexArray->SetActive();
 
-		glDrawElements(GL_TRIANGLES, vertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
-	}
+	glDrawElements(GL_TRIANGLES, vertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 }

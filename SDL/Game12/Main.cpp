@@ -7,5 +7,6 @@ int main(int argc, char** argv) {
 		game.RunLoop();
 
 	game.Shutdown();
+	system("pause");
 	return 0;
 }

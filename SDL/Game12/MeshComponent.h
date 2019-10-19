@@ -5,7 +5,7 @@
 
 class MeshComponent : public Component {
 public:
-	MeshComponent(Actor* inOwner, bool inIsSkeletal = false;);
+	MeshComponent(Actor* inOwner, bool inIsSkeletal = false);
 	~MeshComponent();
 
 	virtual void Draw(class Shader* shader);

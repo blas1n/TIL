@@ -23,13 +23,22 @@ bool AudioSystem::Initialize() {
 		return false;
 	}
 
+	system->getLowLevelSystem(&lowLevelSystem);
+
 	result = system->initialize(512, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, nullptr);
 	if (result != FMOD_OK) {
-		SDL_Log("Failed to create FMOD system: %s", FMOD_ErrorString(result));
-		return false;
+		system->release();
+
+		FMOD::Studio::System::create(&system);
+		system->getLowLevelSystem(&lowLevelSystem);
+		lowLevelSystem->setOutput(FMOD_OUTPUTTYPE_NOSOUND);
+		result = system->initialize(512, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL | FMOD_INIT_VOL0_BECOMES_VIRTUAL, 0);
+
+		if (result != FMOD_OK) {
+			SDL_Log("Failed to create FMOD system: %s", FMOD_ErrorString(result));
+			return false;
+		}
 	}
-	
-	system->getLowLevelSystem(&lowLevelSystem);
 
 	LoadBank("Assets/Master Bank.strings.bank");
 	LoadBank("Assets/Master Bank.bank");

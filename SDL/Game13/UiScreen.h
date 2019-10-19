@@ -63,7 +63,8 @@ public:
 
 protected:
 	void DrawTexture(Shader* shader, class Texture* texture,
-		const Vector2& offset = Vector2::Zero, float scale = 1.0f);
+		const Vector2& offset = Vector2::Zero,
+		float scale = 1.0f, bool flipY = false);
 
 	Game* game;
 

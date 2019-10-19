@@ -63,6 +63,9 @@ void HUD::Draw(Shader* shader) {
 		DrawTexture(shader, blipTex, RadarPos + blip, 1.0f);
 
 	DrawTexture(shader, radarArrow, RadarPos);
+
+	const auto mirror = game->GetRenderer()->GetMirrorTexture();
+	DrawTexture(shader, mirror, Vector2{ -350.0f, -250.0f }, 1.0f, true);
 }
 
 void HUD::AddTargetComponent(TargetComponent* tc) {

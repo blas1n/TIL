@@ -44,10 +44,19 @@ public:
 	inline float GetScreenWidth() const { return screenWidth; }
 	inline float GetScreenHeight() const { return screenHeight; }
 
+	inline Texture* GetMirrorTexture() { return mirrorTexture; }
+	
+	inline void SetMirrorView(const Matrix4& inMirrorView) { mirrorView = inMirrorView; }
+
 private:
+	void Draw3DScene(unsigned int framebuffer, const Matrix4& viewMat, const Matrix4& projMat,
+		float viewPortScale = 1.0f, bool lit = true);
+
+	bool CreateMirrorTarget();
+
 	bool LoadShaders();
 	void CreateSpriteVerts();
-	void SetLightUniforms(class Shader* shader);
+	void SetLightUniforms(class Shader* shader, const Matrix4& viewMat);
 
 	std::unordered_map<std::string, Texture*> textures;
 	std::unordered_map<std::string, Mesh*> meshes;
@@ -70,12 +79,15 @@ private:
 	class VertexArray* spriteVerts;
 
 	Matrix4 view;
-	Matrix4 projection;
+	Matrix4 proj;
 
 	Vector3 ambientLight;
 	DirectionalLight dirLight;
 
 	float screenWidth;
 	float screenHeight;
-};
 
+	Matrix4 mirrorView;
+	Texture* mirrorTexture;
+	unsigned int mirrorBuffer;
+};

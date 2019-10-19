@@ -100,11 +100,13 @@ void UiScreen::AddButton(const std::string& name, std::function<void()> onClick)
 }
 
 void UiScreen::DrawTexture(Shader* shader, Texture* texture,
-	const Vector2& offset /*= Vector2::Zero*/, float scale /*= 1.0f*/) {
+	const Vector2& offset /*= Vector2::Zero*/, float scale /*= 1.0f*/, bool flipY /*= false*/) {
+
+	const auto yScale = texture->GetHeight() * scale;
 
 	const auto scaleMat = Matrix4::CreateScale(
 		static_cast<float>(texture->GetWidth()) * scale,
-		static_cast<float>(texture->GetHeight()) * scale,
+		flipY ? yScale * -1.0f : yScale,
 		1.0f
 	);
 

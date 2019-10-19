@@ -1,5 +1,6 @@
 #include "FollowActor.h"
 #include "FollowCamera.h"
+#include "MirrorCamera.h"
 #include "SkeletalMeshComponent.h"
 #include "MoveComponent.h"
 #include "InputSystem.h"
@@ -19,6 +20,8 @@ FollowActor::FollowActor(Game* inGame)
 
 	SetPosition(Vector3{ 0.0f, 0.0f, -100.0f });
 	camera->SnapToIdeal();
+
+	new MirrorCamera(this);
 }
 
 void FollowActor::ActorInput(const InputState& inputState) {

@@ -6,7 +6,7 @@ FollowCamera::FollowCamera(Actor* inOwner)
 	actualPos(),
 	velocity(),
 	horizontalDist(350.0f),
-	verticalDist(150.0f),
+	verticalDist(250.0f),
 	targetDist(100.0f),
 	springConstant(64.0f) {}
 

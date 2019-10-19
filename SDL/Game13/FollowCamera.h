@@ -10,10 +10,10 @@ public:
 
 	void SnapToIdeal();
 
-	inline void SetHorizontalDistance(const float inHorizontalDist) { horizontalDist = inHorizontalDist; }
-	inline void SetVerticalDistance(const float inVerticalDist) { verticalDist = inVerticalDist; }
-	inline void SetTargetDistance(const float inTargetDist) { targetDist = inTargetDist; }
-	inline void SetSpringConstant(const float inSpringConstant) { springConstant = inSpringConstant; }
+	inline void SetHorizontalDistance(const float dist) { horizontalDist = dist; }
+	inline void SetVerticalDistance(const float dist) { verticalDist = dist; }
+	inline void SetTargetDistance(const float dist) { targetDist = dist; }
+	inline void SetSpringConstant(const float dist) { springConstant = dist; }
 
 private:
 	Vector3 ComputeCameraPos() const;

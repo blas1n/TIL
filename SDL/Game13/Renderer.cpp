@@ -28,11 +28,14 @@ Renderer::Renderer(Game* inGame)
 	skinnedShader(nullptr),
 	spriteVerts(nullptr),
 	view(),
-	projection(),
+	proj(),
 	ambientLight(),
 	dirLight(),
 	screenWidth(0.0f),
-	screenHeight(0.0f) {}
+	screenHeight(0.0f),
+	mirrorView(),
+	mirrorTexture(nullptr),
+	mirrorBuffer(0) {}
 
 bool Renderer::Initialize(const float inScreenWidth, const float inScreenHeight) {
 	screenWidth = inScreenWidth;
@@ -79,10 +82,24 @@ bool Renderer::Initialize(const float inScreenWidth, const float inScreenHeight)
 	}
 
 	CreateSpriteVerts();
+
+	if (!CreateMirrorTarget()) {
+		SDL_Log("Failed to create render target for mirror");
+		return false;
+	}
+
 	return true;
 }
 
 void Renderer::Shutdown() {
+	UnloadData();
+
+	if (mirrorTexture) {
+		glDeleteFramebuffers(1, &mirrorBuffer);
+		mirrorTexture->Unload();
+		delete mirrorTexture;
+	}
+
 	delete spriteVerts;
 
 	spriteShader->Unload();
@@ -121,27 +138,8 @@ void Renderer::UnloadData() {
 }
 
 void Renderer::Draw() {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
-
-	meshShader->SetActive();
-	meshShader->SetUniformValue("uViewProjection", view * projection);
-	SetLightUniforms(meshShader);
-
-	for (auto mc : meshComps)
-		if (mc->GetVisible())
-			mc->Draw(meshShader);
-
-	skinnedShader->SetActive();
-	skinnedShader->SetUniformValue("uViewProjection", view * projection);
-	SetLightUniforms(skinnedShader);
-
-	for (auto smc : skMeshComps)
-		if (smc->GetVisible())
-			smc->Draw(skinnedShader);
+	Draw3DScene(mirrorBuffer, mirrorView, proj, 0.25f);
+	Draw3DScene(0, view, proj, 1.0f, false);
 
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -166,7 +164,7 @@ Vector3 Renderer::Unproject(const Vector3& screenPoint) const {
 	const auto deviceCoord =
 		screenPoint / Vector3{ screenWidth, screenHeight, 1.0f } * 0.5f;
 	
-	auto unprojection = view * projection;
+	auto unprojection = view * proj;
 	unprojection.Invert();
 	return Vector3::TransformWithPerspDiv(deviceCoord, unprojection);
 }
@@ -294,6 +292,63 @@ Animation* Renderer::GetAnimation(const std::string& fileName) {
 	return animation;
 }
 
+void Renderer::Draw3DScene(const unsigned int framebuffer, const Matrix4& viewMat, const Matrix4& projMat,
+	const float viewPortScale /*= 1.0f*/, const bool lit /*= true*/) {
+
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+	glViewport(0, 0,
+		static_cast<int>(screenWidth * viewPortScale),
+		static_cast<int>(screenHeight * viewPortScale));
+
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glDepthMask(GL_TRUE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
+	meshShader->SetActive();
+	meshShader->SetUniformValue("uViewProjection", viewMat * projMat);
+	if (lit) SetLightUniforms(meshShader, viewMat);
+
+	for (auto mc : meshComps)
+		if (mc->GetVisible())
+			mc->Draw(meshShader);
+
+	skinnedShader->SetActive();
+	skinnedShader->SetUniformValue("uViewProjection", viewMat * projMat);
+	if (lit) SetLightUniforms(skinnedShader, viewMat);
+
+	for (auto smc : skMeshComps)
+		if (smc->GetVisible())
+			smc->Draw(skinnedShader);
+}
+
+bool Renderer::CreateMirrorTarget() {
+	const auto width = static_cast<int>(screenWidth) / 4;
+	const auto height = static_cast<int>(screenHeight) / 4;
+
+	glGenFramebuffers(1, &mirrorBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, mirrorBuffer);
+
+	mirrorTexture = new Texture();
+	mirrorTexture->CreateForRendering(width, height, GL_RGB);
+
+	GLuint depthBuffer;
+	glGenRenderbuffers(1, &depthBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mirrorTexture->GetTextureId(), 0);
+
+	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, drawBuffers);
+
+	return (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
+}
+
 bool Renderer::LoadShaders() {
 	spriteShader = new Shader();
 	if (!spriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
@@ -305,8 +360,7 @@ bool Renderer::LoadShaders() {
 	spriteShader->SetUniformValue("uViewProjection", viewProjection);
 
 	view = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
-
-	projection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
+	proj = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
 		screenWidth, screenHeight, 25.0f, 10000.0f);
 
 	meshShader = new Shader();
@@ -314,14 +368,14 @@ bool Renderer::LoadShaders() {
 		return false;
 
 	meshShader->SetActive();
-	meshShader->SetUniformValue("uViewProjection", view * projection);
+	meshShader->SetUniformValue("uViewProjection", view * proj);
 
 	skinnedShader = new Shader();
 	if (!skinnedShader->Load("Shaders/Skinned.vert", "Shaders/Phong.frag"))
 		return false;
 
 	skinnedShader->SetActive();
-	skinnedShader->SetUniformValue("uViewProjection", view * projection);
+	skinnedShader->SetUniformValue("uViewProjection", view * proj);
 	return true;
 }
 
@@ -341,8 +395,8 @@ void Renderer::CreateSpriteVerts() {
 	spriteVerts = new VertexArray(vertices, 4, VertexArray::Layout::PosNormTex, indices, 6);
 }
 
-void Renderer::SetLightUniforms(Shader* shader) {
-	auto invView = view;
+void Renderer::SetLightUniforms(Shader* shader, const Matrix4& viewMat) {
+	auto invView = viewMat;
 	invView.Invert();
 	shader->SetUniformValue("uCameraPos", invView.GetTranslation());
 

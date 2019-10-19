@@ -15,26 +15,26 @@ out vec3 fragNormal;
 out vec3 fragWorldPos;
 
 void main() {
-	mat4 skinnedMatrix0 = uMatrixPalette[inSkinBones.x] * inSkinWeights[inSkinBones.x];
-	mat4 skinnedMatrix1 = uMatrixPalette[inSkinBones.y] * inSkinWeights[inSkinBones.y];
-	mat4 skinnedMatrix2 = uMatrixPalette[inSkinBones.z] * inSkinWeights[inSkinBones.z];
-	mat4 skinnedMatrix3 = uMatrixPalette[inSkinBones.w] * inSkinWeights[inSkinBones.w];
+	mat4 skinMat0 = uMatrixPalette[inSkinBones.x] * inSkinWeights.x;
+	mat4 skinMat1 = uMatrixPalette[inSkinBones.y] * inSkinWeights.y;
+	mat4 skinMat2 = uMatrixPalette[inSkinBones.z] * inSkinWeights.z;
+	mat4 skinMat3 = uMatrixPalette[inSkinBones.w] * inSkinWeights.w;
 
 	vec4 skinnedPos = vec4(inPosition, 1.0);
-	skinnedPos = (skinnedPos * skinnedMatrix0)
-		+ (skinnedPos * skinnedMatrix1)
-		+ (skinnedPos * skinnedMatrix2)
-		+ (skinnedPos * skinnedMatrix3);
+	skinnedPos = skinnedPos * skinMat0
+		+ skinnedPos * skinMat1
+		+ skinnedPos * skinMat2
+		+ skinnedPos * skinMat3;
 
 	skinnedPos *= uWorldTransform;
 	fragWorldPos = skinnedPos.xyz;
 	gl_Position = skinnedPos * uViewProjection;
 
-	vec4 skinnedNormal = vec4(inNormal, 0.0);
-	skinnedNormal = (skinnedNormal * skinnedMatrix0)
-		+ (skinnedNormal * skinnedMatrix1)
-		+ (skinnedNormal * skinnedMatrix2)
-		+ (skinnedNormal * skinnedMatrix3);
+	vec4 skinnedNormal = vec4(inNormal, 0.0f);
+	skinnedNormal = skinnedNormal * skinMat0
+		+ skinnedNormal * skinMat1
+		+ skinnedNormal * skinMat2
+		+ skinnedNormal * skinMat3;
 
 	fragNormal = (skinnedNormal * uWorldTransform).xyz;
 	fragTexCoord = inTexCoord;

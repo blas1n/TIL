@@ -17,9 +17,10 @@ namespace {
 	};
 
 	constexpr int BinaryVersion = 1;
+	
 	struct MeshBinHeader {
-		char mSignature[4] = { 'G', 'M', 'S', 'H' };
-		uint32_t mVersion = BinaryVersion;
+		char signature[4] = { 'G', 'M', 'S', 'H' };
+		uint32_t version = BinaryVersion;
 		VertexArray::Layout layout = VertexArray::Layout::PosNormTex;
 
 		uint32_t numTextures = 0;
@@ -157,7 +158,7 @@ void Mesh::Unload() {
 	vertexArray = nullptr;
 }
 
-void SaveBinary(const std::string& fileName, const void* verts,
+void Mesh::SaveBinary(const std::string& fileName, const void* verts,
 	const uint32_t numVerts, const VertexArray::Layout layout,
 	const uint32_t* indices, const uint32_t numIndices,
 	const std::vector<std::string>& textureNames,
@@ -197,9 +198,9 @@ bool Mesh::LoadBinary(const std::string& fileName, Renderer* renderer) {
 	MeshBinHeader header;
 	inFile.read(reinterpret_cast<char*>(&header), sizeof(header));
 
-	const auto sig = header.mSignature;
+	const auto sig = header.signature;
 	if (sig[0] != 'G' || sig[1] != 'M' || sig[2] != 'S' ||
-			sig[3] != 'H' || header.mVersion != BinaryVersion)
+			sig[3] != 'H' || header.version != BinaryVersion)
 		return false;
 	
 	char texName[std::numeric_limits<uint16_t>::max()];

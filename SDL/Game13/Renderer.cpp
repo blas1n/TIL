@@ -410,6 +410,7 @@ bool Renderer::LoadShaders() {
 	gGlobalShader->SetUniformValue("uGDiffuse", 0);
 	gGlobalShader->SetUniformValue("uGNormal", 1);
 	gGlobalShader->SetUniformValue("uGWorldPos", 2);
+	gGlobalShader->SetUniformValue("uGSpecularPower", 3);
 	gGlobalShader->SetUniformValue("uViewProjection", viewProjection);
 	gGlobalShader->SetUniformValue("uWorldTransform",
 		Matrix4::CreateScale(screenWidth, -screenHeight, 1.0f));

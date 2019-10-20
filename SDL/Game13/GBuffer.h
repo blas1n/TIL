@@ -8,6 +8,7 @@ public:
 		EDiffuse,
 		ENormal,
 		EWorldPos,
+		ESpecularPower,
 		NUM_GBUFFER_TEXTURES
 	};
 

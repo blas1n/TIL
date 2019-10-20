@@ -268,13 +268,13 @@
     <None Include="Shaders\Sprite.vert">
       <Filter>셰이더 파일</Filter>
     </None>
-    <None Include="GBufferGlobal.frag">
+    <None Include="Shaders\GBufferGlobal.frag">
       <Filter>셰이더 파일</Filter>
     </None>
-    <None Include="GBufferGlobal.vert">
+    <None Include="Shaders\GBufferGlobal.vert">
       <Filter>셰이더 파일</Filter>
     </None>
-    <None Include="GBufferWrite.frag">
+    <None Include="Shaders\GBufferWrite.frag">
       <Filter>셰이더 파일</Filter>
     </None>
   </ItemGroup>

@@ -205,9 +205,9 @@
     <ClInclude Include="VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GBufferGlobal.frag" />
-    <None Include="GBufferGlobal.vert" />
-    <None Include="GBufferWrite.frag" />
+    <None Include="Shaders\GBufferGlobal.frag" />
+    <None Include="Shaders\GBufferGlobal.vert" />
+    <None Include="Shaders\GBufferWrite.frag" />
     <None Include="Shaders\Phong.frag" />
     <None Include="Shaders\Phong.vert" />
     <None Include="Shaders\Skinned.vert" />

@@ -41,6 +41,11 @@ void Shader::SetUniformValue(const char* name, const Vector3& value) {
 	glUniform3fv(loc, 1, &value.x);
 }
 
+void Shader::SetUniformValue(const char* name, const Vector2& value) {
+	const auto loc = glGetUniformLocation(shaderProgram, name);
+	glUniform2fv(loc, 1, &value.x);
+}
+
 void Shader::SetUniformValue(const char* name, const float value) {
 	const auto loc = glGetUniformLocation(shaderProgram, name);
 	glUniform1f(loc, value);

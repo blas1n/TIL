@@ -12,6 +12,7 @@
 #include "SpriteComponent.h"
 #include "MeshComponent.h"
 #include "SkeletalMeshComponent.h"
+#include "PointLightComponent.h"
 #include "UiScreen.h"
 #include "GBuffer.h"
 
@@ -38,7 +39,10 @@ Renderer::Renderer(Game* inGame)
 	mirrorTexture(nullptr),
 	mirrorBuffer(0),
 	gBuffer(nullptr),
-	gGlobalShader(nullptr) {}
+	gGlobalShader(nullptr),
+	gPointLightShader(nullptr),
+	pointLights(),
+	pointLightMesh(nullptr) {}
 
 bool Renderer::Initialize(const float inScreenWidth, const float inScreenHeight) {
 	screenWidth = inScreenWidth;
@@ -100,10 +104,26 @@ bool Renderer::Initialize(const float inScreenWidth, const float inScreenHeight)
 		return false;
 	}
 
+	pointLightMesh = GetMesh("Assets/PointLight.gpmesh");
 	return true;
 }
 
 void Renderer::Shutdown() {
+	if (mirrorTexture) {
+		glDeleteFramebuffers(1, &mirrorBuffer);
+		mirrorTexture->Unload();
+		delete mirrorTexture;
+		mirrorTexture = nullptr;
+	}
+
+	if (gBuffer) {
+		gBuffer->Destroy();
+		delete gBuffer;
+	}
+
+	while (!pointLights.empty())
+		delete pointLights.back();
+
 	delete spriteVerts;
 
 	spriteShader->Unload();
@@ -118,16 +138,18 @@ void Renderer::Shutdown() {
 	gGlobalShader->Unload();
 	delete gGlobalShader;
 
+	gPointLightShader->Unload();
+	delete gPointLightShader;
+
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 }
 
 void Renderer::UnloadData() {
-	if (mirrorTexture) {
-		glDeleteFramebuffers(1, &mirrorBuffer);
-		mirrorTexture->Unload();
-		delete mirrorTexture;
-		mirrorTexture = nullptr;
+	if (pointLightMesh) {
+		pointLightMesh->Unload();
+		delete pointLightMesh;
+		pointLightMesh = nullptr;
 	}
 
 	for (auto texture : textures) {
@@ -209,7 +231,7 @@ void Renderer::AddSpriteComponent(SpriteComponent* sprite) {
 }
 
 void Renderer::RemoveSpriteComponent(SpriteComponent* sprite) {
-	const auto iter = std::find(spriteComps.begin(), spriteComps.end(), sprite);
+	const auto iter = std::find(spriteComps.cbegin(), spriteComps.cend(), sprite);
 	spriteComps.erase(iter);
 }
 
@@ -222,14 +244,23 @@ void Renderer::AddMeshComponent(MeshComponent* mesh) {
 
 void Renderer::RemoveMeshComponent(MeshComponent* mesh) {
 	if (mesh->IsSkeletal()) {
-		auto iter = std::find(skMeshComps.begin(), skMeshComps.end(),
+		auto iter = std::find(skMeshComps.cbegin(), skMeshComps.cend(),
 			static_cast<SkeletalMeshComponent*>(mesh));
 		skMeshComps.erase(iter);
 	}
 	else {
-		const auto iter = std::find(meshComps.begin(), meshComps.end(), mesh);
+		const auto iter = std::find(meshComps.cbegin(), meshComps.cend(), mesh);
 		meshComps.erase(iter);
 	}
+}
+
+void Renderer::AddPointLight(PointLightComponent* light) {
+	pointLights.emplace_back(light);
+}
+
+void Renderer::RemovePointLight(PointLightComponent* light) {
+	const auto iter = std::find(pointLights.cbegin(), pointLights.cend(), light);
+	pointLights.erase(iter);
 }
 
 Texture* Renderer::GetTexture(const std::string& fileName) {
@@ -348,6 +379,30 @@ void Renderer::DrawFromGBuffer() {
 	gBuffer->SetTextureActive();
 	SetLightUniforms(gGlobalShader, view);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer->GetBufferId());
+	
+	const auto width = static_cast<int>(screenWidth);
+	const auto height = static_cast<int>(screenHeight);
+
+	glBlitFramebuffer(0, 0, width, height,
+		0, 0, width, height,
+		GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
+
+	gPointLightShader->SetActive();
+	pointLightMesh->GetVertexArray()->SetActive();
+
+	gPointLightShader->SetUniformValue("uViewProjection", view * proj);
+	gBuffer->SetTextureActive();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+
+	for (auto p : pointLights)
+		p->Draw(gPointLightShader, pointLightMesh);
 }
 
 bool Renderer::CreateMirrorTarget() {
@@ -415,6 +470,17 @@ bool Renderer::LoadShaders() {
 	gGlobalShader->SetUniformValue("uWorldTransform",
 		Matrix4::CreateScale(screenWidth, -screenHeight, 1.0f));
 	
+	gPointLightShader = new Shader();
+	if (!gPointLightShader->Load("Shaders/Basic.vert", "Shaders/GBufferPointLight.frag"))
+		return false;
+
+	gPointLightShader->SetActive();
+	gPointLightShader->SetUniformValue("uGDiffuse", 0);
+	gPointLightShader->SetUniformValue("uGNormal", 1);
+	gPointLightShader->SetUniformValue("uGWorldPos", 2);
+	gPointLightShader->SetUniformValue("uGSpecularPower", 3);
+	gPointLightShader->SetUniformValue("uScreenDimensions", Vector2{ screenWidth, screenHeight });
+
 	return true;
 }
 

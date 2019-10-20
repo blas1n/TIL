@@ -31,6 +31,9 @@ public:
 	void AddMeshComponent(class MeshComponent* mesh);
 	void RemoveMeshComponent(MeshComponent* mesh);
 
+	void AddPointLight(class PointLightComponent* light);
+	void RemovePointLight(PointLightComponent* light);
+
 	class Texture* GetTexture(const std::string& fileName);
 	class Mesh* GetMesh(const std::string& fileName);
 	class Skeleton* GetSkeleton(const std::string& fileName);
@@ -46,7 +49,9 @@ public:
 
 	inline Texture* GetMirrorTexture() const { return mirrorTexture; }
 	inline void SetMirrorView(const Matrix4& inMirrorView) { mirrorView = inMirrorView; }
+	
 	inline class GBuffer* GetGBuffer() const { return gBuffer; }
+
 private:
 	void Draw3DScene(unsigned int framebuffer, const Matrix4& viewMat, const Matrix4& projMat,
 		float viewPortScale = 1.0f, bool lit = true);
@@ -93,4 +98,8 @@ private:
 
 	GBuffer* gBuffer;
 	Shader* gGlobalShader;
+
+	Shader* gPointLightShader;
+	std::vector<PointLightComponent*> pointLights;
+	Mesh* pointLightMesh;
 };

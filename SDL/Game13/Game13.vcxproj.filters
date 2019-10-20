@@ -132,6 +132,9 @@
     <ClCompile Include="GBuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MeshComponent.h">
@@ -251,6 +254,9 @@
     <ClInclude Include="GBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Phong.frag">
@@ -275,6 +281,15 @@
       <Filter>셰이더 파일</Filter>
     </None>
     <None Include="Shaders\GBufferWrite.frag">
+      <Filter>셰이더 파일</Filter>
+    </None>
+    <None Include="Shaders\Basic.vert">
+      <Filter>셰이더 파일</Filter>
+    </None>
+    <None Include="Shaders\Basic.frag">
+      <Filter>셰이더 파일</Filter>
+    </None>
+    <None Include="Shaders\GBufferPointLight.frag">
       <Filter>셰이더 파일</Filter>
     </None>
   </ItemGroup>

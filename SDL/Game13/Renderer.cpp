@@ -13,6 +13,7 @@
 #include "MeshComponent.h"
 #include "SkeletalMeshComponent.h"
 #include "UiScreen.h"
+#include "GBuffer.h"
 
 Renderer::Renderer(Game* inGame)
 	: game(inGame),
@@ -35,7 +36,9 @@ Renderer::Renderer(Game* inGame)
 	screenHeight(0.0f),
 	mirrorView(),
 	mirrorTexture(nullptr),
-	mirrorBuffer(0) {}
+	mirrorBuffer(0),
+	gBuffer(nullptr),
+	gGlobalShader(nullptr) {}
 
 bool Renderer::Initialize(const float inScreenWidth, const float inScreenHeight) {
 	screenWidth = inScreenWidth;
@@ -88,18 +91,19 @@ bool Renderer::Initialize(const float inScreenWidth, const float inScreenHeight)
 		return false;
 	}
 
+	gBuffer = new GBuffer();
+	if (!gBuffer->Create(
+		static_cast<int>(screenWidth),
+		static_cast<int>(screenHeight))) {
+
+		SDL_Log("Failed to create G-buffer");
+		return false;
+	}
+
 	return true;
 }
 
 void Renderer::Shutdown() {
-	UnloadData();
-
-	if (mirrorTexture) {
-		glDeleteFramebuffers(1, &mirrorBuffer);
-		mirrorTexture->Unload();
-		delete mirrorTexture;
-	}
-
 	delete spriteVerts;
 
 	spriteShader->Unload();
@@ -111,11 +115,21 @@ void Renderer::Shutdown() {
 	skinnedShader->Unload();
 	delete skinnedShader;
 
+	gGlobalShader->Unload();
+	delete gGlobalShader;
+
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 }
 
 void Renderer::UnloadData() {
+	if (mirrorTexture) {
+		glDeleteFramebuffers(1, &mirrorBuffer);
+		mirrorTexture->Unload();
+		delete mirrorTexture;
+		mirrorTexture = nullptr;
+	}
+
 	for (auto texture : textures) {
 		texture.second->Unload();
 		delete texture.second;
@@ -139,7 +153,9 @@ void Renderer::UnloadData() {
 
 void Renderer::Draw() {
 	Draw3DScene(mirrorBuffer, mirrorView, proj, 0.25f);
-	Draw3DScene(0, view, proj, 1.0f, false);
+	Draw3DScene(gBuffer->GetBufferId(), view, proj, 1.0f, false);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	DrawFromGBuffer();
 
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -325,6 +341,15 @@ void Renderer::Draw3DScene(const unsigned int framebuffer, const Matrix4& viewMa
 			smc->Draw(skinnedShader);
 }
 
+void Renderer::DrawFromGBuffer() {
+	glDisable(GL_DEPTH_TEST);
+	gGlobalShader->SetActive();
+	spriteVerts->SetActive();
+	gBuffer->SetTextureActive();
+	SetLightUniforms(gGlobalShader, view);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
 bool Renderer::CreateMirrorTarget() {
 	const auto width = static_cast<int>(screenWidth) / 4;
 	const auto height = static_cast<int>(screenHeight) / 4;
@@ -364,18 +389,31 @@ bool Renderer::LoadShaders() {
 		screenWidth, screenHeight, 25.0f, 10000.0f);
 
 	meshShader = new Shader();
-	if (!meshShader->Load("Shaders/Phong.vert", "Shaders/Phong.frag"))
+	if (!meshShader->Load("Shaders/Phong.vert", "Shaders/GBufferWrite.frag"))
 		return false;
 
 	meshShader->SetActive();
 	meshShader->SetUniformValue("uViewProjection", view * proj);
 
 	skinnedShader = new Shader();
-	if (!skinnedShader->Load("Shaders/Skinned.vert", "Shaders/Phong.frag"))
+	if (!skinnedShader->Load("Shaders/Skinned.vert", "Shaders/GBufferWrite.frag"))
 		return false;
 
 	skinnedShader->SetActive();
 	skinnedShader->SetUniformValue("uViewProjection", view * proj);
+	
+	gGlobalShader = new Shader();
+	if (!gGlobalShader->Load("Shaders/GBufferGlobal.vert", "Shaders/GBufferGlobal.frag"))
+		return false;
+
+	gGlobalShader->SetActive();
+	gGlobalShader->SetUniformValue("uGDiffuse", 0);
+	gGlobalShader->SetUniformValue("uGNormal", 1);
+	gGlobalShader->SetUniformValue("uGWorldPos", 2);
+	gGlobalShader->SetUniformValue("uViewProjection", viewProjection);
+	gGlobalShader->SetUniformValue("uWorldTransform",
+		Matrix4::CreateScale(screenWidth, -screenHeight, 1.0f));
+	
 	return true;
 }
 

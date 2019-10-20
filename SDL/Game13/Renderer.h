@@ -44,14 +44,14 @@ public:
 	inline float GetScreenWidth() const { return screenWidth; }
 	inline float GetScreenHeight() const { return screenHeight; }
 
-	inline Texture* GetMirrorTexture() { return mirrorTexture; }
-	
+	inline Texture* GetMirrorTexture() const { return mirrorTexture; }
 	inline void SetMirrorView(const Matrix4& inMirrorView) { mirrorView = inMirrorView; }
-
+	inline class GBuffer* GetGBuffer() const { return gBuffer; }
 private:
 	void Draw3DScene(unsigned int framebuffer, const Matrix4& viewMat, const Matrix4& projMat,
 		float viewPortScale = 1.0f, bool lit = true);
 
+	void DrawFromGBuffer();
 	bool CreateMirrorTarget();
 
 	bool LoadShaders();
@@ -90,4 +90,7 @@ private:
 	Matrix4 mirrorView;
 	Texture* mirrorTexture;
 	unsigned int mirrorBuffer;
+
+	GBuffer* gBuffer;
+	Shader* gGlobalShader;
 };

@@ -139,6 +139,7 @@
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GBuffer.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Math.h" />
@@ -203,6 +205,9 @@
     <ClInclude Include="VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GBufferGlobal.frag" />
+    <None Include="GBufferGlobal.vert" />
+    <None Include="GBufferWrite.frag" />
     <None Include="Shaders\Phong.frag" />
     <None Include="Shaders\Phong.vert" />
     <None Include="Shaders\Skinned.vert" />

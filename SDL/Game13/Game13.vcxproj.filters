@@ -129,6 +129,9 @@
     <ClCompile Include="MirrorCamera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="GBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MeshComponent.h">
@@ -245,6 +248,9 @@
     <ClInclude Include="MirrorCamera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="GBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Phong.frag">
@@ -260,6 +266,15 @@
       <Filter>셰이더 파일</Filter>
     </None>
     <None Include="Shaders\Sprite.vert">
+      <Filter>셰이더 파일</Filter>
+    </None>
+    <None Include="GBufferGlobal.frag">
+      <Filter>셰이더 파일</Filter>
+    </None>
+    <None Include="GBufferGlobal.vert">
+      <Filter>셰이더 파일</Filter>
+    </None>
+    <None Include="GBufferWrite.frag">
       <Filter>셰이더 파일</Filter>
     </None>
   </ItemGroup>

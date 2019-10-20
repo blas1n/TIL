@@ -17,6 +17,8 @@ public:
 	inline uint GetNumVerts() const { return numIndices; }
 	inline uint GetNumIndices() const { return numIndices; }
 
+	static unsigned int GetVertexSize(VertexArray::Layout layout);
+
 private:
 	uint vertexBuffer;
 	uint numVerts;

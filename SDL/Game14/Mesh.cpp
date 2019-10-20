@@ -1,8 +1,10 @@
 #include "Mesh.h"
+#include <limits>
 #include <fstream>
 #include <sstream>
 #include <rapidjson/document.h>
 #include <SDL/SDL_log.h>
+#include "LevelLoader.h"
 #include "Renderer.h"
 #include "Texture.h"
 #include "VertexArray.h"
@@ -13,26 +15,33 @@ namespace {
 		float f;
 		uint8_t b[4];
 	};
+
+	constexpr int BinaryVersion = 1;
+	struct MeshBinHeader {
+		char mSignature[4] = { 'G', 'M', 'S', 'H' };
+		uint32_t mVersion = BinaryVersion;
+		VertexArray::Layout layout = VertexArray::Layout::PosNormTex;
+
+		uint32_t numTextures = 0;
+		uint32_t numVerts = 0;
+		uint32_t numIndices = 0;
+
+		AABB box{ Vector3::Zero, Vector3::Zero };
+		float radius = 0.0f;
+		float specPower = 100.0f;
+	};
 }
 
 bool Mesh::Load(const std::string& inFileName, Renderer* renderer) {
 	fileName = inFileName;
 
-	std::ifstream file{ fileName };
-	if (!file.is_open()) {
-		SDL_Log("File not found: Mesh %s", fileName.c_str());
-		return false;
-	}
+	if (LoadBinary(fileName + ".bin", renderer))
+		return true;
 
-	std::stringstream fileStream;
-	fileStream << file.rdbuf();
-	std::string contents = fileStream.str();
-	rapidjson::StringStream jsonStr(contents.c_str());
 	rapidjson::Document doc;
-	doc.ParseStream(jsonStr);
-
-	if (!doc.IsObject()) {
-		SDL_Log("Mesh %s is not valid json", fileName.c_str());
+	if (!LevelLoader::LoadJSON(fileName, doc))
+	{
+		SDL_Log("Failed to load mesh %s", fileName.c_str());
 		return false;
 	}
 
@@ -146,4 +155,85 @@ bool Mesh::Load(const std::string& inFileName, Renderer* renderer) {
 void Mesh::Unload() {
 	delete vertexArray;
 	vertexArray = nullptr;
+}
+
+void SaveBinary(const std::string& fileName, const void* verts,
+	const uint32_t numVerts, const VertexArray::Layout layout,
+	const uint32_t* indices, const uint32_t numIndices,
+	const std::vector<std::string>& textureNames,
+	const AABB& box, const float radius, const float specPower) {
+
+	MeshBinHeader header;
+	header.layout = layout;
+	header.numTextures =
+		static_cast<unsigned>(textureNames.size());
+	header.numVerts = numVerts;
+	header.numIndices = numIndices;
+	header.box = box;
+	header.radius = radius;
+	header.specPower = specPower;
+
+	std::ofstream outFile{ fileName, std::ios::out | std::ios::binary };
+	if (!outFile.is_open()) return;
+	
+	outFile.write(reinterpret_cast<char*>(&header), sizeof(header));
+
+	for (const auto& tex : textureNames) {
+		const auto nameSize = static_cast<uint16_t>(tex.length()) + 1;
+		outFile.write(reinterpret_cast<const char*>(&nameSize), sizeof(nameSize));
+		outFile.write(tex.c_str(), nameSize - 1);
+		outFile.write("\0", 1);
+	}
+
+	const auto vertexSize = VertexArray::GetVertexSize(layout);
+	outFile.write(reinterpret_cast<const char*>(verts), numVerts * vertexSize);
+	outFile.write(reinterpret_cast<const char*>(indices), numIndices * sizeof(uint32_t));
+}
+
+bool Mesh::LoadBinary(const std::string& fileName, Renderer* renderer) {
+	std::ifstream inFile{ fileName, std::ios::in | std::ios::binary };
+	if (!inFile.is_open()) return false;
+	
+	MeshBinHeader header;
+	inFile.read(reinterpret_cast<char*>(&header), sizeof(header));
+
+	const auto sig = header.mSignature;
+	if (sig[0] != 'G' || sig[1] != 'M' || sig[2] != 'S' ||
+			sig[3] != 'H' || header.mVersion != BinaryVersion)
+		return false;
+	
+	char texName[std::numeric_limits<uint16_t>::max()];
+
+	for (uint32_t i = 0; i < header.numTextures; i++) {
+		uint16_t nameSize = 0;
+		inFile.read(reinterpret_cast<char*>(&nameSize), sizeof(nameSize));
+		memset(texName, 0, sizeof(texName));
+		inFile.read(texName, nameSize);
+
+		auto t = renderer->GetTexture(texName);
+		if (t == nullptr)
+			t = renderer->GetTexture("Assets/Default.png");
+
+		textures.emplace_back(t);
+	}
+
+	const auto vertexSize = VertexArray::GetVertexSize(header.layout);
+	auto verts = new char[header.numVerts * vertexSize];
+	inFile.read(verts, header.numVerts * vertexSize);
+
+	auto indices = new uint32_t[header.numIndices];
+	inFile.read(reinterpret_cast<char*>(indices),
+		header.numIndices * sizeof(uint32_t));
+
+	vertexArray = new VertexArray(verts, header.numVerts,
+		header.layout, indices, header.numIndices);
+
+	delete[] verts;
+	delete[] indices;
+
+	box = header.box;
+	radius = header.radius;
+	specPower = header.specPower;
+
+	return true;
 }

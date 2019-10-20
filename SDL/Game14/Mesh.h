@@ -26,6 +26,15 @@ public:
 	inline const AABB& GetBox() const { return box; }
 
 private:
+	void SaveBinary(const std::string& fileName, const void* verts,
+		uint32_t numVerts, VertexArray::Layout layout,
+		const uint32_t* indices, uint32_t numIndices,
+		const std::vector<std::string>& textureNames,
+		const AABB& box, float radius,
+		float specPower);
+
+	bool LoadBinary(const std::string& fileName, Renderer* renderer);
+
 	std::vector<Texture*> textures;
 
 	VertexArray* vertexArray;

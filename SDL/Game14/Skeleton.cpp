@@ -4,24 +4,14 @@
 #include <rapidjson/document.h>
 #include <SDL/SDL_log.h>
 #include "MatrixPalette.h"
+#include "LevelLoader.h"
 
 bool Skeleton::Load(const std::string& inFileName) {
 	fileName = inFileName;
-	std::ifstream file{ fileName };
-	if (!file.is_open()) {
-		SDL_Log("File not found : Skeleton %s", fileName);
-		return false;
-	}
-
-	std::stringstream fileStream;
-	fileStream << file.rdbuf();
-	const auto contents = fileStream.str();
-	rapidjson::StringStream jsonStr{ contents.c_str() };
+	
 	rapidjson::Document doc;
-	doc.ParseStream(jsonStr);
-
-	if (!doc.IsObject()) {
-		SDL_Log("Skeleton %s is not valid JSON", fileName.c_str());
+	if (!LevelLoader::LoadJSON(fileName, doc)) {
+		SDL_Log("Failed to load skeleton %s", fileName.c_str());
 		return false;
 	}
 

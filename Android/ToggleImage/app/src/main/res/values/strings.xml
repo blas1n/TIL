@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Toggle Image</string>
+    <string name="button">활성 버튼</string>
+</resources>

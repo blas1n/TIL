@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ViewAttr</string>
+    <string name="hide_one">첫 번째 그림 숨기기</string>
+    <string name="hide_two">두 번째 그림 숨기기</string>
+</resources>

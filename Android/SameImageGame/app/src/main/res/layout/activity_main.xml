@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/Add1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="101dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="79dp"
+        android:background="#000000"
+        android:onClick="add"
+        app:layout_constraintBottom_toTopOf="@+id/Multi1"
+        app:layout_constraintEnd_toStartOf="@+id/Add2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageView
+        android:id="@+id/Add2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="101dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginTop="79dp"
+        android:background="#000000"
+        android:onClick="add"
+        app:layout_constraintBottom_toTopOf="@+id/Multi2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Add1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageView
+        android:id="@+id/Multi1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="260dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="52dp"
+        android:background="#000000"
+        android:onClick="multi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Multi2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Add1"
+        app:srcCompat="@android:drawable/ic_delete" />
+
+    <ImageView
+        android:id="@+id/Multi2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="260dp"
+        android:layout_marginEnd="48dp"
+        android:background="#000000"
+        android:onClick="multi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Multi1"
+        app:layout_constraintTop_toBottomOf="@+id/Add2"
+        app:srcCompat="@android:drawable/ic_delete" />
+
+</android.support.constraint.ConstraintLayout>

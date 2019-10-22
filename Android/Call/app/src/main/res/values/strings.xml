@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Hello</string>
+    <string name="call_button">전화 걸기</string>
+</resources>

@@ -1,10 +1,6 @@
 # 1. 금액
 # 2. 건수
 # 3. 1건 당 금액
-# 4. 남성 금액
-# 5. 남성 건수
-# 6. 여성 금액
-# 7. 여성 건수
 
 import numpy as np
 import pandas as pd

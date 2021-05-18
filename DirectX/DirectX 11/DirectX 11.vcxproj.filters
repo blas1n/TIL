@@ -10,85 +10,6 @@
     <Filter Include="Source File">
       <UniqueIdentifier>{08b6c0d4-39ca-45b0-83f8-dc8feda454eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header File\Uitlity">
-      <UniqueIdentifier>{8c9ccfbd-3dec-4653-850a-a0e57886b903}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header File\Class">
-      <UniqueIdentifier>{dd920e54-bdd9-48eb-b628-acb6afaf162d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source File\Class">
-      <UniqueIdentifier>{e41e06bd-1f23-49d1-a1e0-f7d53929bbcd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source File\EntryPoint">
-      <UniqueIdentifier>{1fc94759-1adf-4b52-a7aa-1d19caed401e}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Class\ModelClass.cpp">
-      <Filter>Source File\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\CameraClass.cpp">
-      <Filter>Source File\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\ColorShaderClass.cpp">
-      <Filter>Source File\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\D3dClass.cpp">
-      <Filter>Source File\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\GraphicsClass.cpp">
-      <Filter>Source File\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\InputClass.cpp">
-      <Filter>Source File\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\SystemManager.cpp">
-      <Filter>Source File\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source File\EntryPoint</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source File</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Utility\AlignedAllocator.h">
-      <Filter>Header File\Uitlity</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\NonMovable.h">
-      <Filter>Header File\Uitlity</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\CameraClass.h">
-      <Filter>Header File\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\ColorShaderClass.h">
-      <Filter>Header File\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\D3dClass.h">
-      <Filter>Header File\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\GraphicsClass.h">
-      <Filter>Header File\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\InputClass.h">
-      <Filter>Header File\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\ModelClass.h">
-      <Filter>Header File\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\SystemManager.h">
-      <Filter>Header File\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Header File\Uitlity</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header File</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header File</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\PixelShader.hlsl">
@@ -97,5 +18,66 @@
     <FxCompile Include="Shader\VertexShader.hlsl">
       <Filter>Shader File</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\System.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\stdafx.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\D3DManager.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModelClass.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputManager.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ColorShaderClass.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderManager.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CameraClass.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\SystemManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\stdafx.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\targetver.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AlignedAllocator.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModelClass.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CameraClass.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ColorShaderClass.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\InputManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\D3DManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

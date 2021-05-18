@@ -88,6 +88,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -100,6 +101,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -114,6 +116,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -130,6 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -139,31 +143,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Class\CameraClass.cpp" />
-    <ClCompile Include="Class\ColorShaderClass.cpp" />
-    <ClCompile Include="Class\D3dClass.cpp" />
-    <ClCompile Include="Class\GraphicsClass.cpp" />
-    <ClCompile Include="Class\InputClass.cpp" />
-    <ClCompile Include="Class\ModelClass.cpp" />
-    <ClCompile Include="Class\SystemManager.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Class\CameraClass.h" />
-    <ClInclude Include="Class\ColorShaderClass.h" />
-    <ClInclude Include="Class\D3dClass.h" />
-    <ClInclude Include="Class\GraphicsClass.h" />
-    <ClInclude Include="Class\InputClass.h" />
-    <ClInclude Include="Class\ModelClass.h" />
-    <ClInclude Include="Class\SystemManager.h" />
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Utility\AlignedAllocator.h" />
-    <ClInclude Include="Utility\NonMovable.h" />
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="Shader\PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
@@ -172,6 +151,29 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\CameraClass.cpp" />
+    <ClCompile Include="Source\ColorShaderClass.cpp" />
+    <ClCompile Include="Source\D3DManager.cpp" />
+    <ClCompile Include="Source\RenderManager.cpp" />
+    <ClCompile Include="Source\InputManager.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\ModelClass.cpp" />
+    <ClCompile Include="Source\stdafx.cpp" />
+    <ClCompile Include="Source\System.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\AlignedAllocator.h" />
+    <ClInclude Include="Source\CameraClass.h" />
+    <ClInclude Include="Source\ColorShaderClass.h" />
+    <ClInclude Include="Source\D3DManager.h" />
+    <ClInclude Include="Source\RenderManager.h" />
+    <ClInclude Include="Source\InputManager.h" />
+    <ClInclude Include="Source\ModelClass.h" />
+    <ClInclude Include="Source\stdafx.h" />
+    <ClInclude Include="Source\SystemManager.h" />
+    <ClInclude Include="Source\targetver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

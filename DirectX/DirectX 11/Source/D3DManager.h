@@ -3,12 +3,12 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
 
-#include "../Utility/AlignedAllocator.h"
-#include "../Utility//NonMovable.h"
+#include "AlignedAllocator.h"
 #include <d3d11.h>
 #include <DirectXMath.h>
 
-class D3dClass : public AlignedAllocator<16>, public NonMovable {
+class D3DManager : public AlignedAllocator<16>
+{
 private:
 	using Matrix = DirectX::XMMATRIX;
 

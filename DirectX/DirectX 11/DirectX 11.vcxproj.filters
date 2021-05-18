@@ -42,11 +42,14 @@
     <ClCompile Include="Class\InputClass.cpp">
       <Filter>Source File\Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\SystemClass.cpp">
+    <ClCompile Include="Class\SystemManager.cpp">
       <Filter>Source File\Class</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source File\EntryPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +77,17 @@
     <ClInclude Include="Class\ModelClass.h">
       <Filter>Header File\Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\SystemClass.h">
+    <ClInclude Include="Class\SystemManager.h">
       <Filter>Header File\Class</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>Header File\Uitlity</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -49,7 +49,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\SystemManager.h">
+    <ClInclude Include="Source\System.h">
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\stdafx.h">

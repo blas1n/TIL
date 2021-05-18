@@ -3,18 +3,18 @@
 #include "stdafx.h"
 #include <tuple>
 
-class SystemManager final
+class System final
 {
 public:
-	SystemManager() = default;
+	System() = default;
 	
-	SystemManager(const SystemManager&) = delete;
-	SystemManager(SystemManager&&) = delete;
+	System(const System&) = delete;
+	System(System&&) = delete;
 	
-	SystemManager& operator=(const SystemManager&) = delete;
-	SystemManager& operator=(SystemManager&&) = delete;
+	System& operator=(const System&) = delete;
+	System& operator=(System&&) = delete;
 	
-	~SystemManager() = default;
+	~System() = default;
 
 	[[nodiscard]] bool Init();
 	[[nodiscard]] int Run();

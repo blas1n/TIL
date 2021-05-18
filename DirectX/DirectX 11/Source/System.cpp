@@ -1,11 +1,11 @@
-#include "SystemManager.h"
+#include "System.h"
 #include "RenderManager.h"
 #include "InputManager.h"
 
 namespace
 {
-	SystemManager* inst;
-	LRESULT(SystemManager::* callback)(HWND, UINT, WPARAM, LPARAM);
+	System* inst;
+	LRESULT(System::* callback)(HWND, UINT, WPARAM, LPARAM);
 
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
@@ -20,10 +20,10 @@ namespace
 	}
 }
 
-bool SystemManager::Init()
+bool System::Init()
 {
 	inst = this;
-	callback = &SystemManager::MessageHandler;
+	callback = &System::MessageHandler;
 
 	const auto screenSize = InitWindows();
 
@@ -38,7 +38,7 @@ bool SystemManager::Init()
 	return true;
 }
 
-int SystemManager::Run() {
+int System::Run() {
 	if (!Init()) return 0;
 
 	MSG msg;
@@ -56,18 +56,18 @@ int SystemManager::Run() {
 	return msg.wParam;
 }
 
-void SystemManager::Release()
+void System::Release()
 {
 	render->Release();
 	input->Release();
 	ReleaseWindows();
 }
 
-bool SystemManager::Frame() {
+bool System::Frame() {
 	return !input->Frame() && render->Frame();
 }
 
-POINT SystemManager::InitWindows() {
+POINT System::InitWindows() {
 	hInstance = GetModuleHandle(nullptr);
 	appName = TEXT("Engine");
 
@@ -128,7 +128,7 @@ POINT SystemManager::InitWindows() {
 	return POINT{ screenWidth, screenHeight };
 }
 
-void SystemManager::ReleaseWindows()
+void System::ReleaseWindows()
 {
 	ShowCursor(true);
 
@@ -139,7 +139,7 @@ void SystemManager::ReleaseWindows()
 	UnregisterClass(appName, hInstance);
 }
 
-LRESULT CALLBACK SystemManager::MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK System::MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }

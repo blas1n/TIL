@@ -172,7 +172,7 @@
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\ModelClass.h" />
     <ClInclude Include="Source\stdafx.h" />
-    <ClInclude Include="Source\SystemManager.h" />
+    <ClInclude Include="Source\System.h" />
     <ClInclude Include="Source\targetver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

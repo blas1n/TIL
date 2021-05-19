@@ -77,7 +77,6 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = numerator;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = denominator;
 	}
-
 	else
 	{
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
@@ -95,7 +94,7 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	swapChainDesc.Flags = 0;
 
-	auto featureLevel = D3D_FEATURE_LEVEL_11_0;
+	const auto featureLevel = D3D_FEATURE_LEVEL_11_0;
 
 	UINT createFlag = 0;
 
@@ -203,8 +202,8 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 
 	deviceContext->RSSetViewports(1, &viewport);
 
-	float fieldOfView = DirectX::XM_PI / 4.0f;
-	float screenAspect = static_cast<float>(size.x) / static_cast<float>(size.y);
+	const float fieldOfView = DirectX::XM_PI * 0.5f;
+	const float screenAspect = static_cast<float>(size.x) / static_cast<float>(size.y);
 
 	projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenFar);
 	worldMatrix = DirectX::XMMatrixIdentity();

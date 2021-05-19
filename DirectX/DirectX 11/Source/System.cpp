@@ -9,7 +9,8 @@ namespace
 
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		switch (msg) {
+		switch (msg)
+		{
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
@@ -32,19 +33,22 @@ bool System::Init()
 		return false;
 
 	render = new RenderManager{};
-	if (!render->Init(screenSize, hWnd))
+	if (!render->Initialize(hWnd, screenSize))
 		return false;
 
 	return true;
 }
 
-int System::Run() {
+int System::Run()
+{
 	if (!Init()) return 0;
 
 	MSG msg;
 
-	while (true) {
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+	while (true)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -53,7 +57,7 @@ int System::Run() {
 	}
 
 	Release();
-	return msg.wParam;
+	return static_cast<int>(msg.wParam);
 }
 
 void System::Release()
@@ -63,11 +67,13 @@ void System::Release()
 	ReleaseWindows();
 }
 
-bool System::Frame() {
+bool System::Frame()
+{
 	return !input->Frame() && render->Frame();
 }
 
-POINT System::InitWindows() {
+POINT System::InitWindows()
+{
 	hInstance = GetModuleHandle(nullptr);
 	appName = TEXT("Engine");
 
@@ -93,7 +99,8 @@ POINT System::InitWindows() {
 
 	int posX, posY;
 
-	if (FULL_SCREEN) {
+	if (FULL_SCREEN)
+	{
 		DEVMODE dmScreenSettings = { 0, };
 
 		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
@@ -107,7 +114,8 @@ POINT System::InitWindows() {
 		posX = posY = 0;
 	}
 
-	else {
+	else
+	{
 		screenWidth = 800;
 		screenHeight = 600;
 

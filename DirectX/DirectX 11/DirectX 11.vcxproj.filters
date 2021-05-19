@@ -38,6 +38,9 @@
     <ClCompile Include="Source\RenderManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Model.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System.h">
@@ -56,6 +59,9 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\D3DManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Model.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

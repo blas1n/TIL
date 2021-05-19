@@ -9,7 +9,6 @@
 #define NO_MIN_MAX
 
 #include "targetver.h"
-#include <d3d9.h>
 #include <tchar.h>
 #include <windows.h>
 

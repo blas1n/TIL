@@ -60,7 +60,7 @@ int System::Run()
 	return static_cast<int>(msg.wParam);
 }
 
-void System::Release()
+void System::Release() noexcept
 {
 	render->Release();
 	input->Release();
@@ -136,7 +136,7 @@ POINT System::InitWindows()
 	return POINT{ screenWidth, screenHeight };
 }
 
-void System::ReleaseWindows()
+void System::ReleaseWindows() noexcept
 {
 	ShowCursor(true);
 

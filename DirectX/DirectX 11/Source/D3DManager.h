@@ -9,7 +9,7 @@ class D3DManager
 
 public:
 	bool Initialize(HWND hWnd, POINT size, bool isVsyncEnable, bool isFullScreen, float screenFar, float screenNear);
-	void Release();
+	void Release() noexcept;
 
 	void BeginScene(float r, float g, float b, float a);
 	void EndScene();

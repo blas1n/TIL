@@ -23,7 +23,7 @@ bool RenderManager::Frame()
 	return true;
 }
 
-void RenderManager::Release()
+void RenderManager::Release() noexcept
 {
 	if (d3d)
 	{

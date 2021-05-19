@@ -224,7 +224,7 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 	return true;
 }
 
-void D3DManager::Release()
+void D3DManager::Release() noexcept
 {
 	if (swapChain)
 		swapChain->SetFullscreenState(false, nullptr);

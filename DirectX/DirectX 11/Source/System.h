@@ -18,13 +18,13 @@ public:
 
 	[[nodiscard]] bool Init();
 	[[nodiscard]] int Run();
-	void Release();
+	void Release() noexcept;
 
 private:
 	bool Frame();
 	
 	POINT InitWindows();
-	void ReleaseWindows();
+	void ReleaseWindows() noexcept;
 
 private:
 	LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);

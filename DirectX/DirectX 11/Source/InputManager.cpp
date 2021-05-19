@@ -62,7 +62,7 @@ bool InputManager::Frame()
 	return true;
 }
 
-void InputManager::Release()
+void InputManager::Release() noexcept
 {
 	if (impl->mouse)
 	{

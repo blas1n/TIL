@@ -12,7 +12,7 @@ class RenderManager final
 public:
 	[[nodiscard]] bool Initialize(HWND hWnd, POINT size);
 	[[nodiscard]] bool Frame();
-	[[nodiscard]] void Release();
+	void Release() noexcept;
 
 private:
 	class D3DManager* d3d;

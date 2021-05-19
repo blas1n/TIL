@@ -17,7 +17,7 @@ public:
 
 	[[nodiscard]] bool Initialize(HINSTANCE hInst, HWND hWnd, POINT screenSize);
 	[[nodiscard]] bool Frame();
-	void Release();
+	void Release() noexcept;
 
 	bool IsPressed(unsigned int key) const noexcept { return keyState[key] & 0x80; }
 	POINT GetMouseLocation() const noexcept;

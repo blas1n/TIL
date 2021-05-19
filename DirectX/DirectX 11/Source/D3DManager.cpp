@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstring>
 #include <dxgi.h>
+#include <d3d11.h>
 #include <fstream>
 
 #pragma comment(lib, "dxgi.lib")

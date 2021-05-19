@@ -32,19 +32,10 @@
     <ClCompile Include="Source\D3DManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ModelClass.cpp">
-      <Filter>Source File</Filter>
-    </ClCompile>
     <ClCompile Include="Source\InputManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ColorShaderClass.cpp">
-      <Filter>Source File</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RenderManager.cpp">
-      <Filter>Source File</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CameraClass.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,18 +50,6 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\RenderManager.h">
-      <Filter>Header File</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AlignedAllocator.h">
-      <Filter>Header File</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ModelClass.h">
-      <Filter>Header File</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CameraClass.h">
-      <Filter>Header File</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ColorShaderClass.h">
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\InputManager.h">

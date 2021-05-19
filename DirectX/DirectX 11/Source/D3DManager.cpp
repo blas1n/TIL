@@ -1,9 +1,9 @@
-#include "D3dClass.h"
+#include "D3DManager.h"
 #include <vector>
 #include <cstring>
 #include <fstream>
 
-bool D3dClass::Init(int screenWidth, int screenHeight, bool vsync, HWND hWnd,
+bool D3DManager::Init(int screenWidth, int screenHeight, bool vsync, HWND hWnd,
 	bool fullScreen, float screenDepth, float screenNear) {
 
 	HRESULT result;
@@ -221,7 +221,7 @@ bool D3dClass::Init(int screenWidth, int screenHeight, bool vsync, HWND hWnd,
 	return true;
 }
 
-void D3dClass::Release() {
+void D3DManager::Release() {
 	if (m_swapChain)
 		m_swapChain->SetFullscreenState(false, nullptr);
 
@@ -266,41 +266,41 @@ void D3dClass::Release() {
 	}
 }
 
-void D3dClass::BeginScene(float r, float g, float b, float a) {
+void D3DManager::BeginScene(float r, float g, float b, float a) {
 	float color[4]{ r, g, b, a };
 
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void D3dClass::EndScene() {
+void D3DManager::EndScene() {
 	if (m_vsync_enabled)
 		m_swapChain->Present(1, 0);
 	else
 		m_swapChain->Present(0, 0);
 }
 
-ID3D11Device* D3dClass::GetDevice() {
+ID3D11Device* D3DManager::GetDevice() {
 	return m_device;
 }
 
-ID3D11DeviceContext* D3dClass::GetDeviceContext() {
+ID3D11DeviceContext* D3DManager::GetDeviceContext() {
 	return m_deviceContext;
 }
 
-DirectX::XMMATRIX D3dClass::GetProjectionMatrix() {
+DirectX::XMMATRIX D3DManager::GetProjectionMatrix() {
 	return m_projectionMatrix;
 }
 
-DirectX::XMMATRIX D3dClass::GetWorldMatrix() {
+DirectX::XMMATRIX D3DManager::GetWorldMatrix() {
 	return m_worldMatrix;
 }
 
-DirectX::XMMATRIX D3dClass::GetOrthoMatrix() {
+DirectX::XMMATRIX D3DManager::GetOrthoMatrix() {
 	return m_orthoMatrix;
 }
 
-void D3dClass::GetVideoCardInfo(PTSTR cardName, int& memory) {
+void D3DManager::GetVideoCardInfo(PTSTR cardName, int& memory) {
 	lstrcpyn(cardName, m_videoCardDescription, 128);
 	memory = m_videoCardMemory;
 }

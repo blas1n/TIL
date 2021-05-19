@@ -13,7 +13,7 @@ private:
 	using Matrix = DirectX::XMMATRIX;
 
 public:
-	bool Init(int, int, bool, HWND, bool, float, float);
+	bool Initialize(POINT, bool, HWND, bool, float, float);
 	void Release();
 
 	void BeginScene(float, float, float, float);

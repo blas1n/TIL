@@ -5,8 +5,8 @@
 
 class D3DManager
 {
-	using Matrix = DirectX::XMMATRIX;
-
+	using Matrix = DirectX::XMFLOAT4X4;
+	
 public:
 	bool Initialize(HWND hWnd, POINT size, bool isVsyncEnable, bool isFullScreen, float screenFar, float screenNear);
 	void Release() noexcept;
@@ -18,8 +18,8 @@ public:
 	struct ID3D11DeviceContext* GetDeviceContext() const noexcept { return deviceContext; }
 
 	Matrix GetProjectionMatrix() const noexcept { return projectionMatrix; }
-	Matrix GetWorldMatrix() const noexcept { return worldMatrix; }
 	Matrix GetOrthoMatrix() const noexcept { return orthoMatrix; }
+	Matrix GetWorldMatrix() const noexcept { return worldMatrix; }
 
 	void GetVideoCardInfo(PTSTR cardName, int& memory);
 
@@ -35,8 +35,8 @@ private:
 	struct ID3D11DepthStencilView* depthStencilView;
 	struct ID3D11RasterizerState* rasterState;
 	Matrix projectionMatrix;
-	Matrix worldMatrix;
 	Matrix orthoMatrix;
+	Matrix worldMatrix;
 
 	int videoCardMemory;
 	bool isVsyncEnabled;

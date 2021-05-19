@@ -206,10 +206,11 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 	const float fieldOfView = DirectX::XM_PI * 0.5f;
 	const float screenAspect = static_cast<float>(size.x) / static_cast<float>(size.y);
 
-	projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenFar);
-	worldMatrix = DirectX::XMMatrixIdentity();
-	orthoMatrix = DirectX::XMMatrixOrthographicLH(static_cast<float>(size.x),
-		static_cast<float>(size.y), screenNear, screenFar);
+	DirectX::XMStoreFloat4x4(&projectionMatrix, DirectX::XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenFar));
+	DirectX::XMStoreFloat4x4(&orthoMatrix, DirectX::XMMatrixOrthographicLH(
+		static_cast<float>(size.x), static_cast<float>(size.y), screenNear, screenFar));
+	
+	DirectX::XMStoreFloat4x4(&worldMatrix, DirectX::XMMatrixIdentity());
 
 #if UNICODE
 	std::wofstream outFile{ L"GPU Info.txt" };

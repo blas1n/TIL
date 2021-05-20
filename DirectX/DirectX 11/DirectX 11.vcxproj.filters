@@ -41,6 +41,12 @@
     <ClCompile Include="Source\Model.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Shader.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System.h">
@@ -62,6 +68,12 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\Model.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Shader.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

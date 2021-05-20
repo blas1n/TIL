@@ -1,2 +1,2 @@
-Name : NVIDIA GeForce GTX 1060
-Memeory Capacity : 3072
+Name : NVIDIA GeForce RTX 3070
+Memeory Capacity : 8043

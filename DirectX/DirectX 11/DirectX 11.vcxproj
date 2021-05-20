@@ -173,19 +173,23 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\D3DManager.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\RenderManager.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\stdafx.cpp" />
     <ClCompile Include="Source\System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\D3DManager.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\RenderManager.h" />
     <ClInclude Include="Source\InputManager.h" />
+    <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\System.h" />
     <ClInclude Include="Source\targetver.h" />

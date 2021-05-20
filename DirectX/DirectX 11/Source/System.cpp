@@ -62,8 +62,20 @@ int System::Run()
 
 void System::Release() noexcept
 {
-	render->Release();
-	input->Release();
+	if (render)
+	{
+		render->Release();
+		delete render;
+		render = nullptr;
+	}
+
+	if (input)
+	{
+		input->Release();
+		delete input;
+		input = nullptr;
+	}
+
 	ReleaseWindows();
 }
 

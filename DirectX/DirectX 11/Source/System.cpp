@@ -90,7 +90,7 @@ POINT System::InitWindows()
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.hbrBackground = reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
 	wc.lpszMenuName = nullptr;
-	wc.lpszMenuName = appName;
+	wc.lpszClassName = appName;
 
 	RegisterClassEx(&wc);
 

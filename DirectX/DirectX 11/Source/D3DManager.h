@@ -17,18 +17,19 @@ public:
 	struct ID3D11Device* GetDevice() const noexcept { return device; }
 	struct ID3D11DeviceContext* GetDeviceContext() const noexcept { return deviceContext; }
 
-	Matrix GetProjectionMatrix() const noexcept { return projectionMatrix; }
-	Matrix GetOrthoMatrix() const noexcept { return orthoMatrix; }
-	Matrix GetWorldMatrix() const noexcept { return worldMatrix; }
+	const Matrix& GetProjectionMatrix() const noexcept { return projectionMatrix; }
+	const Matrix& GetOrthoMatrix() const noexcept { return orthoMatrix; }
+	const Matrix& GetWorldMatrix() const noexcept { return worldMatrix; }
 
 	void GetVideoCardInfo(PTSTR cardName, int& memory);
 
 private:
 	TCHAR videoCardDescription[128];
 
+	ID3D11Device* device;
+	ID3D11DeviceContext* deviceContext;
+
 	struct IDXGISwapChain* swapChain;
-	struct ID3D11Device* device;
-	struct ID3D11DeviceContext* deviceContext;
 	struct ID3D11RenderTargetView* renderTargetView;
 	struct ID3D11Texture2D* depthStencilBuffer;
 	struct ID3D11DepthStencilState* depthStencilState;

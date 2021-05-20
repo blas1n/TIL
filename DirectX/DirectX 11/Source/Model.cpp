@@ -7,8 +7,8 @@ using DirectX::XMVECTOR;
 
 struct VertexType final
 {
-	XMVECTOR position;
-	XMVECTOR color;
+	DirectX::XMFLOAT3 position;
+	DirectX::XMFLOAT4 color;
 };
 
 bool Model::Initialize(ID3D11Device* device)
@@ -16,20 +16,17 @@ bool Model::Initialize(ID3D11Device* device)
 	vertexCount = 3;
 	indexCount = 3;
 
-	DirectX::XMFLOAT3 position{ -1.0f, -1.0f, 0.0f };
-	DirectX::XMFLOAT4 color{ 0.0f, 1.0f, 0.0f, 1.0f };
-	vertices[0].position = DirectX::XMLoadFloat3(&position);
-	vertices[0].color = DirectX::XMLoadFloat4(&color);
+	std::vector<VertexType> vertices(vertexCount);
+	std::vector<DWORD> indices(indexCount);
 
-	position = { 0.0f, 1.0f, 0.0f };
-	color = { 0.0f, 1.0f, 0.0f, 1.0f };
-	vertices[1].position = DirectX::XMLoadFloat3(&position);
-	vertices[1].color = DirectX::XMLoadFloat4(&color);
+	vertices[0].position = { -1.0f, -1.0f, 0.0f };
+	vertices[0].color = { 0.0f, 1.0f, 0.0f, 1.0f };
 
-	position = { 1.0f, -1.0f, 0.0f };
-	color = { 0.0f, 1.0f, 0.0f, 1.0f };
-	vertices[2].position = DirectX::XMLoadFloat3(&position);
-	vertices[2].color = DirectX::XMLoadFloat4(&color);
+	vertices[1].position = { 0.0f, 1.0f, 0.0f };
+	vertices[1].color = { 0.0f, 1.0f, 0.0f, 1.0f };
+
+	vertices[2].position = { 1.0f, -1.0f, 0.0f };
+	vertices[2].color = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 	indices[0] = 0;
 	indices[1] = 1;

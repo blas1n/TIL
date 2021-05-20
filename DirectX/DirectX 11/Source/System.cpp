@@ -90,17 +90,14 @@ POINT System::InitWindows()
 	appName = TEXT("Engine");
 
 	WNDCLASSEX wc;
-
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	wc.lpfnWndProc = WndProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
+	wc.lpfnWndProc = &WndProc;
+	wc.cbClsExtra = wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
-	wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
-	wc.hIconSm = wc.hIcon;
+	wc.hIcon = wc.hIconSm = LoadIcon(nullptr, IDI_WINLOGO);
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wc.hbrBackground = reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
+	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = appName;
 

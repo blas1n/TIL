@@ -132,6 +132,7 @@ POINT System::InitWindows()
 	SetFocus(hWnd);
 
 	ShowCursor(false);
+	UpdateWindow(hWnd);
 
 	return POINT{ screenWidth, screenHeight };
 }

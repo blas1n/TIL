@@ -5,7 +5,7 @@
 constexpr static float SCREEN_FAR = 1000.0f;
 constexpr static float SCREEN_NEAR = 0.1f;
 constexpr static bool VSYNC_ENABLED = true;
-constexpr static bool FULL_SCREEN = true;
+constexpr static bool FULL_SCREEN = false;
 
 class RenderManager final
 {
@@ -15,5 +15,8 @@ public:
 	void Release() noexcept;
 
 private:
-	class D3DManager* d3d;
+	class D3DManager* d3d = nullptr;
+	class Camera* camera = nullptr;
+	class Shader* shader = nullptr;
+	class Model* model = nullptr;
 };

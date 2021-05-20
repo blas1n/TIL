@@ -81,7 +81,7 @@ void System::Release() noexcept
 
 bool System::Frame()
 {
-	return !input->Frame() && render->Frame();
+	return input->Frame() && render->Frame();
 }
 
 POINT System::InitWindows()

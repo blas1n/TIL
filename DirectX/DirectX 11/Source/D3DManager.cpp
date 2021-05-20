@@ -282,7 +282,8 @@ void D3DManager::Release() noexcept
 
 void D3DManager::BeginScene(float r, float g, float b, float a)
 {
-	deviceContext->ClearRenderTargetView(renderTargetView, &r);
+	const float color[4]{ r, g, b, a };
+	deviceContext->ClearRenderTargetView(renderTargetView, color);
 	deviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 

@@ -13,8 +13,8 @@ struct VertexType final
 
 bool Model::Initialize(ID3D11Device* device)
 {
-	std::vector<VertexType> vertices(3);
-	std::vector<DWORD> indices(3);
+	vertexCount = 3;
+	indexCount = 3;
 
 	DirectX::XMFLOAT3 position{ -1.0f, -1.0f, 0.0f };
 	DirectX::XMFLOAT4 color{ 0.0f, 1.0f, 0.0f, 1.0f };
@@ -37,7 +37,7 @@ bool Model::Initialize(ID3D11Device* device)
 
 	D3D11_BUFFER_DESC vertexDesc;
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexDesc.ByteWidth = sizeof(VertexType) * 3;
+	vertexDesc.ByteWidth = sizeof(VertexType) * vertexCount;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = vertexDesc.MiscFlags = vertexDesc.StructureByteStride = 0;
 
@@ -50,7 +50,7 @@ bool Model::Initialize(ID3D11Device* device)
 
 	D3D11_BUFFER_DESC indexDesc;
 	indexDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexDesc.ByteWidth = sizeof(DWORD) * 3;
+	indexDesc.ByteWidth = sizeof(DWORD) * vertexCount;
 	indexDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	indexDesc.CPUAccessFlags = indexDesc.MiscFlags = indexDesc.StructureByteStride = 0;
 

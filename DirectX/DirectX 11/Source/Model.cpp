@@ -64,7 +64,7 @@ bool Model::Initialize(ID3D11Device* device)
 	return true;
 }
 
-void Model::Render(struct ID3D11DeviceContext* context)
+void Model::ReadyToRender(struct ID3D11DeviceContext* context)
 {
 	constexpr UINT stride = sizeof(VertexType);
 	constexpr UINT offset = 0;

@@ -20,7 +20,7 @@ public:
 	~Model() {}
 
 	[[nodiscard]] bool Initialize(struct ID3D11Device* device);
-	void Render(struct ID3D11DeviceContext* context);
+	void ReadyToRender(struct ID3D11DeviceContext* context);
 	void Release() noexcept;
 
 	UINT GetVertexCount() const noexcept { return vertexCount; }

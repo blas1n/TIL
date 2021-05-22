@@ -15,8 +15,10 @@ bool Shader::Initialize(ID3D11Device* device, HWND hWnd)
 {
 	constexpr static auto MissingShader = TEXT("Missing Shader File");
 
-	constexpr auto vsName = TEXT("Shader/VertexShader.hlsl");
-	constexpr auto psName = TEXT("Shader/PixelShader.hlsl");
+	const auto names = GetShaderNames();
+
+	const auto vsName = std::get<0>(names);
+	const auto psName = std::get<1>(names);
 
 	ID3DBlob* errorMessage = nullptr;
 
@@ -54,24 +56,8 @@ bool Shader::Initialize(ID3D11Device* device, HWND hWnd)
 	result = device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), nullptr, &pixelShader);
 	if (FAILED(result)) return false;
 
-	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
-	polygonLayout[0].SemanticName = "POSITION";
-	polygonLayout[0].SemanticIndex = 0;
-	polygonLayout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	polygonLayout[0].InputSlot = polygonLayout[0].AlignedByteOffset = 0;
-	polygonLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	polygonLayout[0].InstanceDataStepRate = 0;
-
-	polygonLayout[1].SemanticName = "COLOR";
-	polygonLayout[1].SemanticIndex = 0;
-	polygonLayout[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	polygonLayout[1].InputSlot = 0;
-	polygonLayout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-	polygonLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	polygonLayout[1].InstanceDataStepRate = 0;
-
-	const UINT numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
-	result = device->CreateInputLayout(polygonLayout, numElements,
+	const auto inputElements = GetInputElements();
+	result = device->CreateInputLayout(inputElements.data(), static_cast<UINT>(inputElements.size()),
 		vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &inputLayout);
 
 	if (FAILED(result)) return false;

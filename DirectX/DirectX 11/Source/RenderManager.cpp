@@ -1,9 +1,9 @@
 #include "RenderManager.h"
 #include <d3d11.h>
 #include "Camera.h"
+#include "ColorShader.h"
 #include "D3DManager.h"
 #include "Model.h"
-#include "Shader.h"
 
 bool RenderManager::Initialize(HWND hWnd, POINT size)
 {
@@ -27,7 +27,7 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	
 	camera->SetPos(0.0f, 0.0f, -10.0f);
 
-	shader = new Shader{};
+	shader = new ColorShader{};
 	if (!shader) return false;
 
 	result = shader->Initialize(d3d->GetDevice(), hWnd);

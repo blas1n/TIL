@@ -41,8 +41,6 @@ bool System::Init()
 
 int System::Run()
 {
-	if (!Init()) return 0;
-
 	MSG msg;
 
 	while (true)

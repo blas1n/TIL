@@ -96,7 +96,7 @@ bool Shader::Render(ID3D11DeviceContext* context, UINT indexCount,
 	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection)
 {
 	const bool result = SetParameter(context, world, view, projection);
-	if (result) return false;
+	if (!result) return false;
 
 	context->IASetInputLayout(inputLayout);
 	context->VSSetShader(vertexShader, nullptr, 0);

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Shader File">
@@ -9,6 +9,9 @@
     </Filter>
     <Filter Include="Source File">
       <UniqueIdentifier>{08b6c0d4-39ca-45b0-83f8-dc8feda454eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{96e92428-8752-48fa-bc9a-11036de377c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,5 +85,12 @@
     <ClInclude Include="Source\ColorShader.h">
       <Filter>Header File</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\inc\DirectXTex.h">
+      <Filter>ThirdParty</Filter>
+    </ClInclude>
+  <ItemGroup>
+    <None Include="ThirdParty\inc\DirectXTex.inl">
+      <Filter>ThirdParty</Filter>
+    </None>
   </ItemGroup>
 </Project>

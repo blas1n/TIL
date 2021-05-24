@@ -1,9 +1,10 @@
 #include "RenderManager.h"
 #include <d3d11.h>
 #include "Camera.h"
-#include "ColorShader.h"
 #include "D3DManager.h"
 #include "Model.h"
+#include "Texture.h"
+#include "TextureShader.h"
 
 bool RenderManager::Initialize(HWND hWnd, POINT size)
 {
@@ -27,7 +28,7 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	
 	camera->SetPos(0.0f, 0.0f, -10.0f);
 
-	shader = new ColorShader{};
+	shader = new TextureShader{};
 	if (!shader) return false;
 
 	result = shader->Initialize(d3d->GetDevice(), hWnd);
@@ -40,7 +41,7 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	model = new Model{};
 	if (!model) return false;
 
-	result = model->Initialize(d3d->GetDevice());
+	result = model->Initialize(d3d->GetDevice(), TEXT("Asset/seafloor.dds"));
 	if (!result)
 	{
 		MessageBox(hWnd, CouldNotInitModel, Error, MB_OK);
@@ -61,7 +62,7 @@ bool RenderManager::Frame()
 	const auto context = d3d->GetDeviceContext();
 	model->ReadyToRender(context);
 
-	const bool result = shader->Render(context, model->GetIndexCount(), world, view, projection);
+	const bool result = shader->Render(context, model->GetIndexCount(), model->GetTexture(), world, view, projection);
 	if (!result) return false;
 
 	d3d->EndScene();

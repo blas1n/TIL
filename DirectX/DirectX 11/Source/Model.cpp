@@ -2,6 +2,7 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <vector>
+#include "Texture.h"
 
 using DirectX::XMVECTOR;
 
@@ -11,7 +12,45 @@ struct VertexType final
 	DirectX::XMFLOAT4 color;
 };
 
-bool Model::Initialize(ID3D11Device* device)
+bool Model::Initialize(ID3D11Device* device, const std::filesystem::path& texturePath)
+{
+	if (!InitBuffer(device)) return false;
+	return LoadTexture(device, texturePath);
+}
+
+void Model::ReadyToRender(struct ID3D11DeviceContext* context)
+{
+	constexpr UINT stride = sizeof(VertexType);
+	constexpr UINT offset = 0;
+
+	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+	context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+}
+
+void Model::Release() noexcept
+{
+	if (texture)
+	{
+		texture->Release();
+		delete texture;
+		texture = nullptr;
+	}
+
+	if (indexBuffer)
+	{
+		indexBuffer->Release();
+		indexBuffer = nullptr;
+	}
+
+	if (vertexBuffer)
+	{
+		vertexBuffer->Release();
+		vertexBuffer = nullptr;
+	}
+}
+
+bool Model::InitBuffer(ID3D11Device* device)
 {
 	vertexCount = 3;
 	indexCount = 3;
@@ -56,32 +95,13 @@ bool Model::Initialize(ID3D11Device* device)
 	indexData.SysMemPitch = vertexData.SysMemSlicePitch = 0;
 
 	result = device->CreateBuffer(&indexDesc, &indexData, &indexBuffer);
-	if (FAILED(result)) return false;
-
-	return true;
+	return SUCCEEDED(result);
 }
 
-void Model::ReadyToRender(struct ID3D11DeviceContext* context)
+bool Model::LoadTexture(ID3D11Device* device, const std::filesystem::path& texturePath)
 {
-	constexpr UINT stride = sizeof(VertexType);
-	constexpr UINT offset = 0;
+	texture = new Texture{};
+	if (!texture) return false;
 
-	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-}
-
-void Model::Release() noexcept
-{
-	if (indexBuffer)
-	{
-		indexBuffer->Release();
-		indexBuffer = nullptr;
-	}
-
-	if (vertexBuffer)
-	{
-		vertexBuffer->Release();
-		vertexBuffer = nullptr;
-	}
+	return texture->Initialize(device, texturePath);
 }

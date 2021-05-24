@@ -53,6 +53,9 @@
     <ClCompile Include="Source\ColorShader.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Texture.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System.h">
@@ -83,6 +86,9 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\ColorShader.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Texture.h">
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\inc\DirectXTex.h">

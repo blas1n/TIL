@@ -192,6 +192,7 @@
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\stdafx.cpp" />
     <ClCompile Include="Source\System.cpp" />
+    <ClCompile Include="Source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h" />
@@ -204,6 +205,11 @@
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\System.h" />
     <ClInclude Include="Source\targetver.h" />
+    <ClInclude Include="Source\Texture.h" />
+    <ClInclude Include="ThirdParty\inc\DirectXTex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ThirdParty\inc\DirectXTex.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

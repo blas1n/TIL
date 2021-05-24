@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Shader File">
@@ -21,10 +21,10 @@
     <FxCompile Include="Shader\ColorVertexShader.hlsl">
       <Filter>Shader File</Filter>
     </FxCompile>
-    <FxCompile Include="TextureVertexShader.hlsl">
+    <FxCompile Include="Shader\TexturePixelShader.hlsl">
       <Filter>Shader File</Filter>
     </FxCompile>
-    <FxCompile Include="TexturePixelShader.hlsl">
+    <FxCompile Include="Shader\TextureVertexShader.hlsl">
       <Filter>Shader File</Filter>
     </FxCompile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClCompile Include="Source\Texture.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
-    <ClCompile Include="TextureShader.cpp">
+    <ClCompile Include="Source\TextureShader.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
   </ItemGroup>
@@ -100,7 +100,7 @@
     <ClInclude Include="ThirdParty\inc\DirectXTex.h">
       <Filter>ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="TextureShader.h">
+    <ClInclude Include="Source\TextureShader.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

@@ -211,10 +211,10 @@
     <ClCompile Include="Source\TextureShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LightShader.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\ColorShader.h" />
     <ClInclude Include="Source\D3DManager.h" />
+    <ClInclude Include="Source\LightShader.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\RenderManager.h" />
     <ClInclude Include="Source\InputManager.h" />

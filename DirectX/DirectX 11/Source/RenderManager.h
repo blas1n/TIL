@@ -15,7 +15,8 @@ public:
 	void Release() noexcept;
 
 private:
-	class TextureShader* shader = nullptr;
+	class DirectionalLight* light = nullptr;
+	class LightShader* shader = nullptr;
 	class D3DManager* d3d = nullptr;
 	class Camera* camera = nullptr;
 	class Model* model = nullptr;

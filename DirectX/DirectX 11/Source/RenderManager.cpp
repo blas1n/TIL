@@ -2,9 +2,10 @@
 #include <d3d11.h>
 #include "Camera.h"
 #include "D3DManager.h"
+#include "DirectionalLight.h"
+#include "LightShader.h"
 #include "Model.h"
 #include "Texture.h"
-#include "TextureShader.h"
 
 bool RenderManager::Initialize(HWND hWnd, POINT size)
 {
@@ -28,7 +29,7 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	
 	camera->SetPos(0.0f, 0.0f, -10.0f);
 
-	shader = new TextureShader{};
+	shader = new LightShader{};
 	if (!shader) return false;
 
 	result = shader->Initialize(d3d->GetDevice(), hWnd);
@@ -37,6 +38,12 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 		MessageBox(hWnd, CouldNotInitShader, Error, MB_OK);
 		return false;
 	}
+
+	light = new DirectionalLight{};
+	if (!light) return false;
+
+	light->SetDiffuseColor({ 1.0f, 0.0f, 1.0f, 1.0f });
+	light->SetDirection({ 0.0f, 0.0f, 1.0f });
 
 	model = new Model{};
 	if (!model) return false;
@@ -53,16 +60,25 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 
 bool RenderManager::Frame()
 {
+	static float rot = 0.0f;
+	rot += DirectX::XM_PI * 0.01f;
+	if (rot >= 360.0f)
+		rot -= 360.0f;
+
 	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
-	const auto world = DirectX::XMLoadFloat4x4(&d3d->GetWorldMatrix());
+	auto world = DirectX::XMLoadFloat4x4(&d3d->GetWorldMatrix());
+	world = DirectX::XMMatrixMultiply(world, DirectX::XMMatrixRotationY(rot));
+	
 	const auto view = camera->GetViewMatrix();
 	const auto projection = DirectX::XMLoadFloat4x4(&d3d->GetProjectionMatrix());
 
 	const auto context = d3d->GetDeviceContext();
 	model->ReadyToRender(context);
 
-	const bool result = shader->Render(context, model->GetIndexCount(), model->GetTexture(), world, view, projection);
+	const bool result = shader->Render(context, model->GetIndexCount(),
+		model->GetTexture(), world, view, projection, light->GetDirection(), light->GetDiffuseColor());
+
 	if (!result) return false;
 
 	d3d->EndScene();
@@ -77,6 +93,12 @@ void RenderManager::Release() noexcept
 		model->Release();
 		delete model;
 		model = nullptr;
+	}
+
+	if (light)
+	{
+		delete light;
+		light = nullptr;
 	}
 
 	if (shader)

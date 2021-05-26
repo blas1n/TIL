@@ -9,6 +9,7 @@ public:
 	Model()
 		: vertexBuffer(nullptr)
 		, indexBuffer(nullptr)
+		, texture(nullptr)
 		, vertexCount(0)
 		, indexCount(0) {}
 

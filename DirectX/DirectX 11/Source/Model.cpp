@@ -9,7 +9,8 @@ using DirectX::XMVECTOR;
 struct VertexType final
 {
 	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT4 color;
+	DirectX::XMFLOAT2 texture;
+	DirectX::XMFLOAT3 normal;
 };
 
 bool Model::Initialize(ID3D11Device* device, const std::filesystem::path& texturePath)
@@ -59,13 +60,16 @@ bool Model::InitBuffer(ID3D11Device* device)
 	std::vector<DWORD> indices(indexCount);
 
 	vertices[0].position = { -1.0f, -1.0f, 0.0f };
-	vertices[0].color = { 0.0f, 1.0f, 0.0f, 1.0f };
+	vertices[0].texture = { 0.0f, 1.0f };
+	vertices[0].normal = { 0.0f, 0.0f, -1.0f };
 
 	vertices[1].position = { 0.0f, 1.0f, 0.0f };
-	vertices[1].color = { 0.0f, 1.0f, 0.0f, 1.0f };
+	vertices[1].texture = { 0.5f, 0.0f };
+	vertices[1].normal = { 0.0f, 0.0f, -1.0f };
 
 	vertices[2].position = { 1.0f, -1.0f, 0.0f };
-	vertices[2].color = { 0.0f, 1.0f, 0.0f, 1.0f };
+	vertices[2].texture = { 1.0f, 1.0f };
+	vertices[2].normal = { 0.0f, 0.0f, -1.0f };
 
 	indices[0] = 0;
 	indices[1] = 1;

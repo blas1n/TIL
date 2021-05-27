@@ -201,6 +201,7 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\ColorShader.cpp" />
     <ClCompile Include="Source\D3DManager.cpp" />
+    <ClCompile Include="Source\LightShader.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\RenderManager.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />

@@ -71,6 +71,9 @@
     <ClCompile Include="Source\LightShader.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ObjParser.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System.h">
@@ -116,6 +119,9 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectionalLight.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjParser.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

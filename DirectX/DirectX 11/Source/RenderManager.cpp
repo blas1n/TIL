@@ -5,6 +5,7 @@
 #include "DirectionalLight.h"
 #include "LightShader.h"
 #include "Model.h"
+#include "ObjParser.h"
 #include "Texture.h"
 
 bool RenderManager::Initialize(HWND hWnd, POINT size)
@@ -48,8 +49,13 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	model = new Model{};
 	if (!model) return false;
 
-	result = model->Initialize(d3d->GetDevice(),
-		TEXT("Asset/Cube.txt"), TEXT("Asset/seafloor.dds"));
+	std::filesystem::path modelPath{ TEXT("Asset/Cube.mdl") };
+
+	if (!std::filesystem::exists(modelPath))
+		if (!ObjParser::Parse(TEXT("Asset/Cube.obj"), modelPath))
+			return false;
+
+	result = model->Initialize(d3d->GetDevice(), modelPath, TEXT("Asset/seafloor.dds"));
 
 	if (!result)
 	{

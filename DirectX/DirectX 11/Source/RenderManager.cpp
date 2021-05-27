@@ -42,7 +42,7 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	light = new DirectionalLight{};
 	if (!light) return false;
 
-	light->SetDiffuseColor({ 1.0f, 0.0f, 1.0f, 1.0f });
+	light->SetDiffuseColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	light->SetDirection({ 0.0f, 0.0f, 1.0f });
 
 	model = new Model{};

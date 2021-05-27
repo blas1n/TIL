@@ -48,7 +48,9 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	model = new Model{};
 	if (!model) return false;
 
-	result = model->Initialize(d3d->GetDevice(), TEXT("Asset/seafloor.dds"));
+	result = model->Initialize(d3d->GetDevice(),
+		TEXT("Asset/Cube.txt"), TEXT("Asset/seafloor.dds"));
+
 	if (!result)
 	{
 		MessageBox(hWnd, CouldNotInitModel, Error, MB_OK);

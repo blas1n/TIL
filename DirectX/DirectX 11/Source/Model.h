@@ -9,6 +9,7 @@ public:
 	Model()
 		: vertexBuffer(nullptr)
 		, indexBuffer(nullptr)
+		, model(nullptr)
 		, texture(nullptr)
 		, vertexCount(0)
 		, indexCount(0) {}
@@ -21,7 +22,9 @@ public:
 
 	~Model() {}
 
-	[[nodiscard]] bool Initialize(struct ID3D11Device* device, const std::filesystem::path& texturePath);
+	[[nodiscard]] bool Initialize(struct ID3D11Device* device,
+		const std::filesystem::path& moelPath, const std::filesystem::path& texturePath);
+
 	void ReadyToRender(struct ID3D11DeviceContext* context);
 	void Release() noexcept;
 
@@ -31,12 +34,14 @@ public:
 
 private:
 	bool InitBuffer(ID3D11Device* device);
+	bool LoadModel(const std::filesystem::path& modelPath);
 	bool LoadTexture(ID3D11Device* device, const std::filesystem::path& texturePath);
 
 private:
 	struct ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
 
+	struct ModelType* model;
 	Texture* texture;
 	
 	UINT vertexCount, indexCount;

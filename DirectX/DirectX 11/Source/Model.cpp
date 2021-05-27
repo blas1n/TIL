@@ -1,6 +1,7 @@
 #include "Model.h"
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include <fstream>
 #include <vector>
 #include "Texture.h"
 
@@ -13,8 +14,17 @@ struct VertexType final
 	DirectX::XMFLOAT3 normal;
 };
 
-bool Model::Initialize(ID3D11Device* device, const std::filesystem::path& texturePath)
+struct ModelType final
 {
+	float x, y, z;
+	float tu, tv;
+	float nx, ny, nz;
+};
+
+bool Model::Initialize(ID3D11Device* device,
+	const std::filesystem::path& modelPath, const std::filesystem::path& texturePath)
+{
+	if (!LoadModel(modelPath)) return false;
 	if (!InitBuffer(device)) return false;
 	return LoadTexture(device, texturePath);
 }
@@ -31,6 +41,12 @@ void Model::ReadyToRender(struct ID3D11DeviceContext* context)
 
 void Model::Release() noexcept
 {
+	if (model)
+	{
+		delete[] model;
+		model = nullptr;
+	}
+
 	if (texture)
 	{
 		texture->Release();
@@ -53,27 +69,17 @@ void Model::Release() noexcept
 
 bool Model::InitBuffer(ID3D11Device* device)
 {
-	vertexCount = 3;
-	indexCount = 3;
-
 	std::vector<VertexType> vertices(vertexCount);
 	std::vector<DWORD> indices(indexCount);
 
-	vertices[0].position = { -1.0f, -1.0f, 0.0f };
-	vertices[0].texture = { 0.0f, 1.0f };
-	vertices[0].normal = { 0.0f, 0.0f, -1.0f };
+	for (UINT i = 0; i < vertexCount; ++i)
+	{
+		vertices[i].position = { model[i].x, model[i].y, model[i].z };
+		vertices[i].texture = { model[i].tu, model[i].tv };
+		vertices[i].normal = { model[i].nx, model[i].ny, model[i].nz };
 
-	vertices[1].position = { 0.0f, 1.0f, 0.0f };
-	vertices[1].texture = { 0.5f, 0.0f };
-	vertices[1].normal = { 0.0f, 0.0f, -1.0f };
-
-	vertices[2].position = { 1.0f, -1.0f, 0.0f };
-	vertices[2].texture = { 1.0f, 1.0f };
-	vertices[2].normal = { 0.0f, 0.0f, -1.0f };
-
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
+		indices[i] = i;
+	}
 
 	D3D11_BUFFER_DESC vertexDesc;
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -100,6 +106,41 @@ bool Model::InitBuffer(ID3D11Device* device)
 
 	result = device->CreateBuffer(&indexDesc, &indexData, &indexBuffer);
 	return SUCCEEDED(result);
+}
+
+bool Model::LoadModel(const std::filesystem::path& modelPath)
+{
+	constexpr static auto SkipToken = [](std::ifstream& fin, char token)
+	{
+		char input = 0;
+		while (input != token)
+			input = fin.get();
+	};
+
+	std::ifstream fin{ modelPath };
+	if (fin.fail()) return false;
+
+	SkipToken(fin, ':');
+
+	fin >> vertexCount;
+	indexCount = vertexCount;
+
+	model = new ModelType[vertexCount]{};
+	if (!model) return false;
+
+	SkipToken(fin, ':');
+	(void)fin.get();
+	(void)fin.get();
+
+	for (UINT i = 0; i < vertexCount; ++i)
+	{
+		fin >> model[i].x >> model[i].y >> model[i].z;
+		fin >> model[i].tu >> model[i].tv;
+		fin >> model[i].nx >> model[i].ny >> model[i].nz;
+	}
+
+	fin.close();
+	return true;
 }
 
 bool Model::LoadTexture(ID3D11Device* device, const std::filesystem::path& texturePath)

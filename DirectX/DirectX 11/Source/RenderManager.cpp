@@ -28,7 +28,7 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	camera = new Camera{};
 	if (!camera) return false;
 	
-	camera->SetPos(0.0f, 0.0f, -5.0f);
+	camera->SetPos(0.0f, 0.0f, -2.0f);
 
 	shader = new LightShader{};
 	if (!shader) return false;

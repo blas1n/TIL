@@ -70,7 +70,7 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 bool RenderManager::Frame()
 {
 	static float rot = 0.0f;
-	rot += DirectX::XM_PI * 0.01f;
+	rot += DirectX::XM_PI * 0.005f;
 	if (rot >= 360.0f)
 		rot -= 360.0f;
 

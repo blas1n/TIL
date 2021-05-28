@@ -2,6 +2,7 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <fstream>
+#include "DirectionalLight.h"
 #include "Texture.h"
 
 #pragma comment(lib, "D3DCompiler.lib")
@@ -14,6 +15,7 @@ struct MatrixBufferType final
 
 struct LightBufferType final
 {
+	DirectX::XMFLOAT4 ambientColor;
 	DirectX::XMFLOAT4 diffuseColor;
 	DirectX::XMFLOAT3 lightDir;
 	float padding;
@@ -127,10 +129,9 @@ bool LightShader::Initialize(ID3D11Device* device, HWND hWnd)
 }
 
 bool LightShader::Render(ID3D11DeviceContext* context, UINT indexCount, Texture* texture,
-	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection,
-	const DirectX::XMFLOAT3& lightDir, const DirectX::XMFLOAT4& diffuseColor)
+	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection, const DirectionalLight& light)
 {
-	const bool result = SetParameter(context, texture, world, view, projection, lightDir, diffuseColor);
+	const bool result = SetParameter(context, texture, world, view, projection, light);
 	if (!result) return false;
 
 	context->IASetInputLayout(inputLayout);
@@ -180,9 +181,8 @@ void LightShader::Release() noexcept
 	}
 }
 
-bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
-	DirectX::FXMMATRIX worldMatrix, DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix,
-	const DirectX::XMFLOAT3& lightDir, const DirectX::XMFLOAT4& diffuseColor)
+bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, DirectX::FXMMATRIX worldMatrix,
+	DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix, const DirectionalLight& light)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT result = context->Map(matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -204,8 +204,9 @@ bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
 	if (FAILED(result)) return false;
 
 	LightBufferType* lightData = reinterpret_cast<LightBufferType*>(mappedResource.pData);
-	lightData->diffuseColor = diffuseColor;
-	lightData->lightDir = lightDir;
+	lightData->ambientColor = light.GetAmbientColor();
+	lightData->diffuseColor = light.GetDiffuseColor();
+	lightData->lightDir = light.GetDirection();
 	lightData->padding = 0.0f;
 
 	context->Unmap(lightBuffer, 0);

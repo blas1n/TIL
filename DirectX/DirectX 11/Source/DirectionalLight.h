@@ -2,7 +2,7 @@
 
 #include <DirectXMath.h>
 
-class DirectionalLight final
+struct DirectionalLight final
 {
 public:
 	void SetDiffuseColor(const DirectX::XMFLOAT4& inDiffuseColor) noexcept { diffuseColor = inDiffuseColor; }

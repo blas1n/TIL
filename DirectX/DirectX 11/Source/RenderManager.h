@@ -15,7 +15,7 @@ public:
 	void Release() noexcept;
 
 private:
-	class DirectionalLight* light = nullptr;
+	struct DirectionalLight* light = nullptr;
 	class LightShader* shader = nullptr;
 	class D3DManager* d3d = nullptr;
 	class Camera* camera = nullptr;

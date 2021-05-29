@@ -43,9 +43,11 @@ bool RenderManager::Initialize(HWND hWnd, POINT size)
 	light = new DirectionalLight{};
 	if (!light) return false;
 
-	light->SetAmbientColor({ 0.15f, 0.15f, 0.15f, 1.0f });
-	light->SetDiffuseColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	light->SetAmbientColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+	light->SetDiffuseColor({ 0.5f, 0.5f, 0.5f, 1.0f });
+	light->SetSpecularColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 	light->SetDirection({ 0.0f, 0.0f, 1.0f });
+	light->SetSpecularPower(32.0f);
 
 	model = new Model{};
 	if (!model) return false;
@@ -86,7 +88,7 @@ bool RenderManager::Frame()
 	model->ReadyToRender(context);
 
 	const bool result = shader->Render(context, model->GetIndexCount(),
-		model->GetTexture(), world, view, projection, *light);
+		model->GetTexture(), world, view, projection, *light, camera->GetPos());
 
 	if (!result) return false;
 

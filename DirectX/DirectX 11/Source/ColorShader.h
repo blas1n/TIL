@@ -7,12 +7,13 @@ class ColorShader final
 {
 public:
 	[[nodiscard]] bool Initialize(struct ID3D11Device* device, HWND hWnd);
+
 	[[nodiscard]] bool Render(struct ID3D11DeviceContext* context, UINT indexCount,
 		DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection);
 
 	void Release() noexcept;
 
-	bool SetParameter(ID3D11DeviceContext* context, DirectX::FXMMATRIX worldMatrix,
+	[[nodiscard]] bool SetParameter(ID3D11DeviceContext* context, DirectX::FXMMATRIX worldMatrix,
 		DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix);
 
 private:

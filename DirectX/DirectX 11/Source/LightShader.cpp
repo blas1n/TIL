@@ -13,12 +13,19 @@ struct MatrixBufferType final
 	DirectX::XMFLOAT4X4 viewProjection;
 };
 
+struct CameraBufferType final
+{
+	DirectX::XMFLOAT3 cameraPosition;
+	float padding;
+};
+
 struct LightBufferType final
 {
 	DirectX::XMFLOAT4 ambientColor;
 	DirectX::XMFLOAT4 diffuseColor;
+	DirectX::XMFLOAT4 specularColor;
 	DirectX::XMFLOAT3 lightDir;
-	float padding;
+	float specularPower;
 };
 
 bool LightShader::Initialize(ID3D11Device* device, HWND hWnd)
@@ -102,6 +109,16 @@ bool LightShader::Initialize(ID3D11Device* device, HWND hWnd)
 	result = device->CreateBuffer(&matrixBufferDesc, nullptr, &matrixBuffer);
 	if (FAILED(result)) return false;
 
+	D3D11_BUFFER_DESC cameraBufferDesc;
+	cameraBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	cameraBufferDesc.ByteWidth = sizeof(CameraBufferType);
+	cameraBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cameraBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cameraBufferDesc.MiscFlags = cameraBufferDesc.StructureByteStride = 0;
+
+	result = device->CreateBuffer(&cameraBufferDesc, nullptr, &cameraBuffer);
+	if (FAILED(result)) return false;
+
 	D3D11_BUFFER_DESC lightBufferDesc;
 	lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	lightBufferDesc.ByteWidth = sizeof(LightBufferType);
@@ -129,9 +146,10 @@ bool LightShader::Initialize(ID3D11Device* device, HWND hWnd)
 }
 
 bool LightShader::Render(ID3D11DeviceContext* context, UINT indexCount, Texture* texture,
-	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection, const DirectionalLight& light)
+	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection,
+	const DirectionalLight& light, const DirectX::XMFLOAT3& cameraPos)
 {
-	const bool result = SetParameter(context, texture, world, view, projection, light);
+	const bool result = SetParameter(context, texture, world, view, projection, light, cameraPos);
 	if (!result) return false;
 
 	context->IASetInputLayout(inputLayout);
@@ -154,6 +172,12 @@ void LightShader::Release() noexcept
 	{
 		lightBuffer->Release();
 		lightBuffer = nullptr;
+	}
+
+	if (cameraBuffer)
+	{
+		cameraBuffer->Release();
+		cameraBuffer = nullptr;
 	}
 
 	if (matrixBuffer)
@@ -181,8 +205,9 @@ void LightShader::Release() noexcept
 	}
 }
 
-bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, DirectX::FXMMATRIX worldMatrix,
-	DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix, const DirectionalLight& light)
+bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
+	DirectX::FXMMATRIX worldMatrix, DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix,
+	const DirectionalLight& light, const DirectX::XMFLOAT3& cameraPos)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT result = context->Map(matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -197,6 +222,18 @@ bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, D
 	UINT bufferNum = 0;
 	context->VSSetConstantBuffers(bufferNum, 1, &matrixBuffer);
 
+	result = context->Map(cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result)) return false;
+
+	CameraBufferType* cameraData = reinterpret_cast<CameraBufferType*>(mappedResource.pData);
+	cameraData->cameraPosition = cameraPos;
+	cameraData->padding = 0.0f;
+
+	context->Unmap(cameraBuffer, 0);
+
+	bufferNum = 1;
+	context->VSSetConstantBuffers(bufferNum, 1, &cameraBuffer);
+
 	const auto resource = texture->GetTexture();
 	context->PSSetShaderResources(0, 1, &resource);
 
@@ -206,13 +243,16 @@ bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, D
 	LightBufferType* lightData = reinterpret_cast<LightBufferType*>(mappedResource.pData);
 	lightData->ambientColor = light.GetAmbientColor();
 	lightData->diffuseColor = light.GetDiffuseColor();
+	lightData->specularColor = light.GetSpecularColor();
 	lightData->lightDir = light.GetDirection();
-	lightData->padding = 0.0f;
+	lightData->specularPower = light.GetSpecularPower();
 
 	context->Unmap(lightBuffer, 0);
 
 	bufferNum = 0;
 	context->PSSetConstantBuffers(bufferNum, 1, &lightBuffer);
+
+	
 
 	return true;
 }

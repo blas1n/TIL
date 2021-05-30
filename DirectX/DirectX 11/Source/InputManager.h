@@ -6,15 +6,6 @@ class InputManager final
 {
 public:
 	[[nodiscard]] bool Initialize(HINSTANCE hInst, HWND hWnd, SIZE screenSize);
-
-	InputManager(const InputManager&) = delete;
-	InputManager(InputManager&&) = delete;
-
-	InputManager& operator=(const InputManager&) = delete;
-	InputManager& operator=(InputManager&&) = delete;
-
-	~InputManager() = default;
-
 	[[nodiscard]] bool Frame();
 	void Release() noexcept;
 
@@ -29,6 +20,7 @@ private:
 private:
 	struct InputImpl* impl = nullptr;
 
-	unsigned char keyState[256];
-	POINT size, mousePos;
+	unsigned char keyState[256]{ 0 };
+	POINT mousePos;
+	SIZE size;
 };

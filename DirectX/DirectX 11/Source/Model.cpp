@@ -111,7 +111,7 @@ bool Model::InitBuffer(ID3D11Device* device)
 
 	D3D11_BUFFER_DESC indexDesc;
 	indexDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexDesc.ByteWidth = sizeof(DWORD) * vertexCount;
+	indexDesc.ByteWidth = sizeof(DWORD) * indexCount;
 	indexDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	indexDesc.CPUAccessFlags = indexDesc.MiscFlags = indexDesc.StructureByteStride = 0;
 

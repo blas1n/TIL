@@ -2,11 +2,10 @@
 #include <d3d11.h>
 #include "Camera.h"
 #include "D3DManager.h"
-#include "DirectionalLight.h"
-#include "LightShader.h"
-#include "Model.h"
+#include "Bitmap.h"
 #include "ObjParser.h"
 #include "Texture.h"
+#include "TextureShader.h"
 
 bool RenderManager::Initialize(HWND hWnd, SIZE size)
 {
@@ -30,7 +29,7 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	
 	camera->SetPos(0.0f, 0.0f, -2.0f);
 
-	shader = new LightShader{};
+	shader = new TextureShader{};
 	if (!shader) return false;
 
 	result = shader->Initialize(d3d->GetDevice(), hWnd);
@@ -40,25 +39,10 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 		return false;
 	}
 
-	light = new DirectionalLight{};
-	if (!light) return false;
+	bitmap = new Bitmap{};
+	if (!bitmap) return false;
 
-	light->SetAmbientColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-	light->SetDiffuseColor({ 0.5f, 0.5f, 0.5f, 1.0f });
-	light->SetSpecularColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-	light->SetDirection({ 0.0f, 0.0f, 1.0f });
-	light->SetSpecularPower(32.0f);
-
-	model = new Model{};
-	if (!model) return false;
-
-	std::filesystem::path modelPath{ TEXT("Asset/Cube.mdl") };
-
-	if (!std::filesystem::exists(modelPath))
-		if (!ObjParser::Parse(TEXT("Asset/Cube.obj"), modelPath))
-			return false;
-
-	result = model->Initialize(d3d->GetDevice(), modelPath, TEXT("Asset/seafloor.dds"));
+	result = bitmap->Initialize(d3d->GetDevice(), size, TEXT("Asset/seafloor.dds"), SIZE{ 256, 256 });
 
 	if (!result)
 	{
@@ -73,19 +57,17 @@ bool RenderManager::Frame()
 {
 	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
-	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
+	d3d->DisableZBuffer();
 
 	const auto context = d3d->GetDeviceContext();
-	world = DirectX::XMMatrixMultiply(world, DirectX::XMMatrixRotationY(rot));
+	bitmap->ReadyToRender(context);
 	
+	const auto world = bitmap->GetWorldMatrix();
 	const auto view = camera->GetViewMatrix();
-	const auto projection = DirectX::XMLoadFloat4x4(&d3d->GetProjectionMatrix());
+	const auto ortho = DirectX::XMLoadFloat4x4(&d3d->GetOrthoMatrix());
 
-	const auto context = d3d->GetDeviceContext();
-	model->ReadyToRender(context);
-
-	const bool result = shader->Render(context, model->GetIndexCount(),
-		model->GetTexture(), world, view, projection, *light, camera->GetPos());
+	const bool result = shader->Render(context,
+		bitmap->GetIndexCount(), bitmap->GetTexture(), world, view, ortho);
 
 	if (!result) return false;
 
@@ -96,17 +78,11 @@ bool RenderManager::Frame()
 
 void RenderManager::Release() noexcept
 {
-	if (model)
+	if (bitmap)
 	{
-		model->Release();
-		delete model;
-		model = nullptr;
-	}
-
-	if (light)
-	{
-		delete light;
-		light = nullptr;
+		bitmap->Release();
+		delete bitmap;
+		bitmap = nullptr;
 	}
 
 	if (shader)

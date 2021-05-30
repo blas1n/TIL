@@ -71,14 +71,11 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 
 bool RenderManager::Frame()
 {
-	static float rot = 0.0f;
-	rot += DirectX::XM_PI * 0.005f;
-	if (rot >= 360.0f)
-		rot -= 360.0f;
+	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
 	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
-	auto world = DirectX::XMLoadFloat4x4(&d3d->GetWorldMatrix());
+	const auto context = d3d->GetDeviceContext();
 	world = DirectX::XMMatrixMultiply(world, DirectX::XMMatrixRotationY(rot));
 	
 	const auto view = camera->GetViewMatrix();

@@ -34,6 +34,10 @@ void Model::ReadyToRender(struct ID3D11DeviceContext* context)
 	constexpr UINT stride = sizeof(VertexType);
 	constexpr UINT offset = 0;
 
+	rot.y += DirectX::XM_PI * 0.005f;
+	if (rot.y >= DirectX::XM_2PI)
+		rot.y -= DirectX::XM_2PI;
+
 	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -65,6 +69,17 @@ void Model::Release() noexcept
 		vertexBuffer->Release();
 		vertexBuffer = nullptr;
 	}
+}
+
+DirectX::XMMATRIX Model::GetWorldMatrix() const
+{
+	const auto rotMat = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rot));
+	const auto scaleMat = DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale));
+
+	const auto scaleRot = DirectX::XMMatrixMultiply(scaleMat, rotMat);
+	const auto posMat = DirectX::XMMatrixTranslationFromVector(DirectX::XMLoadFloat3(&pos));
+
+	return DirectX::XMMatrixMultiply(scaleRot, posMat);
 }
 
 bool Model::InitBuffer(ID3D11Device* device)

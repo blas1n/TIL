@@ -19,7 +19,6 @@ public:
 
 	const Matrix& GetProjectionMatrix() const noexcept { return projectionMatrix; }
 	const Matrix& GetOrthoMatrix() const noexcept { return orthoMatrix; }
-	const Matrix& GetWorldMatrix() const noexcept { return worldMatrix; }
 
 	void GetVideoCardInfo(PTSTR cardName, int& memory);
 
@@ -37,7 +36,6 @@ private:
 	struct ID3D11RasterizerState* rasterState;
 	Matrix projectionMatrix;
 	Matrix orthoMatrix;
-	Matrix worldMatrix;
 
 	int videoCardMemory;
 	bool isVsyncEnabled;

@@ -7,12 +7,15 @@
 
 using DirectX::XMVECTOR;
 
-struct VertexType final
+namespace
 {
-	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT2 texture;
-	DirectX::XMFLOAT3 normal;
-};
+	struct VertexType final
+	{
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT2 texture;
+		DirectX::XMFLOAT3 normal;
+	};
+}
 
 struct ModelType final
 {

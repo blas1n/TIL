@@ -82,7 +82,7 @@ bool System::Frame()
 	return input->Frame() && render->Frame();
 }
 
-POINT System::InitWindows()
+SIZE System::InitWindows()
 {
 	hInstance = GetModuleHandle(nullptr);
 	appName = TEXT("Engine");
@@ -141,7 +141,7 @@ POINT System::InitWindows()
 	ShowCursor(false);
 	UpdateWindow(hWnd);
 
-	return POINT{ screenWidth, screenHeight };
+	return SIZE{ screenWidth, screenHeight };
 }
 
 void System::ReleaseWindows() noexcept

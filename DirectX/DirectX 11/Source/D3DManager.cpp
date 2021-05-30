@@ -8,7 +8,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
 
-bool D3DManager::Initialize(HWND hWnd, POINT size,
+bool D3DManager::Initialize(HWND hWnd, SIZE size,
 	bool isVsyncEnable, bool isFullScreen, float screenFar, float screenNear)
 {
 	isVsyncEnabled = isVsyncEnable;
@@ -38,7 +38,7 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 
 	for (UINT i = 0; i < numModes; i++)
 	{
-		if (displayModeList[i].Width == static_cast<UINT>(size.x) && displayModeList[i].Height == static_cast<UINT>(size.y))
+		if (displayModeList[i].Width == static_cast<UINT>(size.cx) && displayModeList[i].Height == static_cast<UINT>(size.cy))
 		{
 			numerator = displayModeList[i].RefreshRate.Numerator;
 			denominator = displayModeList[i].RefreshRate.Denominator;
@@ -69,8 +69,8 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 	memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
 	swapChainDesc.BufferCount = 1;
-	swapChainDesc.BufferDesc.Width = size.x;
-	swapChainDesc.BufferDesc.Height = size.y;
+	swapChainDesc.BufferDesc.Width = size.cx;
+	swapChainDesc.BufferDesc.Height = size.cy;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	if (isVsyncEnable)
@@ -121,8 +121,8 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	memset(&depthBufferDesc, 0, sizeof(depthBufferDesc));
 
-	depthBufferDesc.Width = size.x;
-	depthBufferDesc.Height = size.y;
+	depthBufferDesc.Width = size.cx;
+	depthBufferDesc.Height = size.cy;
 	depthBufferDesc.MipLevels = 1;
 	depthBufferDesc.ArraySize = 1;
 	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -194,8 +194,8 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 
 	D3D11_VIEWPORT viewport;
 
-	viewport.Width = static_cast<float>(size.x);
-	viewport.Height = static_cast<float>(size.y);
+	viewport.Width = static_cast<float>(size.cx);
+	viewport.Height = static_cast<float>(size.cy);
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0.0f;
@@ -204,13 +204,11 @@ bool D3DManager::Initialize(HWND hWnd, POINT size,
 	deviceContext->RSSetViewports(1, &viewport);
 
 	const float fieldOfView = DirectX::XM_PI * 0.5f;
-	const float screenAspect = static_cast<float>(size.x) / static_cast<float>(size.y);
+	const float screenAspect = static_cast<float>(size.cx) / static_cast<float>(size.cy);
 
 	DirectX::XMStoreFloat4x4(&projectionMatrix, DirectX::XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenFar));
 	DirectX::XMStoreFloat4x4(&orthoMatrix, DirectX::XMMatrixOrthographicLH(
-		static_cast<float>(size.x), static_cast<float>(size.y), screenNear, screenFar));
-	
-	DirectX::XMStoreFloat4x4(&worldMatrix, DirectX::XMMatrixIdentity());
+		static_cast<float>(size.cx), static_cast<float>(size.cy), screenNear, screenFar));
 
 #if UNICODE
 	std::wofstream outFile{ L"GPU Info.txt" };

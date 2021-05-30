@@ -8,7 +8,7 @@ class D3DManager
 	using Matrix = DirectX::XMFLOAT4X4;
 	
 public:
-	bool Initialize(HWND hWnd, POINT size, bool isVsyncEnable, bool isFullScreen, float screenFar, float screenNear);
+	bool Initialize(HWND hWnd, SIZE size, bool isVsyncEnable, bool isFullScreen, float screenFar, float screenNear);
 	void Release() noexcept;
 
 	void BeginScene(float r, float g, float b, float a);

@@ -13,7 +13,7 @@ struct InputImpl final
 	DIMOUSESTATE2 mouseState;
 };
 
-bool InputManager::Initialize(HINSTANCE hInst, HWND hWnd, POINT screenSize)
+bool InputManager::Initialize(HINSTANCE hInst, HWND hWnd, SIZE screenSize)
 {
 	impl = new InputImpl{};
 	size = screenSize;
@@ -126,6 +126,6 @@ bool InputManager::ReadMouse()
 
 void InputManager::ProcessInput()
 {
-	mousePos.x = std::clamp(mousePos.x + impl->mouseState.lX, 0l, size.x);
-	mousePos.y = std::clamp(mousePos.y + impl->mouseState.lY, 0l, size.y);
+	mousePos.x = std::clamp(mousePos.x + impl->mouseState.lX, 0l, size.cx);
+	mousePos.y = std::clamp(mousePos.y + impl->mouseState.lY, 0l, size.cy);
 }

@@ -5,7 +5,7 @@
 class InputManager final
 {
 public:
-	InputManager() = default;
+	[[nodiscard]] bool Initialize(HINSTANCE hInst, HWND hWnd, SIZE screenSize);
 
 	InputManager(const InputManager&) = delete;
 	InputManager(InputManager&&) = delete;
@@ -15,7 +15,6 @@ public:
 
 	~InputManager() = default;
 
-	[[nodiscard]] bool Initialize(HINSTANCE hInst, HWND hWnd, POINT screenSize);
 	[[nodiscard]] bool Frame();
 	void Release() noexcept;
 

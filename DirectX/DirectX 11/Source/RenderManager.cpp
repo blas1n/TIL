@@ -8,7 +8,7 @@
 #include "ObjParser.h"
 #include "Texture.h"
 
-bool RenderManager::Initialize(HWND hWnd, POINT size)
+bool RenderManager::Initialize(HWND hWnd, SIZE size)
 {
 	constexpr static auto Error = TEXT("Error");
 	constexpr static auto CouldNotInitD3D = TEXT("Could not initialize Direct3D");

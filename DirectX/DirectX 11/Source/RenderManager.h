@@ -10,7 +10,7 @@ constexpr static bool FULL_SCREEN = false;
 class RenderManager final
 {
 public:
-	[[nodiscard]] bool Initialize(HWND hWnd, POINT size);
+	[[nodiscard]] bool Initialize(HWND hWnd, SIZE size);
 	[[nodiscard]] bool Frame();
 	void Release() noexcept;
 

@@ -23,7 +23,7 @@ public:
 private:
 	bool Frame();
 	
-	POINT InitWindows();
+	SIZE InitWindows();
 	void ReleaseWindows() noexcept;
 
 private:

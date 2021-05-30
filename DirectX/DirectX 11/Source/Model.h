@@ -6,22 +6,6 @@
 class Model final
 {
 public:
-	Model()
-		: vertexBuffer(nullptr)
-		, indexBuffer(nullptr)
-		, model(nullptr)
-		, texture(nullptr)
-		, vertexCount(0)
-		, indexCount(0) {}
-
-	Model(const Model&) = default;
-	Model(Model&&) noexcept = default;
-
-	Model& operator=(const Model&) = default;
-	Model& operator=(Model&&) noexcept = default;
-
-	~Model() {}
-
 	[[nodiscard]] bool Initialize(struct ID3D11Device* device,
 		const std::filesystem::path& moelPath, const std::filesystem::path& texturePath);
 

@@ -22,6 +22,9 @@ public:
 
 	void GetVideoCardInfo(PTSTR cardName, int& memory);
 
+	void EnableZBuffer();
+	void DisableZBuffer();
+
 private:
 	TCHAR videoCardDescription[128];
 
@@ -32,6 +35,7 @@ private:
 	struct ID3D11RenderTargetView* renderTargetView;
 	struct ID3D11Texture2D* depthStencilBuffer;
 	struct ID3D11DepthStencilState* depthStencilState;
+	struct ID3D11DepthStencilState* depthDisableStencilState;
 	struct ID3D11DepthStencilView* depthStencilView;
 	struct ID3D11RasterizerState* rasterState;
 	Matrix projectionMatrix;

@@ -63,7 +63,7 @@ bool RenderManager::Frame()
 	bitmap->ReadyToRender(context);
 	
 	const auto world = bitmap->GetWorldMatrix();
-	const auto view = camera->GetViewMatrix();
+	const auto view = camera->GetWorldMatrix();
 	const auto ortho = DirectX::XMLoadFloat4x4(&d3d->GetOrthoMatrix());
 
 	const bool result = shader->Render(context,

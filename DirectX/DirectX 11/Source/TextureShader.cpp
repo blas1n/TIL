@@ -80,16 +80,6 @@ bool TextureShader::Initialize(ID3D11Device* device, HWND hWnd)
 	vertexShaderBuffer->Release();
 	pixelShaderBuffer->Release();
 
-	D3D11_BUFFER_DESC matrixBufferDesc;
-	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
-	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	matrixBufferDesc.MiscFlags = matrixBufferDesc.StructureByteStride = 0;
-
-	result = device->CreateBuffer(&matrixBufferDesc, nullptr, &matrixBuffer);
-	if (FAILED(result)) return false;
-
 	D3D11_SAMPLER_DESC samplerDesc;
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.AddressU = samplerDesc.AddressV = samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -101,6 +91,16 @@ bool TextureShader::Initialize(ID3D11Device* device, HWND hWnd)
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	result = device->CreateSamplerState(&samplerDesc, &samplerState);
+	if (FAILED(result)) return false;
+
+	D3D11_BUFFER_DESC matrixBufferDesc;
+	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
+	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	matrixBufferDesc.MiscFlags = matrixBufferDesc.StructureByteStride = 0;
+
+	result = device->CreateBuffer(&matrixBufferDesc, nullptr, &matrixBuffer);
 	if (FAILED(result)) return false;
 
 	return true;
@@ -122,16 +122,16 @@ bool TextureShader::Render(ID3D11DeviceContext* context, UINT indexCount, Textur
 
 void TextureShader::Release() noexcept
 {
-	if (samplerState)
-	{
-		samplerState->Release();
-		samplerState = 0;
-	}
-
 	if (matrixBuffer)
 	{
 		matrixBuffer->Release();
 		matrixBuffer = nullptr;
+	}
+
+	if (samplerState)
+	{
+		samplerState->Release();
+		samplerState = 0;
 	}
 
 	if (inputLayout)

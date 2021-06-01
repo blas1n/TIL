@@ -25,8 +25,8 @@ private:
 	struct ID3D11VertexShader* vertexShader = nullptr;
 	struct ID3D11PixelShader* pixelShader = nullptr;
 	struct ID3D11InputLayout* inputLayout = nullptr;
+	struct ID3D11SamplerState* samplerState = nullptr;
 	struct ID3D11Buffer* matrixBuffer = nullptr;
 	struct ID3D11Buffer* cameraBuffer = nullptr;
-	struct ID3D11Buffer* lightBuffer = nullptr;
-	struct ID3D11SamplerState* samplerState = nullptr;
+	struct ID3D11Buffer* lightBuffer = nullptr;	
 };

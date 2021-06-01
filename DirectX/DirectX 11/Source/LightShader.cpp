@@ -99,6 +99,19 @@ bool LightShader::Initialize(ID3D11Device* device, HWND hWnd)
 	vertexShaderBuffer->Release();
 	pixelShaderBuffer->Release();
 
+	D3D11_SAMPLER_DESC samplerDesc;
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = samplerDesc.AddressV = samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.MipLODBias = 0.0f;
+	samplerDesc.MaxAnisotropy = 1;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc.BorderColor[0] = samplerDesc.BorderColor[1] = samplerDesc.BorderColor[2] = samplerDesc.BorderColor[3] = 0;
+	samplerDesc.MinLOD = 0;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	result = device->CreateSamplerState(&samplerDesc, &samplerState);
+	if (FAILED(result)) return false;
+
 	D3D11_BUFFER_DESC matrixBufferDesc;
 	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
@@ -129,19 +142,6 @@ bool LightShader::Initialize(ID3D11Device* device, HWND hWnd)
 	result = device->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffer);
 	if (FAILED(result)) return false;
 
-	D3D11_SAMPLER_DESC samplerDesc;
-	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc.AddressU = samplerDesc.AddressV = samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.MipLODBias = 0.0f;
-	samplerDesc.MaxAnisotropy = 1;
-	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-	samplerDesc.BorderColor[0] = samplerDesc.BorderColor[1] = samplerDesc.BorderColor[2] = samplerDesc.BorderColor[3] = 0;
-	samplerDesc.MinLOD = 0;
-	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-	result = device->CreateSamplerState(&samplerDesc, &samplerState);
-	if (FAILED(result)) return false;
-
 	return true;
 }
 
@@ -162,12 +162,6 @@ bool LightShader::Render(ID3D11DeviceContext* context, UINT indexCount, Texture*
 
 void LightShader::Release() noexcept
 {
-	if (samplerState)
-	{
-		samplerState->Release();
-		samplerState = 0;
-	}
-
 	if (lightBuffer)
 	{
 		lightBuffer->Release();
@@ -184,6 +178,12 @@ void LightShader::Release() noexcept
 	{
 		matrixBuffer->Release();
 		matrixBuffer = nullptr;
+	}
+
+	if (samplerState)
+	{
+		samplerState->Release();
+		samplerState = 0;
 	}
 
 	if (inputLayout)

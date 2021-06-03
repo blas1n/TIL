@@ -35,6 +35,6 @@ public:
 	const DirectX::XMFLOAT3& GetScale() const noexcept { return scale; }
 
 private:
-	DirectX::XMFLOAT3 pos, rot;
+	DirectX::XMFLOAT3 pos = {}, rot = {};
 	DirectX::XMFLOAT3 scale = { 1.0f, 1.0f, 1.0f };
 };

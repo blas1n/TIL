@@ -61,15 +61,15 @@ void Bitmap::Release() noexcept
 
 DirectX::XMMATRIX Bitmap::GetWorldMatrix() const
 {
-	const auto rotMat = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rot));
+	const auto rotMat = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&GetRot()));
 
-	DirectX::XMVECTOR realScale = DirectX::XMLoadFloat3(&scale);
+	DirectX::XMVECTOR realScale = DirectX::XMLoadFloat3(&GetScale());
 	realScale = DirectX::XMVectorMultiply(realScale, DirectX::XMLoadFloat2(&bitmapSize));
 
 	const auto scaleMat = DirectX::XMMatrixScalingFromVector(realScale);
 	const auto scaleRot = DirectX::XMMatrixMultiply(scaleMat, rotMat);
 
-	DirectX::XMVECTOR realPos = DirectX::XMLoadFloat3(&pos);
+	DirectX::XMVECTOR realPos = DirectX::XMLoadFloat3(&GetPos());
 	realPos = DirectX::XMVectorMultiply(realPos, DirectX::XMLoadFloat2(&screenSize));
 
 	const auto posMat = DirectX::XMMatrixTranslationFromVector(realPos);

@@ -5,7 +5,7 @@
 class Object
 {
 public:
-	DirectX::XMMATRIX GetWorldMatrix() const
+	virtual DirectX::XMMATRIX GetWorldMatrix() const
 	{
 		constexpr static float Deg2Rad = DirectX::XM_PI / 180.0f;
 

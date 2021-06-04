@@ -100,11 +100,11 @@ bool Font::LoadFontData(const std::filesystem::path& fontPath)
 
 	for (int i = 0; i < FontNum; ++i)
 	{
-		char input = 0;
-
+		char input = fin.get();;
 		while (input != ' ')
 			input = fin.get();
 
+		input = fin.get();
 		while (input != ' ')
 			input = fin.get();
 
@@ -112,7 +112,7 @@ bool Font::LoadFontData(const std::filesystem::path& fontPath)
 	}
 
 	fin.close();
-	return false;
+	return true;
 }
 
 bool Font::LoadTexture(ID3D11Device* device, const std::filesystem::path& texturePath)

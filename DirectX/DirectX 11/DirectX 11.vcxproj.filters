@@ -33,6 +33,9 @@
     <FxCompile Include="Shader\LightVertexShader.hlsl">
       <Filter>Shader File</Filter>
     </FxCompile>
+    <FxCompile Include="Shader\FontPixelShader.hlsl">
+      <Filter>Shader File</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\System.cpp">
@@ -56,9 +59,6 @@
     <ClCompile Include="Source\Model.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Camera.cpp">
-      <Filter>Source File</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ColorShader.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
@@ -75,6 +75,15 @@
       <Filter>Source File</Filter>
     </ClCompile>
     <ClCompile Include="Source\Bitmap.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Font.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FontShader.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Text.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,6 +137,18 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\Bitmap.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Font.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FontShader.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Text.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

@@ -180,6 +180,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Shader\FontPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Shader\LightPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
@@ -199,9 +206,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Bitmap.cpp" />
-    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\ColorShader.cpp" />
     <ClCompile Include="Source\D3DManager.cpp" />
+    <ClCompile Include="Source\Font.cpp" />
+    <ClCompile Include="Source\FontShader.cpp" />
     <ClCompile Include="Source\LightShader.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\ObjParser.cpp" />
@@ -210,6 +218,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\stdafx.cpp" />
     <ClCompile Include="Source\System.cpp" />
+    <ClCompile Include="Source\Text.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TextureShader.cpp" />
   </ItemGroup>
@@ -219,8 +228,11 @@
     <ClInclude Include="Source\ColorShader.h" />
     <ClInclude Include="Source\D3DManager.h" />
     <ClInclude Include="Source\DirectionalLight.h" />
+    <ClInclude Include="Source\Font.h" />
+    <ClInclude Include="Source\FontShader.h" />
     <ClInclude Include="Source\LightShader.h" />
     <ClInclude Include="Source\Model.h" />
+    <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\ObjParser.h" />
     <ClInclude Include="Source\RenderManager.h" />
     <ClInclude Include="Source\InputManager.h" />
@@ -228,6 +240,7 @@
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\System.h" />
     <ClInclude Include="Source\targetver.h" />
+    <ClInclude Include="Source\Text.h" />
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\TextureShader.h" />
     <ClInclude Include="ThirdParty\inc\DirectXTex.h" />

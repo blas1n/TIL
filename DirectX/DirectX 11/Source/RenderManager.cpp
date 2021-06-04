@@ -2,10 +2,8 @@
 #include <d3d11.h>
 #include "Camera.h"
 #include "D3DManager.h"
-#include "Bitmap.h"
 #include "ObjParser.h"
-#include "Texture.h"
-#include "TextureShader.h"
+#include "Text.h"
 
 bool RenderManager::Initialize(HWND hWnd, SIZE size)
 {
@@ -26,24 +24,17 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 
 	camera = new Camera{};
 	if (!camera) return false;
+
+	camera->SetPos(0.0f, 0.0f, -1.0f);
+	const auto baseViewMat = camera->GetWorldMatrix();
 	
-	camera->SetPos(0.0f, 0.0f, -2.0f);
+	DirectX::XMFLOAT4X4 viewMat;
+	DirectX::XMStoreFloat4x4(&viewMat, baseViewMat);
 
-	shader = new TextureShader{};
-	if (!shader) return false;
+	text = new Text{};
+	if (!text) return false;
 
-	result = shader->Initialize(d3d->GetDevice(), hWnd);
-	if (!result)
-	{
-		MessageBox(hWnd, CouldNotInitShader, Error, MB_OK);
-		return false;
-	}
-
-	bitmap = new Bitmap{};
-	if (!bitmap) return false;
-
-	result = bitmap->Initialize(d3d->GetDevice(), size, TEXT("Asset/seafloor.dds"), SIZE{ 256, 256 });
-
+	result = text->Initialize(d3d->GetDevice(), d3d->GetDeviceContext(), hWnd, size, viewMat);
 	if (!result)
 	{
 		MessageBox(hWnd, CouldNotInitModel, Error, MB_OK);
@@ -57,19 +48,18 @@ bool RenderManager::Frame()
 {
 	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
-	d3d->DisableZBuffer();
-
-	const auto context = d3d->GetDeviceContext();
-	bitmap->ReadyToRender(context);
-	
-	const auto world = bitmap->GetWorldMatrix();
-	const auto view = camera->GetWorldMatrix();
+	const auto world = DirectX::XMMatrixIdentity();
 	const auto ortho = DirectX::XMLoadFloat4x4(&d3d->GetOrthoMatrix());
 
-	const bool result = shader->Render(context,
-		bitmap->GetIndexCount(), bitmap->GetTexture(), world, view, ortho);
+	d3d->DisableZBuffer();
+	d3d->EnableAlphaBlending();
 
+	const auto context = d3d->GetDeviceContext();
+	bool result = text->Render(context, world, ortho);
 	if (!result) return false;
+
+	d3d->EnableZBuffer();
+	d3d->DisableAlphaBlending();
 
 	d3d->EndScene();
 
@@ -78,18 +68,11 @@ bool RenderManager::Frame()
 
 void RenderManager::Release() noexcept
 {
-	if (bitmap)
+	if (text)
 	{
-		bitmap->Release();
-		delete bitmap;
-		bitmap = nullptr;
-	}
-
-	if (shader)
-	{
-		shader->Release();
-		delete shader;
-		shader = nullptr;
+		text->Release();
+		delete text;
+		text = nullptr;
 	}
 
 	if (camera)

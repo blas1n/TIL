@@ -34,7 +34,7 @@ private:
 	struct IDXGISwapChain* swapChain;
 	struct ID3D11RenderTargetView* renderTargetView;
 	struct ID3D11Texture2D* depthStencilBuffer;
-	struct ID3D11DepthStencilState* depthStencilState;
+	struct ID3D11DepthStencilState* depthEnableStencilState;
 	struct ID3D11DepthStencilState* depthDisableStencilState;
 	struct ID3D11DepthStencilView* depthStencilView;
 	struct ID3D11RasterizerState* rasterState;

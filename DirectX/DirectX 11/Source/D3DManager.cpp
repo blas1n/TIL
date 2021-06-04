@@ -157,10 +157,10 @@ bool D3DManager::Initialize(HWND hWnd, SIZE size,
 	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
-	result = device->CreateDepthStencilState(&depthStencilDesc, &depthStencilState);
+	result = device->CreateDepthStencilState(&depthStencilDesc, &depthEnableStencilState);
 	if (FAILED(result)) return false;
 
-	deviceContext->OMSetDepthStencilState(depthStencilState, 1);
+	deviceContext->OMSetDepthStencilState(depthEnableStencilState, 1);
 
 	depthStencilDesc.DepthEnable = false;
 	result = device->CreateDepthStencilState(&depthStencilDesc, &depthDisableStencilState);
@@ -251,10 +251,10 @@ void D3DManager::Release() noexcept
 		depthDisableStencilState = nullptr;
 	}
 
-	if (depthStencilState)
+	if (depthEnableStencilState)
 	{
-		depthStencilState->Release();
-		depthStencilState = nullptr;
+		depthEnableStencilState->Release();
+		depthEnableStencilState = nullptr;
 	}
 
 	if (depthStencilBuffer)
@@ -308,7 +308,7 @@ void D3DManager::GetVideoCardInfo(PTSTR cardName, int& memory)
 
 void D3DManager::EnableZBuffer()
 {
-	deviceContext->OMSetDepthStencilState(depthStencilState, 1);
+	deviceContext->OMSetDepthStencilState(depthEnableStencilState, 1);
 }
 
 void D3DManager::DisableZBuffer()

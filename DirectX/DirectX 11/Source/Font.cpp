@@ -25,9 +25,8 @@ bool Font::Initialize(ID3D11Device* device,
 {
 	bool result = LoadFontData(fontPath);
 	if (!result) return false;
-
-	result = LoadTexture(device, texturePath);
-	return result;
+	
+	return LoadTexture(device, texturePath);
 }
 
 void Font::Release()
@@ -57,7 +56,7 @@ void Font::BuildVertexArray(void* vertices, const char* sentence, float drawX, f
 		const int letter = (static_cast<int>(sentence[i])) - 32;
 		if (letter == 0)
 		{
-			drawX = drawX + 3.0f;
+			drawX += 3.0f;
 			continue;
 		}
 

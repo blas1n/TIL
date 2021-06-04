@@ -10,7 +10,8 @@ public:
 
 	void Release();
 
-	void BuildVertexArray(void* vertices, char* sentence, float drawX, float drawY);
+	void BuildVertexArray(void* vertices, const char* sentence, float drawX, float drawY);
+
 	class Texture* GetTexture() const noexcept { return texture; }
 
 private:

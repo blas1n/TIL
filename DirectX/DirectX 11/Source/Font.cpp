@@ -46,7 +46,7 @@ void Font::Release()
 	}
 }
 
-void Font::BuildVertexArray(void* vertices, char* sentence, float drawX, float drawY)
+void Font::BuildVertexArray(void* vertices, const char* sentence, float drawX, float drawY)
 {
 	const auto vertexPtr = reinterpret_cast<VertexType*>(vertices);
 	const int numLetters = strlen(sentence);

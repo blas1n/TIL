@@ -25,6 +25,9 @@ public:
 	void EnableZBuffer();
 	void DisableZBuffer();
 
+	void EnableAlphaBlending();
+	void DisableAlphaBlending();
+
 private:
 	TCHAR videoCardDescription[128];
 
@@ -37,7 +40,10 @@ private:
 	struct ID3D11DepthStencilState* depthEnableStencilState;
 	struct ID3D11DepthStencilState* depthDisableStencilState;
 	struct ID3D11DepthStencilView* depthStencilView;
+	struct ID3D11BlendState* alphaEnableBlendState;
+	struct ID3D11BlendState* alphaDisableBlendState;
 	struct ID3D11RasterizerState* rasterState;
+
 	Matrix projectionMatrix;
 	Matrix orthoMatrix;
 

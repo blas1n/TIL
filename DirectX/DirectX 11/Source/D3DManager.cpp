@@ -178,6 +178,25 @@ bool D3DManager::Initialize(HWND hWnd, SIZE size,
 
 	deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
+	D3D11_BLEND_DESC blendDesc;
+	memset(&blendDesc, 0, sizeof(D3D11_BLEND_DESC));
+
+	blendDesc.RenderTarget[0].BlendEnable = true;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+	result = device->CreateBlendState(&blendDesc, &alphaEnableBlendState);
+	if (FAILED(result)) return false;
+
+	blendDesc.RenderTarget[0].BlendEnable = false;
+	
+	result = device->CreateBlendState(&blendDesc, &alphaDisableBlendState);
+	if (FAILED(result)) return false;
+
 	D3D11_RASTERIZER_DESC rasterDesc;
 
 	rasterDesc.AntialiasedLineEnable = false;
@@ -237,6 +256,18 @@ void D3DManager::Release() noexcept
 	{
 		rasterState->Release();
 		rasterState = nullptr;
+	}
+
+	if (alphaDisableBlendState)
+	{
+		alphaDisableBlendState->Release();
+		alphaDisableBlendState = nullptr;
+	}
+
+	if (alphaEnableBlendState)
+	{
+		alphaEnableBlendState->Release();
+		alphaEnableBlendState = nullptr;
 	}
 
 	if (depthStencilView)
@@ -314,4 +345,16 @@ void D3DManager::EnableZBuffer()
 void D3DManager::DisableZBuffer()
 {
 	deviceContext->OMSetDepthStencilState(depthDisableStencilState, 1);
+}
+
+void D3DManager::EnableAlphaBlending()
+{
+	const float blendFactor[4]{ 0.0f, 0.0f, 0.0f, 0.0f };
+	deviceContext->OMSetBlendState(alphaEnableBlendState, blendFactor, 0xffffffff);
+}
+
+void D3DManager::DisableAlphaBlending()
+{
+	const float blendFactor[4]{ 0.0f, 0.0f, 0.0f, 0.0f };
+	deviceContext->OMSetBlendState(alphaDisableBlendState, blendFactor, 0xffffffff);
 }

@@ -100,7 +100,7 @@ bool D3DManager::Initialize(HWND hWnd, SIZE size,
 	UINT createFlag = 0;
 
 #ifdef _DEBUG
-	createFlag = D3D11_CREATE_DEVICE_DEBUG;
+	createFlag |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
 	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createFlag,

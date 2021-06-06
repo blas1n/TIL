@@ -29,7 +29,7 @@ bool FontShader::Initialize(ID3D11Device* device, HWND hWnd)
 	ID3DBlob* vertexShaderBuffer;
 	HRESULT result = D3DCompileFromFile(vsName, nullptr, nullptr,
 		"main", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, &vertexShaderBuffer, &errorMessage);
-
+	
 	if (FAILED(result))
 	{
 		if (errorMessage)
@@ -186,6 +186,9 @@ bool FontShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, co
 	UINT bufferNum = 0;
 	context->VSSetConstantBuffers(bufferNum, 1, &matrixBuffer);
 
+	const auto resource = texture->GetTexture();
+	context->PSSetShaderResources(0, 1, &resource);
+
 	result = context->Map(pixelBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) return false;
 
@@ -195,9 +198,6 @@ bool FontShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, co
 	context->Unmap(pixelBuffer, 0);
 
 	context->PSSetConstantBuffers(bufferNum, 1, &pixelBuffer);
-
-	const auto resource = texture->GetTexture();
-	context->PSSetShaderResources(0, 1, &resource);
 	return true;
 }
 

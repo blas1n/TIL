@@ -23,7 +23,7 @@ bool Font::Initialize(ID3D11Device* device,
 	const std::filesystem::path& fontPath,
 	const std::filesystem::path& texturePath)
 {
-	bool result = LoadFontData(fontPath);
+	const bool result = LoadFontData(fontPath);
 	if (!result) return false;
 	
 	return LoadTexture(device, texturePath);

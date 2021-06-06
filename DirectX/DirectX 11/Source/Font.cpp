@@ -100,7 +100,7 @@ bool Font::LoadFontData(const std::filesystem::path& fontPath)
 
 	for (int i = 0; i < FontNum; ++i)
 	{
-		char input = fin.get();;
+		char input = fin.get();
 		while (input != ' ')
 			input = fin.get();
 

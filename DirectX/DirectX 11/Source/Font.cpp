@@ -53,7 +53,7 @@ void Font::BuildVertexArray(void* vertices, const char* sentence, float drawX, f
 
 	for (int i = 0; i < numLetters; ++i)
 	{
-		const int letter = (static_cast<int>(sentence[i])) - 32;
+		const int letter = static_cast<int>(sentence[i]) - 32;
 		if (letter == 0)
 		{
 			drawX += 3.0f;

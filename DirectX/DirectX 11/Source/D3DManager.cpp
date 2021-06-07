@@ -188,6 +188,7 @@ bool D3DManager::Initialize(HWND hWnd, SIZE size,
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
 
 	result = device->CreateBlendState(&blendDesc, &alphaEnableBlendState);
 	if (FAILED(result)) return false;

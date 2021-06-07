@@ -106,8 +106,7 @@ bool FontShader::Initialize(ID3D11Device* device, HWND hWnd)
 	result = device->CreateBuffer(&bufferDesc, nullptr, &matrixBuffer);
 	if (FAILED(result)) return false;
 
-	D3D11_BUFFER_DESC pixelBufferDesc;
-	pixelBufferDesc.ByteWidth = sizeof(PixelBufferType);
+	bufferDesc.ByteWidth = sizeof(PixelBufferType);
 
 	result = device->CreateBuffer(&bufferDesc, nullptr, &pixelBuffer);
 	if (FAILED(result)) return false;

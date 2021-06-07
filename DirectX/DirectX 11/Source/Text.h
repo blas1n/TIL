@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 #include <DirectXMath.h>
-#include "Font.h"
 
 class Text final
 {
@@ -26,9 +25,9 @@ private:
 	void ReleaseSentence(SentenceType** sentence) noexcept;
 	
 private:
-	Font font;
 	DirectX::XMFLOAT4X4 viewMatrix;
 
+	class Font* font;
 	class FontShader* shader;
 	
 	SentenceType* sentence1;

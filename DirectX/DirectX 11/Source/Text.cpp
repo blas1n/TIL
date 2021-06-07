@@ -1,7 +1,9 @@
 #include "Text.h"
 #include <d3d11.h>
 #include <vector>
+#include "Font.h"
 #include "FontShader.h"
+#include "Texture.h"
 
 namespace
 {
@@ -29,8 +31,10 @@ bool Text::Initialize(ID3D11Device* device, ID3D11DeviceContext* context,
 	screenSize = inScreenSize;
 	viewMatrix = inView;
 
-	bool result = font.Initialize(device, TEXT("Asset/fontdata.txt"), TEXT("Asset/font.dds"));
+	font = new Font{};
 	if (!font) return false;
+
+	bool result = font->Initialize(device, TEXT("Asset/fontdata.txt"), TEXT("Asset/font.dds"));
 	if (!result)
 	{
 		MessageBox(hWnd, CouldNotInitFont, TEXT("Error"), MB_OK);
@@ -85,7 +89,12 @@ void Text::Release() noexcept
 		shader = nullptr;
 	}
 
-	font.Release();
+	if (font)
+	{
+		font->Release();
+		delete font;
+		font = nullptr;
+	}
 }
 
 bool Text::InitializeSentence(SentenceType** sentence, ID3D11Device* device, int maxLength)
@@ -93,6 +102,7 @@ bool Text::InitializeSentence(SentenceType** sentence, ID3D11Device* device, int
 	*sentence = new SentenceType{};
 	if (!*sentence) return false;
 
+	(*sentence)->vertexBuffer = (*sentence)->indexBuffer = nullptr;
 	(*sentence)->maxLength = maxLength;
 	(*sentence)->vertexCount = (*sentence)->indexCount = maxLength * 6;
 
@@ -146,7 +156,7 @@ bool Text::UpdateSentence(SentenceType* sentence, ID3D11DeviceContext* context,
 	const float drawX = (float)(((screenSize.cx / 2) * -1) + pos.x);
 	const float drawY = (float)((screenSize.cy / 2) - pos.y);
 
-	font.BuildVertexArray(vertices.data(), text, drawX, drawY);
+	font->BuildVertexArray(vertices.data(), text, drawX, drawY);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT result = context->Map(sentence->vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -170,7 +180,7 @@ bool Text::RenderSentence(SentenceType* sentence, ID3D11DeviceContext* context,
 	const DirectX::XMFLOAT4 pixelColor{ sentence->r, sentence->g, sentence->b, 1.0f };
 
 	bool result = shader->Render(context, sentence->indexCount,
-		font.GetTexture(), pixelColor, world, DirectX::XMLoadFloat4x4(&viewMatrix), projection);
+		font->GetTexture(), pixelColor, world, DirectX::XMLoadFloat4x4(&viewMatrix), projection);
 
 	return result;
 }

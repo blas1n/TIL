@@ -58,8 +58,8 @@ bool RenderManager::Frame()
 	bool result = text->Render(context, world, ortho);
 	if (!result) return false;
 
-	d3d->EnableZBuffer();
 	d3d->DisableAlphaBlending();
+	d3d->EnableZBuffer();
 
 	d3d->EndScene();
 

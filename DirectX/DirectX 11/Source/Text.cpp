@@ -23,13 +23,19 @@ struct SentenceType final
 bool Text::Initialize(ID3D11Device* device, ID3D11DeviceContext* context,
 	HWND hWnd, SIZE inScreenSize, const DirectX::XMFLOAT4X4& inView)
 {
+	constexpr static auto CouldNotInitFont = TEXT("Could not initialize the font object.");
 	constexpr static auto CouldNotInitFontShader = TEXT("Could not initialize the font shader object.");
 
 	screenSize = inScreenSize;
 	viewMatrix = inView;
 
 	bool result = font.Initialize(device, TEXT("Asset/fontdata.txt"), TEXT("Asset/font.dds"));
-	if (!result) return false;
+	if (!font) return false;
+	if (!result)
+	{
+		MessageBox(hWnd, CouldNotInitFont, TEXT("Error"), MB_OK);
+		return false;
+	}
 
 	shader = new FontShader{};
 	if (!shader) return false;

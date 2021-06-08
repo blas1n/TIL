@@ -1,6 +1,7 @@
 #include "System.h"
-#include "RenderManager.h"
 #include "InputManager.h"
+#include "RenderManager.h"
+#include "SoundManager.h"
 
 namespace
 {
@@ -36,6 +37,10 @@ bool System::Init()
 	if (!render->Initialize(hWnd, screenSize))
 		return false;
 
+	sound = new SoundManager{};
+	if (!sound->Initialize(hWnd))
+		return false;
+
 	return true;
 }
 
@@ -60,6 +65,13 @@ int System::Run()
 
 void System::Release() noexcept
 {
+	if (sound)
+	{
+		sound->Release();
+		delete sound;
+		sound = nullptr;
+	}
+
 	if (render)
 	{
 		render->Release();

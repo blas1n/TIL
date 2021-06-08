@@ -37,4 +37,5 @@ private:
 
 	class RenderManager* render;
 	class InputManager* input;
+	class SoundManager* sound;
 };

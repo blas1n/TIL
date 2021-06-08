@@ -216,6 +216,7 @@
     <ClCompile Include="Source\RenderManager.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\SoundManager.cpp" />
     <ClCompile Include="Source\stdafx.cpp" />
     <ClCompile Include="Source\System.cpp" />
     <ClCompile Include="Source\Text.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="Source\RenderManager.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Shader.h" />
+    <ClInclude Include="Source\SoundManager.h" />
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\System.h" />
     <ClInclude Include="Source\targetver.h" />

@@ -222,15 +222,18 @@
     <ClCompile Include="Source\Text.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TextureShader.cpp" />
+    <ClCompile Include="Source\TimerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Bitmap.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\ColorShader.h" />
+    <ClInclude Include="Source\CpuManager.h" />
     <ClInclude Include="Source\D3DManager.h" />
     <ClInclude Include="Source\DirectionalLight.h" />
     <ClInclude Include="Source\Font.h" />
     <ClInclude Include="Source\FontShader.h" />
+    <ClInclude Include="Source\FpsManager.h" />
     <ClInclude Include="Source\LightShader.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\Object.h" />
@@ -245,6 +248,7 @@
     <ClInclude Include="Source\Text.h" />
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\TextureShader.h" />
+    <ClInclude Include="Source\TimerManager.h" />
     <ClInclude Include="ThirdParty\inc\DirectXTex.h" />
   </ItemGroup>
   <ItemGroup>

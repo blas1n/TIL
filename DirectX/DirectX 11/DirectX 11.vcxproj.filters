@@ -89,6 +89,9 @@
     <ClCompile Include="Source\SoundManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CpuManager.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
     <ClCompile Include="Source\TimerManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
@@ -158,6 +161,9 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\SoundManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CpuManager.h">
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\TimerManager.h">

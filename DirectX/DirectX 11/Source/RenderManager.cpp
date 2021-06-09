@@ -44,8 +44,17 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	return true;
 }
 
-bool RenderManager::Frame()
+bool RenderManager::Frame(int fps, int cpu, float frameTime)
 {
+	const auto context = d3d->GetDeviceContext();
+	bool result = text->SetFps(context, fps);
+	if (!result) return false;
+
+	result = text->SetCpu(context, cpu);
+	if (!result) return false;
+
+	camera->SetPos(0.0f, 0.0f, -10.0f);
+
 	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
 	const auto world = DirectX::XMMatrixIdentity();
@@ -54,8 +63,7 @@ bool RenderManager::Frame()
 	d3d->DisableZBuffer();
 	d3d->EnableAlphaBlending();
 
-	const auto context = d3d->GetDeviceContext();
-	bool result = text->Render(context, world, ortho);
+	text->Render(context, world, ortho);
 	if (!result) return false;
 
 	d3d->DisableAlphaBlending();

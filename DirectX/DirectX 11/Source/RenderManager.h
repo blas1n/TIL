@@ -11,7 +11,7 @@ class RenderManager final
 {
 public:
 	[[nodiscard]] bool Initialize(HWND hWnd, SIZE size);
-	[[nodiscard]] bool Frame();
+	[[nodiscard]] bool Frame(int fps, int cpu, float frameTime);
 	void Release() noexcept;
 
 private:

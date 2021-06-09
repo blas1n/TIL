@@ -13,6 +13,9 @@ public:
 
 	void Release() noexcept;
 
+	bool SetFps(ID3D11DeviceContext* context, int fps);
+	bool SetCpu(ID3D11DeviceContext* context, int cpu);
+
 private:
 	[[nodiscard]] bool InitializeSentence(struct SentenceType** sentence, ID3D11Device* device, int maxLength);
 

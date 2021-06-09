@@ -97,6 +97,60 @@ void Text::Release() noexcept
 	}
 }
 
+bool Text::SetFps(ID3D11DeviceContext* context, int fps)
+{
+	if (fps > 9999)
+		fps = 9999;
+
+	char tempString[16]{ 0 };
+	_itoa_s(fps, tempString, 10);
+
+	char fpsString[16]{ 0 };
+	strcpy_s(fpsString, "Fps: ");
+	strcat_s(fpsString, tempString);
+
+	float r, g, b;
+	if (fps < 30)
+	{
+		r = 1.0f;
+		g = 0.0f;
+		b = 0.0f;
+	}
+	else if (fps < 60)
+	{
+		r = 1.0f;
+		g = 1.0f;
+		b = 0.0f;
+	}
+	else
+	{
+		r = 0.0f;
+		g = 1.0f;
+		b = 0.0f;
+	}
+
+	bool result = UpdateSentence(sentence1,
+		context, fpsString, { 20, 20 }, r, g, b);
+	
+	return result;
+}
+
+bool Text::SetCpu(ID3D11DeviceContext* context, int cpu)
+{
+	char tempString[16]{ 0 };
+	_itoa_s(cpu, tempString, 10);
+
+	char cpuString[16]{ 0 };
+	strcpy_s(cpuString, "Cpu: ");
+	strcat_s(cpuString, tempString);
+	strcat_s(cpuString, "%");
+
+	bool result = UpdateSentence(sentence2,
+		context, cpuString, { 20, 40 }, 0.0f, 1.0f, 0.0f);
+
+	return result;
+}
+
 bool Text::InitializeSentence(SentenceType** sentence, ID3D11Device* device, int maxLength)
 {
 	*sentence = new SentenceType{};

@@ -207,9 +207,11 @@
   <ItemGroup>
     <ClCompile Include="Source\Bitmap.cpp" />
     <ClCompile Include="Source\ColorShader.cpp" />
+    <ClCompile Include="Source\CpuManager.cpp" />
     <ClCompile Include="Source\D3DManager.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\FontShader.cpp" />
+    <ClCompile Include="Source\FpsManager.cpp" />
     <ClCompile Include="Source\LightShader.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\ObjParser.cpp" />

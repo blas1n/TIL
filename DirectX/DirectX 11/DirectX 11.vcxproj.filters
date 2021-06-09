@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Header File">
@@ -89,6 +89,9 @@
     <ClCompile Include="Source\SoundManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\FpsManager.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
     <ClCompile Include="Source\CpuManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
@@ -161,6 +164,9 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\SoundManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FpsManager.h">
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\CpuManager.h">

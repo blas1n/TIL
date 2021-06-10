@@ -98,6 +98,9 @@
     <ClCompile Include="Source\TimerManager.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Frustum.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System.h">
@@ -173,6 +176,9 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\TimerManager.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Frustum.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

@@ -212,6 +212,7 @@
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\FontShader.cpp" />
     <ClCompile Include="Source\FpsManager.cpp" />
+    <ClCompile Include="Source\Frustum.cpp" />
     <ClCompile Include="Source\LightShader.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\ObjParser.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="Source\Font.h" />
     <ClInclude Include="Source\FontShader.h" />
     <ClInclude Include="Source\FpsManager.h" />
+    <ClInclude Include="Source\Frustum.h" />
     <ClInclude Include="Source\LightShader.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\Object.h" />

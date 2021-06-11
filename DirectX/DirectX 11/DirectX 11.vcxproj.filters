@@ -184,7 +184,7 @@
     <ClInclude Include="Source\Frustum.h">
       <Filter>Header File</Filter>
     </ClInclude>
-    <ClInclude Include="ModelList.h">
+    <ClInclude Include="Source\ModelList.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

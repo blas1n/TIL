@@ -229,7 +229,6 @@
     <ClCompile Include="Source\TimerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ModelList.h" />
     <ClInclude Include="Source\Bitmap.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\ColorShader.h" />
@@ -242,6 +241,7 @@
     <ClInclude Include="Source\Frustum.h" />
     <ClInclude Include="Source\LightShader.h" />
     <ClInclude Include="Source\Model.h" />
+    <ClInclude Include="Source\ModelList.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\ObjParser.h" />
     <ClInclude Include="Source\RenderManager.h" />

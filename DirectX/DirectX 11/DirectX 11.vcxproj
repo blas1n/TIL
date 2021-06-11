@@ -215,6 +215,7 @@
     <ClCompile Include="Source\Frustum.cpp" />
     <ClCompile Include="Source\LightShader.cpp" />
     <ClCompile Include="Source\Model.cpp" />
+    <ClCompile Include="Source\ModelList.cpp" />
     <ClCompile Include="Source\ObjParser.cpp" />
     <ClCompile Include="Source\RenderManager.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="Source\TimerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ModelList.h" />
     <ClInclude Include="Source\Bitmap.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\ColorShader.h" />

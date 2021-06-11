@@ -51,16 +51,10 @@ bool Text::Initialize(ID3D11Device* device, ID3D11DeviceContext* context,
 		return false;
 	}
 
-	result = InitializeSentence(&sentence1, device, 16);
+	result = InitializeSentence(&sentence, device, 20);
 	if (!result) return false;
 
-	result = UpdateSentence(sentence1, context, "Hello", { 100, 100 }, 1.0f, 1.0f, 1.0f);
-	if (!result) return false;
-
-	result = InitializeSentence(&sentence2, device, 16);
-	if (!result) return false;
-
-	result = UpdateSentence(sentence2, context, "GoodBye", { 100, 200 }, 1.0f, 1.0f, 0.0f);
+	result = UpdateSentence(sentence, context, "Hello", { 100, 100 }, 1.0f, 1.0f, 1.0f);
 	if (!result) return false;
 
 	return true;
@@ -68,10 +62,7 @@ bool Text::Initialize(ID3D11Device* device, ID3D11DeviceContext* context,
 
 bool Text::Render(ID3D11DeviceContext* context, DirectX::FXMMATRIX world, DirectX::CXMMATRIX projection)
 {
-	bool result = RenderSentence(sentence1, context, world, projection);
-	if (!result) return false;
-
-	result = RenderSentence(sentence2, context, world, projection);
+	bool result = RenderSentence(sentence, context, world, projection);
 	if (!result) return false;
 
 	return true;
@@ -79,8 +70,7 @@ bool Text::Render(ID3D11DeviceContext* context, DirectX::FXMMATRIX world, Direct
 
 void Text::Release() noexcept
 {
-	ReleaseSentence(&sentence2);
-	ReleaseSentence(&sentence1);
+	ReleaseSentence(&sentence);
 
 	if (shader)
 	{
@@ -97,56 +87,18 @@ void Text::Release() noexcept
 	}
 }
 
-bool Text::SetFps(ID3D11DeviceContext* context, int fps)
+bool Text::SetRenderCount(ID3D11DeviceContext* context, int renderCount)
 {
-	if (fps > 9999)
-		fps = 9999;
+	char tempString[20]{ 0 };
+	_itoa_s(renderCount, tempString, 10);
 
-	char tempString[16]{ 0 };
-	_itoa_s(fps, tempString, 10);
-
-	char fpsString[16]{ 0 };
-	strcpy_s(fpsString, "Fps: ");
-	strcat_s(fpsString, tempString);
-
-	float r, g, b;
-	if (fps < 30)
-	{
-		r = 1.0f;
-		g = 0.0f;
-		b = 0.0f;
-	}
-	else if (fps < 60)
-	{
-		r = 1.0f;
-		g = 1.0f;
-		b = 0.0f;
-	}
-	else
-	{
-		r = 0.0f;
-		g = 1.0f;
-		b = 0.0f;
-	}
-
-	bool result = UpdateSentence(sentence1,
-		context, fpsString, { 20, 20 }, r, g, b);
-	
-	return result;
-}
-
-bool Text::SetCpu(ID3D11DeviceContext* context, int cpu)
-{
-	char tempString[16]{ 0 };
-	_itoa_s(cpu, tempString, 10);
-
-	char cpuString[16]{ 0 };
-	strcpy_s(cpuString, "Cpu: ");
+	char cpuString[20]{ 0 };
+	strcpy_s(cpuString, "Render: ");
 	strcat_s(cpuString, tempString);
 	strcat_s(cpuString, "%");
 
-	bool result = UpdateSentence(sentence2,
-		context, cpuString, { 20, 40 }, 0.0f, 1.0f, 0.0f);
+	bool result = UpdateSentence(sentence,
+		context, cpuString, { 20, 20 }, 0.0f, 1.0f, 0.0f);
 
 	return result;
 }

@@ -13,8 +13,7 @@ public:
 
 	void Release() noexcept;
 
-	bool SetFps(ID3D11DeviceContext* context, int fps);
-	bool SetCpu(ID3D11DeviceContext* context, int cpu);
+	bool SetRenderCount(ID3D11DeviceContext* context, int renderCount);
 
 private:
 	[[nodiscard]] bool InitializeSentence(struct SentenceType** sentence, ID3D11Device* device, int maxLength);
@@ -33,8 +32,7 @@ private:
 	class Font* font;
 	class FontShader* shader;
 	
-	SentenceType* sentence1;
-	SentenceType* sentence2;
+	SentenceType* sentence;
 
 	SIZE screenSize;
 };

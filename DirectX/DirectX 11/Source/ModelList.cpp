@@ -17,4 +17,6 @@ bool ModelList::Initialize(int modelNum)
 		model.y = dis(gen) * 10.0f;
 		model.z = dis(gen) * 10.0f + 5.0f;
 	}
+
+	return true;
 }

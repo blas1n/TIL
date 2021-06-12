@@ -47,7 +47,7 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	model = new Model{};
 	if (!model) return false;
 
-	result = model->Initialize(d3d->GetDevice(), TEXT("Asset/seafloor.dds"), TEXT("../Engine/data/sphere.txt"));
+	result = model->Initialize(d3d->GetDevice(), TEXT("Asset/Sphere.mdl"), TEXT("Asset/seafloor.dds"));
 	if (!result) return false;
 
 	DirectX::XMFLOAT4X4 viewMat;

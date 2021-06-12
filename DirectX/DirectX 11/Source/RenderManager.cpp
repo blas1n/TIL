@@ -84,8 +84,9 @@ bool RenderManager::Frame(float rotY)
 
 	const auto context = d3d->GetDeviceContext();
 	const float radius = 1.0f;
+	bool result = true;
 
-	for (int i = 0; i < modelCount; ++i)
+	for (unsigned int i = 0; i < modelCount; ++i)
 	{
 		const float x = modelList[i].x;
 		const float y = modelList[i].y;
@@ -97,19 +98,21 @@ bool RenderManager::Frame(float rotY)
 		world = DirectX::XMMatrixTranslation(x, y, z);
 		model->ReadyToRender(context);
 
-		shader->Render(context, model->GetIndexCount(),
+		result = shader->Render(context, model->GetIndexCount(),
 			model->GetTexture(), world, view, proj, *light, camera->GetPos());
 		
+		if (!result) return false;
+
 		++renderCount;
 	}
 
-	bool result = text->SetRenderCount(context, renderCount);
+	result = text->SetRenderCount(context, renderCount);
 	if (!result) return false;
 
 	d3d->DisableZBuffer();
 	d3d->EnableAlphaBlending();
 
-	text->Render(context, world, ortho);
+	result = text->Render(context, world, ortho);
 	if (!result) return false;
 
 	d3d->EndScene();

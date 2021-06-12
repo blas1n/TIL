@@ -95,7 +95,6 @@ bool Text::SetRenderCount(ID3D11DeviceContext* context, int renderCount)
 	char cpuString[20]{ 0 };
 	strcpy_s(cpuString, "Render: ");
 	strcat_s(cpuString, tempString);
-	strcat_s(cpuString, "%");
 
 	bool result = UpdateSentence(sentence,
 		context, cpuString, { 20, 20 }, 1.0f, 1.0f, 1.0f);

@@ -18,7 +18,7 @@ public:
 	ModelInfo& operator[](int idx) noexcept { return models[idx]; }
 	const ModelInfo& operator[](int idx) const noexcept { return models[idx]; }
 	
-	unsigned int GetModelCount() const noexcept { return models.size(); }
+	size_t GetModelCount() const noexcept { return models.size(); }
 
 private:
 	std::vector<ModelInfo> models;

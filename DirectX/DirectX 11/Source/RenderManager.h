@@ -20,7 +20,7 @@ private:
 	class ModelList* modelList = nullptr;
 	class Frustum* frustum = nullptr;
 
-	class DirectionalLight* light = nullptr;
+	struct DirectionalLight* light = nullptr;
 	class LightShader* shader = nullptr;
 	class Camera* camera = nullptr;
 	

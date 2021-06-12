@@ -88,9 +88,9 @@ bool RenderManager::Frame(float rotY)
 
 	for (unsigned int i = 0; i < modelCount; ++i)
 	{
-		const float x = modelList[i].x;
-		const float y = modelList[i].y;
-		const float z = modelList[i].z;
+		const float x = (*modelList)[i].x;
+		const float y = (*modelList)[i].y;
+		const float z = (*modelList)[i].z;
 
 		const bool canRender = frustum->CheckSphere(x, y, z, radius);
 		if (!canRender) continue;

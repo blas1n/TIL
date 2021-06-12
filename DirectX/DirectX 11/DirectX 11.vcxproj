@@ -217,6 +217,7 @@
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\ModelList.cpp" />
     <ClCompile Include="Source\ObjParser.cpp" />
+    <ClCompile Include="Source\Position.cpp" />
     <ClCompile Include="Source\RenderManager.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="Source\ModelList.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\ObjParser.h" />
+    <ClInclude Include="Source\Position.h" />
     <ClInclude Include="Source\RenderManager.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Shader.h" />

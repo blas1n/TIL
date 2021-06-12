@@ -1,7 +1,9 @@
 #include "System.h"
+#include <dinput.h>
 #include "CpuManager.h"
 #include "FpsManager.h"
 #include "InputManager.h"
+#include "Position.h"
 #include "RenderManager.h"
 #include "SoundManager.h"
 #include "TimerManager.h"
@@ -53,6 +55,9 @@ bool System::Init()
 	cpu = new CpuManager{};
 	cpu->Initialize();
 
+	position = new Position{};
+	if (!position) return false;
+
 	return true;
 }
 
@@ -77,6 +82,12 @@ int System::Run()
 
 void System::Release() noexcept
 {
+	if (position)
+	{
+		delete position;
+		position = nullptr;
+	}
+
 	if (cpu)
 	{
 		cpu->Release();
@@ -129,8 +140,15 @@ bool System::Frame()
 	if (!input->Frame())
 		return false;
 	
-	return render->Frame(fps->GetFps(),
-		cpu->GetCpuPercentage(), timer->GetTime());
+	position->SetFrame(timer->GetTime());
+
+	bool keyDown = input->IsPressed(DIK_LEFTARROW);
+	position->TurnLeft(keyDown);
+
+	keyDown = input->IsPressed(DIK_RIGHTARROW);
+	position->TurnRight(keyDown);
+
+	return render->Frame(position->GetRotation());
 }
 
 SIZE System::InitWindows()

@@ -41,4 +41,6 @@ private:
 	class TimerManager* timer;
 	class FpsManager* fps;
 	class CpuManager* cpu;
+
+	class Position* position;
 };

@@ -91,6 +91,9 @@ bool RenderManager::Frame(float rotY)
 		const float x = (*modelList)[i].x;
 		const float y = (*modelList)[i].y;
 		const float z = (*modelList)[i].z;
+		const auto color = (*modelList)[i].color;
+
+		light->SetDiffuseColor(color);
 
 		const bool canRender = frustum->CheckSphere(x, y, z, radius);
 		if (!canRender) continue;

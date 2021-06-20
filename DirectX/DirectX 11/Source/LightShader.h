@@ -14,11 +14,11 @@ public:
 
 	void Release() noexcept;
 
+private:
 	[[nodiscard]] bool SetParameter(ID3D11DeviceContext* context, Texture* texture,
-		DirectX::FXMMATRIX worldMatrix,	DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix,
+		DirectX::FXMMATRIX worldMatrix, DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix,
 		const DirectionalLight& light, const DirectX::XMFLOAT3& cameraPos);
 
-private:
 	void OutputShaderError(struct ID3D10Blob* errorMsg, HWND hWnd, LPCTSTR shader);
 
 private:

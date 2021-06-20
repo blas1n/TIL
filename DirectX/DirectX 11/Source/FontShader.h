@@ -13,10 +13,10 @@ public:
 
 	void Release() noexcept;
 
+private:
 	[[nodiscard]] bool SetParameter(ID3D11DeviceContext* context, Texture* texture, const DirectX::XMFLOAT4& pixelColor,
 		DirectX::FXMMATRIX worldMatrix, DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix);
 
-private:
 	void OutputShaderError(struct ID3D10Blob* errorMsg, HWND hWnd, LPCTSTR shader);
 
 private:

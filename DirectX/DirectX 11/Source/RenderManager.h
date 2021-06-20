@@ -11,19 +11,12 @@ class RenderManager final
 {
 public:
 	[[nodiscard]] bool Initialize(HWND hWnd, SIZE size);
-	[[nodiscard]] bool Frame(float rotY);
+	[[nodiscard]] bool Frame();
 	void Release() noexcept;
 
 private:
 	class D3DManager* d3d = nullptr;
-
-	class ModelList* modelList = nullptr;
-	class Frustum* frustum = nullptr;
-
-	struct DirectionalLight* light = nullptr;
-	class LightShader* shader = nullptr;
+	class MultiTextureShader* shader = nullptr;
 	class Camera* camera = nullptr;
-	
 	class Model* model = nullptr;
-	class Text* text = nullptr;
 };

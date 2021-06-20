@@ -3,7 +3,7 @@
 #include <DirectXMath.h>
 #include <fstream>
 #include <vector>
-#include "Texture.h"
+#include "TextureArray.h"
 
 using DirectX::XMVECTOR;
 
@@ -25,11 +25,11 @@ struct ModelType final
 };
 
 bool Model::Initialize(ID3D11Device* device,
-	const std::filesystem::path& modelPath, const std::filesystem::path& texturePath)
+	const std::filesystem::path& modelPath, const std::filesystem::path texturePath[2])
 {
 	if (!LoadModel(modelPath)) return false;
 	if (!InitBuffer(device)) return false;
-	return LoadTexture(device, texturePath);
+	return LoadTextures(device, texturePath);
 }
 
 void Model::ReadyToRender(struct ID3D11DeviceContext* context)
@@ -37,12 +37,6 @@ void Model::ReadyToRender(struct ID3D11DeviceContext* context)
 	constexpr UINT stride = sizeof(VertexType);
 	constexpr UINT offset = 0;
 
-	static float rot = 0.0f;
-	rot += DirectX::XM_PI * 0.005f;
-	if (rot >= DirectX::XM_2PI)
-		rot -= DirectX::XM_2PI;
-
-	SetRot({ 0.0f, rot, 0.0f });
 	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -56,11 +50,11 @@ void Model::Release() noexcept
 		model = nullptr;
 	}
 
-	if (texture)
+	if (textures)
 	{
-		texture->Release();
-		delete texture;
-		texture = nullptr;
+		textures->Release();
+		delete textures;
+		textures = nullptr;
 	}
 
 	if (indexBuffer)
@@ -117,7 +111,7 @@ bool Model::InitBuffer(ID3D11Device* device)
 	return SUCCEEDED(result);
 }
 
-bool Model::LoadModel(const std::filesystem::path& modelPath)
+bool Model::LoadModel(const std::filesystem::path& path)
 {
 	constexpr static auto SkipToken = [](std::ifstream& fin, char token)
 	{
@@ -126,7 +120,7 @@ bool Model::LoadModel(const std::filesystem::path& modelPath)
 			input = fin.get();
 	};
 
-	std::ifstream fin{ modelPath };
+	std::ifstream fin{ path };
 	if (fin.fail()) return false;
 
 	SkipToken(fin, ':');
@@ -152,10 +146,10 @@ bool Model::LoadModel(const std::filesystem::path& modelPath)
 	return true;
 }
 
-bool Model::LoadTexture(ID3D11Device* device, const std::filesystem::path& texturePath)
+bool Model::LoadTextures(ID3D11Device* device, const std::filesystem::path paths[2])
 {
-	texture = new Texture{};
-	if (!texture) return false;
+	textures = new TextureArray{};
+	if (!textures) return false;
 
-	return texture->Initialize(device, texturePath);
+	return textures->Initialize(device, paths);
 }

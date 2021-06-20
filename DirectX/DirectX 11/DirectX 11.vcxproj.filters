@@ -110,6 +110,9 @@
     <ClCompile Include="Source\Position.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MultiTextureShader.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System.h">
@@ -194,6 +197,9 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\Position.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MultiTextureShader.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

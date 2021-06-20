@@ -222,6 +222,7 @@
     <ClCompile Include="Source\LightShader.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\ModelList.cpp" />
+    <ClCompile Include="Source\MultiTextureShader.cpp" />
     <ClCompile Include="Source\ObjParser.cpp" />
     <ClCompile Include="Source\Position.cpp" />
     <ClCompile Include="Source\RenderManager.cpp" />

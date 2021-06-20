@@ -1,12 +1,8 @@
 #include "System.h"
 #include <dinput.h>
-#include "CpuManager.h"
-#include "FpsManager.h"
 #include "InputManager.h"
-#include "Position.h"
 #include "RenderManager.h"
 #include "SoundManager.h"
-#include "TimerManager.h"
 
 namespace
 {
@@ -46,18 +42,6 @@ bool System::Init()
 	if (!sound->Initialize(hWnd))
 		return false;
 
-	timer = new TimerManager{};
-	if (!timer->Initialize())
-		return false;
-
-	fps = new FpsManager{};
-
-	cpu = new CpuManager{};
-	cpu->Initialize();
-
-	position = new Position{};
-	if (!position) return false;
-
 	return true;
 }
 
@@ -82,31 +66,6 @@ int System::Run()
 
 void System::Release() noexcept
 {
-	if (position)
-	{
-		delete position;
-		position = nullptr;
-	}
-
-	if (cpu)
-	{
-		cpu->Release();
-		delete cpu;
-		cpu = nullptr;
-	}
-
-	if (fps)
-	{
-		delete fps;
-		fps = nullptr;
-	}
-
-	if (timer)
-	{
-		delete timer;
-		timer = nullptr;
-	}
-
 	if (sound)
 	{
 		sound->Release();
@@ -133,22 +92,10 @@ void System::Release() noexcept
 
 bool System::Frame()
 {
-	timer->Frame();
-	fps->Frame();
-	cpu->Frame();
-
 	if (!input->Frame())
 		return false;
-	
-	position->SetFrame(timer->GetTime());
 
-	bool keyDown = input->IsPressed(DIK_LEFTARROW);
-	position->TurnLeft(keyDown);
-
-	keyDown = input->IsPressed(DIK_RIGHTARROW);
-	position->TurnRight(keyDown);
-
-	return render->Frame(position->GetRotation());
+	return render->Frame();
 }
 
 SIZE System::InitWindows()

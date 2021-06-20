@@ -38,9 +38,4 @@ private:
 	class RenderManager* render;
 	class InputManager* input;
 	class SoundManager* sound;
-	class TimerManager* timer;
-	class FpsManager* fps;
-	class CpuManager* cpu;
-
-	class Position* position;
 };

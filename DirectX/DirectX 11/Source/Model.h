@@ -29,5 +29,5 @@ private:
 	struct ModelType* model = nullptr;
 	TextureArray* textures = nullptr;
 	
-	UINT vertexCount, indexCount;
+	UINT vertexCount = 0u, indexCount = 0u;
 };

@@ -17,7 +17,7 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	shader = new MultiTextureShader{};
 	if (!shader) return false;
 
-	result = shader->Initialize(d3d->GetDevice(), hWnd);
+	result = shader->Initialize(d3d->GetDevice(), hWnd, 2.0f);
 	if (!result) return false;
 
 	camera = new Camera{};

@@ -45,7 +45,10 @@ bool RenderManager::Frame()
 	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
 	model->ReadyToRender(context);
-	shader->Render(context, model->GetIndexCount(), model->GetTextures(), model->GetWorldMatrix(), view, proj);
+	const bool result = shader->Render(context, model->GetIndexCount(),
+		model->GetTextures(), model->GetWorldMatrix(), view, proj);
+
+	if (!result) return false;
 
 	d3d->EndScene();
 	return true;

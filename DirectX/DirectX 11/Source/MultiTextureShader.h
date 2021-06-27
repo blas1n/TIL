@@ -7,7 +7,7 @@
 class MultiTextureShader final
 {
 public:
-	[[nodiscard]] bool Initialize(struct ID3D11Device* device, HWND hWnd);
+	[[nodiscard]] bool Initialize(struct ID3D11Device* device, HWND hWnd, float gammaCorrection);
 
 	[[nodiscard]] bool Render(struct ID3D11DeviceContext* context, UINT indexCount,
 		class TextureArray* textures, DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection);
@@ -26,4 +26,5 @@ private:
 	struct ID3D11InputLayout* inputLayout = nullptr;
 	struct ID3D11SamplerState* samplerState = nullptr;
 	struct ID3D11Buffer* matrixBuffer = nullptr;
+	struct ID3D11Buffer* gammaBuffer = nullptr;
 };

@@ -12,7 +12,13 @@ struct MatrixBufferType final
 	DirectX::XMMATRIX viewProjection;
 };
 
-bool MultiTextureShader::Initialize(ID3D11Device* device, HWND hWnd)
+struct GammaBufferType final
+{
+	float gammaCorrection;
+	float padding[3];
+};
+
+bool MultiTextureShader::Initialize(ID3D11Device* device, HWND hWnd, float gammaCorrection)
 {
 	constexpr static auto MissingShader = TEXT("Missing Shader File");
 
@@ -93,14 +99,28 @@ bool MultiTextureShader::Initialize(ID3D11Device* device, HWND hWnd)
 	result = device->CreateSamplerState(&samplerDesc, &samplerState);
 	if (FAILED(result)) return false;
 
-	D3D11_BUFFER_DESC matrixBufferDesc;
-	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
-	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	matrixBufferDesc.MiscFlags = matrixBufferDesc.StructureByteStride = 0;
+	D3D11_BUFFER_DESC bufferDesc;
+	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	bufferDesc.ByteWidth = sizeof(MatrixBufferType);
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bufferDesc.MiscFlags = bufferDesc.StructureByteStride = 0;
 
-	result = device->CreateBuffer(&matrixBufferDesc, nullptr, &matrixBuffer);
+	result = device->CreateBuffer(&bufferDesc, nullptr, &matrixBuffer);
+	if (FAILED(result)) return false;
+
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.ByteWidth = sizeof(GammaBufferType);
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.CPUAccessFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA gammaData;
+	memset(&gammaData, 0, sizeof(D3D11_SUBRESOURCE_DATA));
+
+	GammaBufferType gamma{ gammaCorrection };
+	gammaData.pSysMem = &gamma;
+
+	result = device->CreateBuffer(&bufferDesc, &gammaData, &gammaBuffer);
 	if (FAILED(result)) return false;
 
 	return true;
@@ -166,8 +186,8 @@ bool MultiTextureShader::SetParameter(ID3D11DeviceContext* context, TextureArray
 
 	context->Unmap(matrixBuffer, 0);
 
-	UINT bufferNum = 0;
-	context->VSSetConstantBuffers(bufferNum, 1, &matrixBuffer);
+	context->VSSetConstantBuffers(0, 1, &matrixBuffer);
+	context->PSSetConstantBuffers(0, 1, &gammaBuffer);
 
 	ID3D11ShaderResourceView** resources = textures->GetTextures();
 	context->PSSetShaderResources(0, 2, resources);

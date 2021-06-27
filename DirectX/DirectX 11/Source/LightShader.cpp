@@ -219,8 +219,7 @@ bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
 
 	context->Unmap(matrixBuffer, 0);
 
-	UINT bufferNum = 0;
-	context->VSSetConstantBuffers(bufferNum, 1, &matrixBuffer);
+	context->VSSetConstantBuffers(0, 1, &matrixBuffer);
 
 	result = context->Map(cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) return false;
@@ -231,8 +230,7 @@ bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
 
 	context->Unmap(cameraBuffer, 0);
 
-	bufferNum = 1;
-	context->VSSetConstantBuffers(bufferNum, 1, &cameraBuffer);
+	context->VSSetConstantBuffers(1, 1, &cameraBuffer);
 
 	const auto resource = texture->GetTexture();
 	context->PSSetShaderResources(0, 1, &resource);
@@ -249,11 +247,7 @@ bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
 
 	context->Unmap(lightBuffer, 0);
 
-	bufferNum = 0;
-	context->PSSetConstantBuffers(bufferNum, 1, &lightBuffer);
-
-	
-
+	context->PSSetConstantBuffers(0, 1, &lightBuffer);
 	return true;
 }
 

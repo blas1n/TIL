@@ -180,8 +180,7 @@ bool FontShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, co
 
 	context->Unmap(matrixBuffer, 0);
 
-	UINT bufferNum = 0;
-	context->VSSetConstantBuffers(bufferNum, 1, &matrixBuffer);
+	context->VSSetConstantBuffers(0, 1, &matrixBuffer);
 
 	const auto resource = texture->GetTexture();
 	context->PSSetShaderResources(0, 1, &resource);
@@ -194,7 +193,7 @@ bool FontShader::SetParameter(ID3D11DeviceContext* context, Texture* texture, co
 
 	context->Unmap(pixelBuffer, 0);
 
-	context->PSSetConstantBuffers(bufferNum, 1, &pixelBuffer);
+	context->PSSetConstantBuffers(0, 1, &pixelBuffer);
 	return true;
 }
 

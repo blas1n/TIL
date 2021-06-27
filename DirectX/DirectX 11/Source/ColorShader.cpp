@@ -145,8 +145,7 @@ bool ColorShader::SetParameter(ID3D11DeviceContext* context,
 
 	context->Unmap(matrixBuffer, 0);
 
-	UINT bufferNum = 0;
-	context->VSSetConstantBuffers(bufferNum, 1, &matrixBuffer);
+	context->VSSetConstantBuffers(0, 1, &matrixBuffer);
 	return true;
 }
 

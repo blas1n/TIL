@@ -17,7 +17,7 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	shader = new MultiTextureShader{};
 	if (!shader) return false;
 
-	result = shader->Initialize(d3d->GetDevice(), hWnd, 2.0f);
+	result = shader->Initialize(d3d->GetDevice(), hWnd, 1.0f);
 	if (!result) return false;
 
 	camera = new Camera{};
@@ -28,7 +28,7 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	model = new Model{};
 	if (!model) return false;
 
-	const std::filesystem::path texturePaths[2]{ TEXT("Asset/stone.dds"), TEXT("Asset/dirt.dds") };
+	const std::filesystem::path texturePaths[2]{ TEXT("Asset/stone.dds"), TEXT("Asset/light.dds") };
 	result = model->Initialize(d3d->GetDevice(), TEXT("Asset/Cube.mdl"), texturePaths);
 	if (!result) return false;
 

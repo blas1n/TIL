@@ -14,7 +14,7 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	bool result = d3d->Initialize(hWnd, size, VSYNC_ENABLED, FULL_SCREEN, SCREEN_FAR, SCREEN_NEAR);
 	if (!result) return false;
 
-	shader = new MultiTextureShader{};
+	shader = new AlphaMapShader{};
 	if (!shader) return false;
 
 	result = shader->Initialize(d3d->GetDevice(), hWnd, 1.0f);

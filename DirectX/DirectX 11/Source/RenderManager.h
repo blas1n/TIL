@@ -16,7 +16,7 @@ public:
 
 private:
 	class D3DManager* d3d = nullptr;
-	class MultiTextureShader* shader = nullptr;
+	class AlphaMapShader* shader = nullptr;
 	class Camera* camera = nullptr;
 	class Model* model = nullptr;
 };

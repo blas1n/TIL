@@ -215,6 +215,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AlphaMapShader.cpp" />
     <ClCompile Include="Source\Bitmap.cpp" />
     <ClCompile Include="Source\ColorShader.cpp" />
     <ClCompile Include="Source\CpuManager.cpp" />
@@ -242,6 +243,7 @@
     <ClCompile Include="Source\TimerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AlphaMapShader.h" />
     <ClInclude Include="Source\Bitmap.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\ColorShader.h" />

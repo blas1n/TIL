@@ -25,11 +25,11 @@ struct ModelType final
 };
 
 bool Model::Initialize(ID3D11Device* device,
-	const std::filesystem::path& modelPath, const std::filesystem::path texturePath[2])
+	const std::filesystem::path& modelPath, const std::vector<std::filesystem::path>& texturePaths)
 {
 	if (!LoadModel(modelPath)) return false;
 	if (!InitBuffer(device)) return false;
-	return LoadTextures(device, texturePath);
+	return LoadTextures(device, texturePaths);
 }
 
 void Model::ReadyToRender(struct ID3D11DeviceContext* context)
@@ -146,7 +146,7 @@ bool Model::LoadModel(const std::filesystem::path& path)
 	return true;
 }
 
-bool Model::LoadTextures(ID3D11Device* device, const std::filesystem::path paths[2])
+bool Model::LoadTextures(ID3D11Device* device, const std::vector<std::filesystem::path>& paths)
 {
 	textures = new TextureArray{};
 	if (!textures) return false;

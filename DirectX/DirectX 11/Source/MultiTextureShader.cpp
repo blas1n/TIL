@@ -190,7 +190,7 @@ bool MultiTextureShader::SetParameter(ID3D11DeviceContext* context, TextureArray
 	context->PSSetConstantBuffers(0, 1, &gammaBuffer);
 
 	ID3D11ShaderResourceView** resources = textures->GetTextures();
-	context->PSSetShaderResources(0, 2, resources);
+	context->PSSetShaderResources(0, textures->GetTextureNum(), resources);
 	return true;
 }
 

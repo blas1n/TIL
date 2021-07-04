@@ -1,17 +1,17 @@
 #pragma once
 
 #include <filesystem>
+#include <vector>
 
 class TextureArray final
 {
-	constexpr static unsigned int TextureNum = 2;
-
 public:
-	bool Initialize(struct ID3D11Device* device, const std::filesystem::path paths[TextureNum]);
+	bool Initialize(struct ID3D11Device* device, const std::vector<std::filesystem::path>& paths);
 	void Release();
 
-	struct ID3D11ShaderResourceView** GetTextures() noexcept { return textures; }
+	struct ID3D11ShaderResourceView** GetTextures() noexcept { return textures.data(); }
+	size_t GetTextureNum() const noexcept { return textures.size(); }
 
 private:
-	ID3D11ShaderResourceView* textures[TextureNum];
+	std::vector<ID3D11ShaderResourceView*> textures;
 };

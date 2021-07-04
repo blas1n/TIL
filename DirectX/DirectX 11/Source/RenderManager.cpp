@@ -1,9 +1,10 @@
 #include "RenderManager.h"
 #include <d3d11.h>
+#include <vector>
 #include "Camera.h"
+#include "AlphaMapShader.h"
 #include "D3DManager.h"
 #include "Model.h"
-#include "MultiTextureShader.h"
 #include "TextureArray.h"
 
 bool RenderManager::Initialize(HWND hWnd, SIZE size)
@@ -28,7 +29,9 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	model = new Model{};
 	if (!model) return false;
 
-	const std::filesystem::path texturePaths[2]{ TEXT("Asset/stone.dds"), TEXT("Asset/light.dds") };
+	std::vector<std::filesystem::path> texturePaths{
+		TEXT("Asset/stone.dds"), TEXT("Asset/dirt.dds"), TEXT("Asset/alpha.dds") };
+
 	result = model->Initialize(d3d->GetDevice(), TEXT("Asset/Cube.mdl"), texturePaths);
 	if (!result) return false;
 

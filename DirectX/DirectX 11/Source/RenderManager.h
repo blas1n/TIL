@@ -16,7 +16,10 @@ public:
 
 private:
 	class D3DManager* d3d = nullptr;
-	class AlphaMapShader* shader = nullptr;
+	
+	class BumpMapShader* shader = nullptr;
+	class DirectionalLight* light = nullptr;
+
 	class Camera* camera = nullptr;
 	class Model* model = nullptr;
 };

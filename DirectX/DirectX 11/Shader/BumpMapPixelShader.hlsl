@@ -22,7 +22,7 @@ float4 main(PixelInputType input) : SV_TARGET
 	float4 bumpMap = shaderTextures[1].Sample(SampleType, input.tex);
 	bumpMap = (bumpMap * 2.0f) - 1.0f;
 
-	bumpNormal = input.normal + bumpMap.x * input.tangent + bumpMap.y * input.binormal;
+	float3 bumpNormal = input.normal + bumpMap.x * input.tangent + bumpMap.y * input.binormal;
 	bumpNormal = normalize(bumpNormal);
 
 	float lightIntensity = saturate(dot(bumpNormal, -lightDirection));

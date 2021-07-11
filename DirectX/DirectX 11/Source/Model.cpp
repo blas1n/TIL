@@ -166,12 +166,11 @@ bool Model::LoadTextures(ID3D11Device* device, const std::vector<std::filesystem
 
 void Model::CalcModelVectors()
 {
-	int faceCount, i, index;
 	TempVertex vertex[3];
 	Vector normal, tangent, binormal;
 	
 	int faceCount = vertexCount / 3;
-	index = 0;
+	int index = 0;
 	
 	for (int i = 0; i < faceCount; ++i)
 	{

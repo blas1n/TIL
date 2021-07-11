@@ -7,6 +7,18 @@
 
 class Model final : public Object
 {
+	struct Vector final
+	{
+		float x, y, z;
+	};
+
+	struct TempVertex final
+	{
+		float x, y, z;
+		float tu, tv;
+		float nx, ny, nz;
+	}; 
+
 public:
 	[[nodiscard]] bool Initialize(struct ID3D11Device* device,
 		const std::filesystem::path& moelPath, const std::vector<std::filesystem::path>& texturePaths);
@@ -22,6 +34,12 @@ private:
 	bool InitBuffer(ID3D11Device* device);
 	bool LoadModel(const std::filesystem::path& path);
 	bool LoadTextures(ID3D11Device* device, const std::vector<std::filesystem::path>& paths);
+
+	void CalcModelVectors();
+	void CalcTangentBinormal(const TempVertex& vertex1, const TempVertex& vertex2,
+		const TempVertex& vertex3, Vector& tangent, Vector& binormal);
+
+	Vector CalcNormal(const Vector& tangent, const Vector& binormal);
 
 private:
 	struct ID3D11Buffer* vertexBuffer = nullptr;

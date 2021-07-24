@@ -174,16 +174,74 @@ void Model::CalcModelVectors()
 	
 	for (int i = 0; i < faceCount; ++i)
 	{
-		memcpy(&vertex[0], &model[index++], sizeof(TempVertex));
-		memcpy(&vertex[1], &model[index++], sizeof(TempVertex));
-		memcpy(&vertex[2], &model[index++], sizeof(TempVertex));
+		vertex[0].x = model[index].x;
+		vertex[0].y = model[index].y;
+		vertex[0].z = model[index].z;
+		vertex[0].tu = model[index].tu;
+		vertex[0].tv = model[index].tv;
+		vertex[0].nx = model[index].nx;
+		vertex[0].ny = model[index].ny;
+		vertex[0].nz = model[index].nz;
+		index++;
+		
+		vertex[1].x = model[index].x;
+		vertex[1].y = model[index].y;
+		vertex[1].z = model[index].z;
+		vertex[1].tu = model[index].tu;
+		vertex[1].tv = model[index].tv;
+		vertex[1].nx = model[index].nx;
+		vertex[1].ny = model[index].ny;
+		vertex[1].nz = model[index].nz;
+		index++;
+		
+		vertex[2].x = model[index].x;
+		vertex[2].y = model[index].y;
+		vertex[2].z = model[index].z;
+		vertex[2].tu = model[index].tu;
+		vertex[2].tv = model[index].tv;
+		vertex[2].nx = model[index].nx;
+		vertex[2].ny = model[index].ny;
+		vertex[2].nz = model[index].nz;
+		index++;
 
 		CalcTangentBinormal(vertex[0], vertex[1], vertex[2], tangent, binormal);
 		normal = CalcNormal(tangent, binormal);
 
-		memcpy(&model[index - 1].nx, &normal, sizeof(Vector) * 3);
-		memcpy(&model[index - 2].nx, &normal, sizeof(Vector) * 3);
-		memcpy(&model[index - 3].nx, &normal, sizeof(Vector) * 3);
+		model[index - 1].nx = normal.x;
+		model[index - 1].ny = normal.y;
+		model[index - 1].nz = normal.z;
+
+		model[index - 1].tx = tangent.x;
+		model[index - 1].ty = tangent.y;
+		model[index - 1].tz = tangent.z;
+
+		model[index - 1].bx = binormal.x;
+		model[index - 1].by = binormal.y;
+		model[index - 1].bz = binormal.z;
+
+		model[index - 2].nx = normal.x;
+		model[index - 2].ny = normal.y;
+		model[index - 2].nz = normal.z;
+
+		model[index - 2].tx = tangent.x;
+		model[index - 2].ty = tangent.y;
+		model[index - 2].tz = tangent.z;
+
+		model[index - 2].bx = binormal.x;
+		model[index - 2].by = binormal.y;
+		model[index - 2].bz = binormal.z;
+
+		model[index - 3].nx = normal.x;
+		model[index - 3].ny = normal.y;
+		model[index - 3].nz = normal.z;
+
+		model[index - 3].tx = tangent.x;
+		model[index - 3].ty = tangent.y;
+		model[index - 3].tz = tangent.z;
+
+		model[index - 3].bx = binormal.x;
+		model[index - 3].by = binormal.y;
+		model[index - 3].bz = binormal.z;
 	}
 }
 

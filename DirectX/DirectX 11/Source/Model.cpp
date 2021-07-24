@@ -267,13 +267,13 @@ void Model::CalcTangentBinormal(const TempVertex& vertex1, const TempVertex& ver
 
 	const float den = 1.0f / (tuVector[0] * tvVector[1] - tuVector[1] * tvVector[0]);
 
-	tangent.x = (tuVector[1] * vector1[0] - tvVector[0] * vector2[0]) * den;
-	tangent.y = (tuVector[1] * vector1[1] - tvVector[0] * vector2[1]) * den;
-	tangent.z = (tuVector[1] * vector1[2] - tvVector[0] * vector2[2]) * den;
+	tangent.x = (tvVector[1] * vector1[0] - tvVector[0] * vector2[0]) * den;
+	tangent.y = (tvVector[1] * vector1[1] - tvVector[0] * vector2[1]) * den;
+	tangent.z = (tvVector[1] * vector1[2] - tvVector[0] * vector2[2]) * den;
 
-	binormal.x = (tuVector[0] * vector2[0] - tvVector[1] * vector1[0]) * den;
-	binormal.y = (tuVector[0] * vector2[1] - tvVector[1] * vector1[1]) * den;
-	binormal.z = (tuVector[0] * vector2[2] - tvVector[1] * vector1[2]) * den;
+	binormal.x = (tuVector[0] * vector2[0] - tuVector[1] * vector1[0]) * den;
+	binormal.y = (tuVector[0] * vector2[1] - tuVector[1] * vector1[1]) * den;
+	binormal.z = (tuVector[0] * vector2[2] - tuVector[1] * vector1[2]) * den;
 
 	float length = std::sqrt((tangent.x * tangent.x) + (tangent.y * tangent.y) + (tangent.z * tangent.z));
 

@@ -260,9 +260,9 @@ void Model::CalcTangentBinormal(const TempVertex& vertex1, const TempVertex& ver
 	float tuVector[2], tvVector[2];
 
 	tuVector[0] = vertex2.tu - vertex1.tu;
-	tvVector[1] = vertex2.tv - vertex1.tv;
+	tvVector[0] = vertex2.tv - vertex1.tv;
 
-	tuVector[0] = vertex3.tu - vertex1.tu;
+	tuVector[1] = vertex3.tu - vertex1.tu;
 	tvVector[1] = vertex3.tv - vertex1.tv;
 
 	const float den = 1.0f / (tuVector[0] * tvVector[1] - tuVector[1] * tvVector[0]);

@@ -206,7 +206,7 @@ bool BumpMapShader::SetParameter(ID3D11DeviceContext* context, TextureArray* tex
 	lightData->diffuseColor = diffuseColor;
 	lightData->lightDirection = lightDir;
 
-	context->Unmap(matrixBuffer, 0);
+	context->Unmap(lightBuffer, 0);
 
 	context->PSSetConstantBuffers(0, 1, &lightBuffer);
 

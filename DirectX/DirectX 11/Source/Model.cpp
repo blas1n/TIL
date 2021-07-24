@@ -169,7 +169,7 @@ void Model::CalcModelVectors()
 	TempVertex vertex[3];
 	Vector normal, tangent, binormal;
 	
-	int faceCount = vertexCount / 3;
+	const int faceCount = vertexCount / 3;
 	int index = 0;
 	
 	for (int i = 0; i < faceCount; ++i)

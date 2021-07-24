@@ -297,7 +297,7 @@ Model::Vector Model::CalcNormal(const Vector& tangent, const Vector& binormal)
 	normal.z = (tangent.x * binormal.y) - (tangent.y * binormal.x);
 
 	const float length = std::sqrt((normal.x * normal.x)
-		* (normal.y * normal.y) * (normal.z * normal.z));
+		+ (normal.y * normal.y) + (normal.z * normal.z));
 
 	normal.x /= length;
 	normal.x /= length;

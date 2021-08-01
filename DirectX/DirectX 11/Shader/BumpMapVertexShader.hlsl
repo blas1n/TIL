@@ -4,6 +4,11 @@ cbuffer MatrixBuffer
 	matrix viewProjectionMatrix;
 };
 
+cbuffer CameraBuffer
+{
+	float3 cameraPos;
+};
+
 struct VertexInputType
 {
 	float4 position : POSITION;
@@ -20,6 +25,7 @@ struct PixelInputType
 	float3 normal : NORMAL;
 	float3 tangent : TANGENT;
 	float3 binormal : BINORMAL;
+	float3 viewDir : TEXCOORD1;
 };
 
 PixelInputType main(VertexInputType input)
@@ -35,6 +41,9 @@ PixelInputType main(VertexInputType input)
 	output.normal = normalize(mul(input.normal, (float3x3)worldMatrix));
 	output.tangent = normalize(mul(input.tangent, (float3x3)worldMatrix));
 	output.binormal = normalize(mul(input.binormal, (float3x3)worldMatrix));
+
+	float4 worldPosition = mul(input.position, worldMatrix);
+	output.viewDir = normalize(cameraPos.xyz - worldPosition.xyz);
 
 	return output;
 }

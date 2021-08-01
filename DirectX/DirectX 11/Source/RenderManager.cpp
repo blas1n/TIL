@@ -56,14 +56,6 @@ bool RenderManager::Frame()
 
 	d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
-	static float rotation = 0.0f;
-
-	rotation += DirectX::XM_PI * 0.0025f;
-	if (rotation > 360.0f)
-		rotation -= 360.0f;
-
-	model->SetRot({ 0.0f, rotation, 0.0f });
-
 	model->ReadyToRender(context);
 
 	const bool result = shader->Render(context, model->GetIndexCount(),

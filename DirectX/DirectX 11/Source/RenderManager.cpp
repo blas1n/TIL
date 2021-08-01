@@ -40,6 +40,8 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	if (!light) return false;
 
 	light->SetDiffuseColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	light->SetSpecularColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	light->SetSpecularPower(16.0f);
 	light->SetDirection({ 0.0f, 0.0f, 1.0f });
 
 	return true;

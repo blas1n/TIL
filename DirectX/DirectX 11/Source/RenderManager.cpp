@@ -68,7 +68,7 @@ bool RenderManager::Frame()
 
 	const bool result = shader->Render(context, model->GetIndexCount(),
 		model->GetTextures(), model->GetWorldMatrix(), view, proj,
-		light->GetDirection(), light->GetDiffuseColor());
+		*light, camera->GetPos());
 
 	if (!result) return false;
 

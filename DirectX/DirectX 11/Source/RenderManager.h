@@ -18,7 +18,7 @@ private:
 	class D3DManager* d3d = nullptr;
 	
 	class BumpMapShader* shader = nullptr;
-	class DirectionalLight* light = nullptr;
+	struct DirectionalLight* light = nullptr;
 
 	class Camera* camera = nullptr;
 	class Model* model = nullptr;

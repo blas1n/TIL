@@ -31,7 +31,7 @@ bool RenderManager::Initialize(HWND hWnd, SIZE size)
 	if (!model) return false;
 
 	std::vector<std::filesystem::path> texturePaths{
-		TEXT("Asset/stone.dds"), TEXT("Asset/bump.dds")};
+		TEXT("Asset/stone.dds"), TEXT("Asset/bump.dds"), TEXT("Asset/spec.dds") };
 
 	result = model->Initialize(d3d->GetDevice(), TEXT("Asset/Cube.mdl"), texturePaths);
 	if (!result) return false;

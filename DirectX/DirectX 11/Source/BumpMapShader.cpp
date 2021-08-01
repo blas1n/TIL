@@ -2,6 +2,7 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <fstream>
+#include "DirectionalLight.h"
 #include "TextureArray.h"
 
 #pragma comment(lib, "D3DCompiler.lib")
@@ -12,11 +13,18 @@ struct MatrixBufferType final
 	DirectX::XMMATRIX viewProjection;
 };
 
+struct CameraBufferType final
+{
+	DirectX::XMFLOAT3 cameraPos;
+	float padding;
+};
+
 struct LightBufferType final
 {
 	DirectX::XMFLOAT4 diffuseColor;
+	DirectX::XMFLOAT4 specularColor;
+	float specularPower;
 	DirectX::XMFLOAT3 lightDirection;
-	float padding;
 };
 
 bool BumpMapShader::Initialize(ID3D11Device* device, HWND hWnd)
@@ -121,6 +129,11 @@ bool BumpMapShader::Initialize(ID3D11Device* device, HWND hWnd)
 	result = device->CreateBuffer(&bufferDesc, nullptr, &matrixBuffer);
 	if (FAILED(result)) return false;
 
+	bufferDesc.ByteWidth = sizeof(CameraBufferType);
+
+	result = device->CreateBuffer(&bufferDesc, nullptr, &cameraBuffer);
+	if (FAILED(result)) return false;
+
 	bufferDesc.ByteWidth = sizeof(LightBufferType);
 
 	result = device->CreateBuffer(&bufferDesc, nullptr, &lightBuffer);
@@ -131,9 +144,9 @@ bool BumpMapShader::Initialize(ID3D11Device* device, HWND hWnd)
 
 bool BumpMapShader::Render(ID3D11DeviceContext* context, UINT indexCount, TextureArray* textures,
 	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection,
-	const DirectX::XMFLOAT3& lightDir, const DirectX::XMFLOAT4& diffuseColor)
+	const struct DirectionalLight& light, const DirectX::XMFLOAT3& cameraPos)
 {
-	const bool result = SetParameter(context, textures, world, view, projection, lightDir, diffuseColor);
+	const bool result = SetParameter(context, textures, world, view, projection, light, cameraPos);
 	if (!result) return false;
 
 	context->IASetInputLayout(inputLayout);
@@ -150,6 +163,12 @@ void BumpMapShader::Release() noexcept
 	{
 		lightBuffer->Release();
 		lightBuffer = nullptr;
+	}
+
+	if (cameraBuffer)
+	{
+		cameraBuffer->Release();
+		cameraBuffer = nullptr;
 	}
 
 	if (matrixBuffer)
@@ -185,7 +204,7 @@ void BumpMapShader::Release() noexcept
 
 bool BumpMapShader::SetParameter(ID3D11DeviceContext* context, TextureArray* textures,
 	DirectX::FXMMATRIX worldMatrix, DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix,
-	const DirectX::XMFLOAT3& lightDir, const DirectX::XMFLOAT4& diffuseColor)
+	const struct DirectionalLight& light, const DirectX::XMFLOAT3& cameraPos)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT result = context->Map(matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -199,12 +218,24 @@ bool BumpMapShader::SetParameter(ID3D11DeviceContext* context, TextureArray* tex
 
 	context->VSSetConstantBuffers(0, 1, &matrixBuffer);
 
+	result = context->Map(cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result)) return false;
+
+	CameraBufferType* cameraData = reinterpret_cast<CameraBufferType*>(mappedResource.pData);
+	cameraData->cameraPos = cameraPos;
+
+	context->Unmap(cameraBuffer, 0);
+
+	context->VSSetConstantBuffers(1, 1, &cameraBuffer);
+
 	result = context->Map(lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) return false;
 
 	LightBufferType* lightData = reinterpret_cast<LightBufferType*>(mappedResource.pData);
-	lightData->diffuseColor = diffuseColor;
-	lightData->lightDirection = lightDir;
+	lightData->diffuseColor = light.GetDiffuseColor();
+	lightData->specularColor = light.GetSpecularColor();
+	lightData->specularPower = light.GetSpecularPower();
+	lightData->lightDirection = light.GetDirection();
 
 	context->Unmap(lightBuffer, 0);
 

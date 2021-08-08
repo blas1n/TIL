@@ -145,7 +145,7 @@ bool LightShader::Initialize(ID3D11Device* device, HWND hWnd)
 	return true;
 }
 
-bool LightShader::Render(ID3D11DeviceContext* context, UINT indexCount, Texture* texture,
+bool LightShader::Render(ID3D11DeviceContext* context, UINT indexCount, ID3D11ShaderResourceView* texture,
 	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection,
 	const DirectionalLight& light, const DirectX::XMFLOAT3& cameraPos)
 {
@@ -205,7 +205,7 @@ void LightShader::Release() noexcept
 	}
 }
 
-bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
+bool LightShader::SetParameter(ID3D11DeviceContext* context, ID3D11ShaderResourceView* texture,
 	DirectX::FXMMATRIX worldMatrix, DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix,
 	const DirectionalLight& light, const DirectX::XMFLOAT3& cameraPos)
 {
@@ -232,8 +232,7 @@ bool LightShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
 
 	context->VSSetConstantBuffers(1, 1, &cameraBuffer);
 
-	const auto resource = texture->GetTexture();
-	context->PSSetShaderResources(0, 1, &resource);
+	context->PSSetShaderResources(0, 1, &texture);
 
 	result = context->Map(lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) return false;

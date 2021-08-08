@@ -106,7 +106,7 @@ bool TextureShader::Initialize(ID3D11Device* device, HWND hWnd)
 	return true;
 }
 
-bool TextureShader::Render(ID3D11DeviceContext* context, UINT indexCount, Texture* texture,
+bool TextureShader::Render(ID3D11DeviceContext* context, UINT indexCount, ID3D11ShaderResourceView* texture,
 	DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection)
 {
 	const bool result = SetParameter(context, texture, world, view, projection);
@@ -153,7 +153,7 @@ void TextureShader::Release() noexcept
 	}
 }
 
-bool TextureShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
+bool TextureShader::SetParameter(ID3D11DeviceContext* context, ID3D11ShaderResourceView* texture,
 	DirectX::FXMMATRIX worldMatrix, DirectX::CXMMATRIX viewMatrix, DirectX::CXMMATRIX projectionMatrix)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -168,8 +168,7 @@ bool TextureShader::SetParameter(ID3D11DeviceContext* context, Texture* texture,
 
 	context->VSSetConstantBuffers(0, 1, &matrixBuffer);
 
-	const auto resource = texture->GetTexture();
-	context->PSSetShaderResources(0, 1, &resource);
+	context->PSSetShaderResources(0, 1, &texture);
 	return true;
 }
 

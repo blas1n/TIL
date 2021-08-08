@@ -15,11 +15,19 @@ public:
 	void Release() noexcept;
 
 private:
+	[[nodiscard]] bool RenderToTexture();
+	[[nodiscard]] bool RenderScene();
+
+private:
 	class D3DManager* d3d = nullptr;
-	
-	class BumpMapShader* shader = nullptr;
 	struct DirectionalLight* light = nullptr;
+
+	class LightShader* lightShader = nullptr;
+	class TextureShader* textureShader = nullptr;
 
 	class Camera* camera = nullptr;
 	class Model* model = nullptr;
+
+	class RenderTexture* renderTexture = nullptr;
+	class DebugWindow* debugWindow = nullptr;
 };

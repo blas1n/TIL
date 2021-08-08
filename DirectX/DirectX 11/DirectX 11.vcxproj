@@ -229,6 +229,7 @@
     <ClCompile Include="Source\ColorShader.cpp" />
     <ClCompile Include="Source\CpuManager.cpp" />
     <ClCompile Include="Source\D3DManager.cpp" />
+    <ClCompile Include="Source\DebugWindow.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\FontShader.cpp" />
     <ClCompile Include="Source\FpsManager.cpp" />
@@ -242,6 +243,7 @@
     <ClCompile Include="Source\RenderManager.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\RenderTexture.cpp" />
     <ClCompile Include="Source\SoundManager.cpp" />
     <ClCompile Include="Source\stdafx.cpp" />
     <ClCompile Include="Source\System.cpp" />
@@ -259,6 +261,7 @@
     <ClInclude Include="Source\ColorShader.h" />
     <ClInclude Include="Source\CpuManager.h" />
     <ClInclude Include="Source\D3DManager.h" />
+    <ClInclude Include="Source\DebugWindow.h" />
     <ClInclude Include="Source\DirectionalLight.h" />
     <ClInclude Include="Source\Font.h" />
     <ClInclude Include="Source\FontShader.h" />
@@ -273,6 +276,7 @@
     <ClInclude Include="Source\Position.h" />
     <ClInclude Include="Source\RenderManager.h" />
     <ClInclude Include="Source\InputManager.h" />
+    <ClInclude Include="Source\RenderTexture.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\SoundManager.h" />
     <ClInclude Include="Source\stdafx.h" />

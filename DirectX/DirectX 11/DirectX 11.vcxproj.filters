@@ -131,6 +131,12 @@
     <ClCompile Include="Source\BumpMapShader.cpp">
       <Filter>Source File</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RenderTexture.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugWindow.cpp">
+      <Filter>Source File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System.h">
@@ -227,6 +233,12 @@
       <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="Source\BumpMapShader.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderTexture.h">
+      <Filter>Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DebugWindow.h">
       <Filter>Header File</Filter>
     </ClInclude>
   </ItemGroup>

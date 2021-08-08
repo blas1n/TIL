@@ -28,6 +28,9 @@ public:
 	void EnableAlphaBlending();
 	void DisableAlphaBlending();
 
+	struct ID3D11DepthStencilView* GetDepthStencilView() const noexcept { return depthStencilView; }
+	void SetBackBufferRenderTarget();
+
 private:
 	TCHAR videoCardDescription[128];
 

@@ -359,3 +359,8 @@ void D3DManager::DisableAlphaBlending()
 	const float blendFactor[4]{ 0.0f, 0.0f, 0.0f, 0.0f };
 	deviceContext->OMSetBlendState(alphaDisableBlendState, blendFactor, 0xffffffff);
 }
+
+void D3DManager::SetBackBufferRenderTarget()
+{
+	deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+}

@@ -1,0 +1,9 @@
+type Product {
+    id: ID
+    name: String
+    price: Int
+}
+
+type Query {
+    findAll: [Product]
+}

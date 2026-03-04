@@ -25,7 +25,7 @@ st.dataframe(df.head())
 # [2] Prophet 모델 정의 및 학습
 # ----------------------------------
 # TODO: Prophet 모델을 생성하고, 11년 주기 커스텀 seasonality를 추가한 후 학습하세요.
-model = Prophet()
+model = Prophet(yearly_seasonality=False)
 model.add_seasonality(name='solar_cycle', period=11, fourier_order=5)
 model.fit(df)
 
@@ -42,6 +42,7 @@ forecast = model.predict(future)
 st.subheader("📈 Prophet Forecast Plot")
 # TODO: model.plot()을 사용하여 예측 결과를 시각화하세요.
 fig1 = model.plot(forecast)
+fig1.suptitle("Prophet Forecast Plot", fontsize=18)
 st.pyplot(fig1)
 
 st.subheader("📊 Forecast Components")
@@ -61,7 +62,7 @@ fig3, ax = plt.subplots(figsize=(14, 6))
 # ax.plot(df["ds"], df["y"], ...)
 # ax.plot(forecast["ds"], forecast["yhat"], ...)
 # ax.fill_between(forecast["ds"], forecast["yhat_lower"], forecast["yhat_upper"], ...)
-ax.plot(df["ds"], df["y"], label="Actual", color="blue", alpha=0.7)
+ax.plot(df["ds"], df["y"], label="Actual", color="blue", marker="o", markersize=3, linewidth=1)
 ax.plot(forecast["ds"], forecast["yhat"], label="Predicted", color="red", linestyle="--")
 ax.fill_between(forecast["ds"], forecast["yhat_lower"], forecast["yhat_upper"], alpha=0.3, color="pink", label="Prediction Interval")
 ax.set_title("Sunspots: Actual vs. Predicted with Prediction Intervals")
@@ -87,7 +88,7 @@ fig4, ax2 = plt.subplots(figsize=(14, 4))
 # 힌트:
 # ax2.plot(merged["ds"], merged["residual"], ...)
 # ax2.axhline(0, ...)
-ax2.plot(merged["ds"], merged["residual"], label="Residual", color="purple", alpha=0.7)
+ax2.plot(merged["ds"], merged["residual"], label="Residual", color="purple", marker="o", markersize=5, linewidth=1.5)
 ax2.axhline(0, color="black", linestyle="--", linewidth=1)
 ax2.set_title("Residual Analysis (Actual - Predicted)")
 ax2.set_xlabel("Year")

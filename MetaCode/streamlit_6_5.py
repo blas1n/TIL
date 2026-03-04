@@ -42,7 +42,7 @@ forecast = model.predict(future)
 st.subheader("📈 Prophet Forecast Plot")
 # TODO: model.plot()을 사용하여 예측 결과를 시각화하세요.
 fig1 = model.plot(forecast)
-fig1.set_title("Prophet Forecast Plot", fontsize=18)
+fig1.suptitle("Prophet Forecast Plot", fontsize=18, y=1.02)
 st.pyplot(fig1)
 
 st.subheader("📊 Forecast Components")

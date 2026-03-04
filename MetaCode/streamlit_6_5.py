@@ -33,7 +33,7 @@ model.fit(df)
 # [3] 예측 수행
 # ----------------------------------
 # TODO: 30년간 연 단위 예측을 수행하고, 결과를 forecast에 저장하세요.
-future = model.make_future_dataframe(periods=30, freq='Y')
+future = model.make_future_dataframe(periods=30, freq='YE')
 forecast = model.predict(future)
 
 # ----------------------------------
